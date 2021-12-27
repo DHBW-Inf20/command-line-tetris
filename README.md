@@ -4,8 +4,11 @@ Tetris auf der Kommandozeile in C++
 Projektteilnehmer: Jonathan Schwab, Luca Negron, Jonas Weis
 
 Anforderungen:
-- Muss:
+Muss:
 
-- Soll:
+Soll:
+
+Optional:
+
 
 TODO´s:
