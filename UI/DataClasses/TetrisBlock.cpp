@@ -5,8 +5,8 @@
 
 class TetrisBlock
 {
-    private:
-        Tile matrix[4][4];
+    protected:
+        Tile * matrix[4][4];
         int angle;
         int anchorPositionX;
         int anchorPositionY;
@@ -19,5 +19,6 @@ class TetrisBlock
 
         }
         Tile** buildMatrix();
+        // Erbende Klassen ggf. noch eine Init-Methode, wo die 4x4-Matrix befüllt wird
                
 };

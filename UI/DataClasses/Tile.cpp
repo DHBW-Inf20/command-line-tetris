@@ -7,5 +7,15 @@
 class Tile
 {
     private:
-     Color color;
+        Color color;
+    public:
+        Tile(Color col)
+        {
+            this->color = col;
+        }
+        Tile(){}
+        Color getColor()
+        {
+            return this->color;
+        }
 };
