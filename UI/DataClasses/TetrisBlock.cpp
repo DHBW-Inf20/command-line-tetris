@@ -1,4 +1,7 @@
+#ifndef _tile_
+#define _tile_
 #include "Tile.cpp"
+#endif
 
 class TetrisBlock
 {
@@ -13,7 +16,7 @@ class TetrisBlock
         void moveRight();
         virtual void rotateRight()
         {
-            
+
         }
         Tile** buildMatrix();
                

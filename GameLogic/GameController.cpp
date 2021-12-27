@@ -3,7 +3,7 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
-#include "../Utilities/AnsiEscape.h"
+#include "../UI/UI.cpp"
 
 class GameController
 {
@@ -11,6 +11,7 @@ private:
  
     std::atomic<bool> gameRunning = false;
     TetrisBlock currentBlock;
+    UI ui;
 
 public:
     GameController();
@@ -53,6 +54,7 @@ bool GameController::isGameRunning()
 
 void GameController::update()
 {
+    ui.draw();
 }
 void GameController::start()
 {

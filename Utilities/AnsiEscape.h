@@ -8,6 +8,9 @@ enum ClearCodes {
   CLEAR_ALL
 };
 
+ void clearScreen(void) {
+	printf("\x1b[%dJ", CLEAR_ALL);
+}
 
 void hideCursor() //https://rosettacode.org/wiki/Terminal_control/Hiding_the_cursor
 {

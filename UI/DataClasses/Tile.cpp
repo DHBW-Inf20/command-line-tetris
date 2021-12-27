@@ -1,4 +1,8 @@
-#include "color.cpp"
+#ifndef _color_
+#define _color_
+#include "Color.cpp"
+#endif
+
 
 class Tile
 {

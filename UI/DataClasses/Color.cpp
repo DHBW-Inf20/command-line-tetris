@@ -1,4 +1,4 @@
-enum class Color: char
+enum class Color
 { 
      red,
      green,
