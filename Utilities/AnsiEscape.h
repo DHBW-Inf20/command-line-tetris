@@ -2,15 +2,52 @@
 #include <stdio.h>
 #include <iostream>
 
+enum Colors {
+    RESET_COLOR,
+    BLACK_TXT = 30,
+    RED_TXT,
+    GREEN_TXT,
+    YELLOW_TXT,
+    BLUE_TXT,
+    MAGENTA_TXT,
+    CYAN_TXT,
+    WHITE_TXT,
+
+    BLACK_BKG = 40,
+    RED_BKG,
+    GREEN_BKG,
+    YELLOW_BKG,
+    BLUE_BKG,
+    MAGENTA_BKG,
+    CYAN_BKG,
+    WHITE_BKG    
+};
+
 enum ClearCodes {
   CLEAR_FROM_CURSOR_TO_END,
   CLEAR_FROM_CURSOR_TO_BEGIN,
   CLEAR_ALL
 };
 
- void clearScreen(void) {
-	printf("\x1b[%dJ", CLEAR_ALL);
+ void setTextColor(int code) {
+    printf("\x1b[%dm", code);
 }
+
+ void setTextColorBright(int code) {
+    printf("\x1b[%d;1m", code);
+}
+
+void clearScreen(void) {
+printf("\x1b[%dJ", CLEAR_ALL);
+ }
+ 
+void clearScreenToBottom(void) {
+	printf("\x1b[%dJ", CLEAR_FROM_CURSOR_TO_END);
+}
+
+void clearScreenToTop(void) {
+	printf("\x1b[%dJ", CLEAR_FROM_CURSOR_TO_BEGIN);
+ }
 
 void hideCursor() //https://rosettacode.org/wiki/Terminal_control/Hiding_the_cursor
 {

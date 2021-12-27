@@ -10,21 +10,40 @@
 class UI
 {
     private:
-        Tile field [12][22];
+        Tile field [22][12];
 
     public:
         void draw();
 };
 
+int ji;
+
 void UI::draw()
-{  
-    clearScreen();
+{   
+    hideCursor();
+    clearLine();
     for(int i=0; i<sizeof(field)/sizeof(field[0]);i++)
-    {
+    {          
         for(int j=0; j<sizeof(field[i])/sizeof(Tile);j++)
-        {
-            printf("■");
-        }
-        printf("\n");
-    }
+        {                  
+            if(j==ji)
+            {
+                setTextColor(BLUE_TXT);
+            }     
+            else{
+                 setTextColor(RESET_COLOR);
+            }                
+            moveTo(i,j);
+            moveUp(1);     
+            puts("■");          
+        }  
+     
+    } 
+
+    
+    moveTo(0,0);
+    if(ji>10)
+    ji=0;
+    else
+    ji++;
 }
