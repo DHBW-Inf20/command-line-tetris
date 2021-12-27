@@ -18,6 +18,7 @@ class UI
                 field[0][k] = new Tile(Color::black);
                 field[21][k] = new Tile(Color::black);
             }
+            
             for(int h = 1; h < 21; h++)
             {   // Links und Rechts Rand
                 field[h][0] = new Tile(Color::black);
@@ -34,22 +35,21 @@ class UI
         }
 };
 
-int ji;
-
 void UI::draw()
 {   
     hideCursor();
     clearLine();
-    for(int i=0; i<sizeof(field)/sizeof(field[0]);i++)
+    for(int i=0; i<=sizeof(field)/sizeof(field[0]);i++)
     {        
-        for(int j=0; j<sizeof(field[i])/sizeof(Tile *);j++)
+        for(int j=0; j<=sizeof(field[i])/sizeof(Tile *);j++)
         {                  
-            if(j==ji)
+            if(field[i][j] != nullptr)
             {
                 setTextColor(BLUE_TXT);
             }     
-            else{
-                 setTextColor(RESET_COLOR);
+            else
+            {
+                setTextColor(WHITE_TXT);
             }                
             moveTo(i,j);
             moveUp(1);     
@@ -57,11 +57,5 @@ void UI::draw()
         }  
      
     } 
-
-    
     moveTo(0,0);
-    if(ji>10)
-    ji=0;
-    else
-    ji++;
 }
