@@ -116,7 +116,8 @@ bool Keylistener::isRunning()
 void Keylistener::pollingLoop()
 {    
     while (isRunning())
-    {      
+    {  
+      
         const int key = key_press(); // blocks until a key is pressed     
         eventHandlerMutex.lock();
         auto match = eventHandlers.find(key);
@@ -135,9 +136,8 @@ Keylistener::Keylistener()
 {
 }
 void Keylistener::startMultithreaded()
-{  
-    if(this->isRunning()) return;
-    
+{ 
+    if(this->isRunning()) return;  
     runningMutex.lock();
     this->running = true;
     runningMutex.unlock();

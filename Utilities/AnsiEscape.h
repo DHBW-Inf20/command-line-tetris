@@ -1,5 +1,6 @@
 //https://solarianprogrammer.com/2019/04/08/c-programming-ansi-escape-codes-windows-macos-linux-terminals/
-
+#include <stdio.h>
+#include <iostream>
 
 enum ClearCodes {
   CLEAR_FROM_CURSOR_TO_END,
