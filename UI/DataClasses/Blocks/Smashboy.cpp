@@ -2,7 +2,7 @@
 #define _tetrisblock_
 #include "../TetrisBlock.cpp"
 #endif
-class Smashboy:TetrisBlock
+class Smashboy:public TetrisBlock
 {
     public:
         void rotateRight()override
