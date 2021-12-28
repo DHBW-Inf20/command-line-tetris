@@ -43,13 +43,42 @@ void UI::draw()
     {        
         for(int j=0; j<=sizeof(field[i])/sizeof(Tile *);j++)
         {                  
-            if(field[i][j] != nullptr)
+            if(field[i][j] != nullptr) // Sicherstellen, dass ein Objekt existiert
             {
-                setTextColor(BLUE_TXT);
+                Color actualColor = field[i][j]->getColor();
+                switch (actualColor)
+                {
+                case Color::yellow:
+                    setTextColor(YELLOW_TXT);
+                    break;
+                case Color::black:
+                    setTextColor(BLACK_TXT);
+                    break;
+                case Color::blue:
+                    setTextColor(BLUE_TXT);
+                    break;
+                case Color::green:
+                    setTextColor(GREEN_TXT);
+                    break;
+                case Color::orange:
+                    // setTextColor(ORANGE_TXT); FEHLT !!!
+                    break;
+                case Color::red:
+                    setTextColor(RED_TXT);
+                    break;
+                case Color::turquoise:
+                    setTextColor(CYAN_TXT);
+                    break;
+                case Color::purple:
+                    setTextColor(MAGENTA_TXT);
+                    break;
+                default:
+                    break;
+                }
             }     
             else
             {
-                setTextColor(WHITE_TXT);
+                setTextColor(WHITE_TXT); // Kein Tile = White 
             }                
             moveTo(i,j);
             moveUp(1);     

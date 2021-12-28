@@ -6,7 +6,7 @@
 class TetrisBlock
 {
     protected:
-        Tile * matrix[4][4];
+        Tile * matrix[4][4]; // [Reihe][Spalte] -> [Y][X]
         int angle;
         int anchorPositionX;
         int anchorPositionY;
@@ -16,7 +16,7 @@ class TetrisBlock
         void moveRight();
         virtual void rotateRight()
         {
-
+            
         }
         Tile** buildMatrix();
         // Erbende Klassen ggf. noch eine Init-Methode, wo die 4x4-Matrix befüllt wird
