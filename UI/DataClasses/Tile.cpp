@@ -13,7 +13,10 @@ class Tile
         {
             this->color = col;
         }
-        Tile(){}
+        Tile()
+        {
+            this->color = Color::white;
+        }
         Color getColor()
         {
             return this->color;

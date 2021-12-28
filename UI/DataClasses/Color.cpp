@@ -7,5 +7,6 @@ enum class Color
      orange,
      turquoise,
      purple,
-     black
+     black,
+     white
 }; 
