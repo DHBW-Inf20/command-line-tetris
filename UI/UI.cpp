@@ -32,8 +32,11 @@ class UI
                 field[21][k] = new Tile(Color::black);
             }
             
+            // Die obersten zwei Zeilen fehlen, deshalb +1 put
+            // Die linkeste Zeile fehlt, deshalb +1 bei put
+
             for(int h = 1; h < 21; h++)
-            {   // Links und Rechts Rand
+            {   // Links und Rechts Rand, [1;21] weil die bei der anderen schon gemacht wurden
                 field[h][0] = new Tile(Color::black);
                 field[h][11] = new Tile(Color::black);
             }
@@ -58,16 +61,15 @@ class UI
 
 void UI::draw()
 {   
-    colorTesting++; // für testzwecke
+    colorTesting++; // Rand blinken
     hideCursor();
     clearLine();
-    for(int i=0; i<=sizeof(field)/sizeof(field[0]);i++)
+    for(int i=0; i<22;i++)
     {        
-        for(int j=0; j<=sizeof(field[i])/sizeof(Tile *);j++)
+        for(int j=0; j<12;j++)
         {                  
             if(field[i][j] != nullptr) // Sicherstellen, dass ein Objekt existiert
             {
-                // Irgendwo in diesem IF gibt es einen Fehler, der zu stackdumpfile führt
                 actualColor = field[i][j]->getColor();
                 switch (actualColor)
                 {
@@ -75,7 +77,7 @@ void UI::draw()
                     setTextColor(YELLOW_TXT);
                     break;
                 case Color::black:
-                    if((colorTesting%2) == 0) // Für Testzwecke. Er kommt hier rein, dann aber kein 2. mal
+                    if((colorTesting%2) == 0) // Rand blinken lassen = Optik xD
                         setTextColor(BLACK_TXT);
                     else
                         setTextColor(BLUE_TXT);
@@ -105,11 +107,11 @@ void UI::draw()
             }     
             else
             {
-                setTextColor(WHITE_TXT); // Kein Tile)(nullptr) => White
+                setTextColor(WHITE_TXT); // Kein Tile(nullptr) => White
             }               
-            moveTo(i,j);
-            moveUp(1);     
-            puts("█");      
+            moveTo(i+1,j+1);
+            puts("█");
+            moveUp(1);                
         }  
      
     } 

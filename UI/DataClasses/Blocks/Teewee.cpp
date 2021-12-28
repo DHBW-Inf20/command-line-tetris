@@ -23,5 +23,4 @@ class Teewee:TetrisBlock
             anchorPositionY = 0; // Reihe 0
             angle = 0; 
         }
-        }
 };

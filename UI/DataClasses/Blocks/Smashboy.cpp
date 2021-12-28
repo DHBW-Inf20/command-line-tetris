@@ -7,7 +7,7 @@ class Smashboy:TetrisBlock
     public:
         void rotateRight()override
         {
-            
+            // Do nothing
         }
         Smashboy()
         {
@@ -20,6 +20,5 @@ class Smashboy:TetrisBlock
             anchorPositionX = 1; // Spalte 1
             anchorPositionY = 1; // Reihe 1
             angle = 0;
-        }
         }
 };

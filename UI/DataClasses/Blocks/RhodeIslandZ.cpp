@@ -22,5 +22,4 @@ class RhodeIslandZ:TetrisBlock
             anchorPositionY = 1; // Reihe 1
             angle = 0; 
         }
-        }
 };
