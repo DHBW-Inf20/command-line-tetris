@@ -6,7 +6,7 @@
 class OrangeRicky:public TetrisBlock
 {
     public:
-        void rotateRight()override
+        void rotateRight() override
         {
             
         }

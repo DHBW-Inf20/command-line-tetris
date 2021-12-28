@@ -6,7 +6,7 @@
 class CleverlandZ: public TetrisBlock
 {
     public:
-        void rotateRight()override
+        void rotateRight() override
         {
             switch (angle)
             {
