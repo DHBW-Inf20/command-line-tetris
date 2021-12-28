@@ -24,8 +24,6 @@ class BlueRicky: public TetrisBlock
                 matrix[1][2] = nullptr;
                 matrix[2][2] = nullptr;
 
-                anchorPositionX = 1; // Spalte 1
-                anchorPositionY = 1; // Reihe 1
                 angle = 90;
                 break;
 
@@ -43,9 +41,6 @@ class BlueRicky: public TetrisBlock
                 matrix[2][1] = nullptr;
                 matrix[0][1] = nullptr;
 
-                anchorPositionX = 1; // Spalte 1
-                anchorPositionY = 1; // Reihe 1
-
                 angle = 180;
                 break;
 
@@ -58,12 +53,10 @@ class BlueRicky: public TetrisBlock
                 matrix[1][1] = matrix[1][1]; //stays same
                 matrix[2][1] = matrix[1][2];
 
+                // Zurücksetzen der nun leeren Felder
                 matrix[0][0] = nullptr;
                 matrix[1][0] = nullptr;
                 matrix[1][2] = nullptr;
-
-                anchorPositionX = 1; // Spalte 1
-                anchorPositionY = 1; // Reihe 1
 
                 angle = 270;
                 break;
@@ -78,12 +71,10 @@ class BlueRicky: public TetrisBlock
                 matrix[1][1] = matrix[1][1]; //stays same
                 matrix[1][0] = matrix[2][1];
 
+                // Zurücksetzen der nun leeren Felder
                 matrix[0][2] = nullptr;
                 matrix[0][1] = nullptr;
                 matrix[2][1] = nullptr;
-
-                anchorPositionX = 1; // Spalte 1
-                anchorPositionY = 1; // Reihe 1
 
                 angle = 0;
                 break;
@@ -102,8 +93,6 @@ class BlueRicky: public TetrisBlock
             matrix[1][1] = new Tile(Color::orange);
             matrix[1][2] = new Tile(Color::orange);
             matrix[2][2] = new Tile(Color::orange);
-            anchorPositionX = 1; // Spalte 1
-            anchorPositionY = 1; // Reihe 1
             angle = 0;
         }
 };

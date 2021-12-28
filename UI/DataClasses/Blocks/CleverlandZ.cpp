@@ -24,8 +24,6 @@ class CleverlandZ: public TetrisBlock
                 matrix[0][0] = nullptr;
                 matrix[0][1] = nullptr;
 
-                anchorPositionX = 1; // Spalte 1
-                anchorPositionY = 1; // Reihe 1
                 angle = 90; 
                 break;
             case 90:
@@ -41,8 +39,6 @@ class CleverlandZ: public TetrisBlock
                 matrix[0][2] = nullptr;
                 matrix[2][1] = nullptr;
 
-                anchorPositionX = 1; // Spalte 1
-                anchorPositionY = 1; // Reihe 1
                 angle = 0; 
                 break;
             
@@ -58,8 +54,6 @@ class CleverlandZ: public TetrisBlock
             matrix[0][1] = new Tile(Color::red);
             matrix[1][1] = new Tile(Color::red);
             matrix[1][2] = new Tile(Color::red);
-            anchorPositionX = 1; // Spalte 1
-            anchorPositionY = 1; // Reihe 1
             angle = 0; 
         }
 };

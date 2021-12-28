@@ -26,8 +26,6 @@ class Hero: public TetrisBlock
                 matrix[1][2] = nullptr;
                 matrix[1][3] = nullptr;
 
-                anchorPositionX = 1; // Spalte 1
-                anchorPositionY = 1; // Reihe 1
                 angle = 90; 
                 break;
             case 90:
@@ -44,8 +42,6 @@ class Hero: public TetrisBlock
                 matrix[2][1] = nullptr;
                 matrix[3][1] = nullptr;
 
-                anchorPositionX = 1; // Spalte 1
-                anchorPositionY = 1; // Reihe 1
                 angle = 0; 
                 break;
             default:
@@ -61,8 +57,6 @@ class Hero: public TetrisBlock
             matrix[1][1] = new Tile(Color::red);
             matrix[1][2] = new Tile(Color::red);
             matrix[1][3] = new Tile(Color::red);
-            anchorPositionX = 1; // Spalte 1
-            anchorPositionY = 1; // Reihe 1
             angle = 0; 
         }            
 };

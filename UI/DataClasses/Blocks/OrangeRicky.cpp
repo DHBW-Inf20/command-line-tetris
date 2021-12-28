@@ -12,14 +12,13 @@ class OrangeRicky:public TetrisBlock
         }
         OrangeRicky()
         {
-            /*  X A X    
+            /*  
+                X A X    
                 X      */
-            matrix[0][0] = new Tile(Color::orange);
-            matrix[0][1] = new Tile(Color::orange);
-            matrix[0][2] = new Tile(Color::orange);
             matrix[1][0] = new Tile(Color::orange);
-            anchorPositionX = 1; // Spalte 1
-            anchorPositionY = 0; // Reihe 0
+            matrix[1][1] = new Tile(Color::orange);
+            matrix[1][2] = new Tile(Color::orange);
+            matrix[2][0] = new Tile(Color::orange);
             angle = 0;
         }
 };

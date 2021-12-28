@@ -13,14 +13,13 @@ class Teewee:public TetrisBlock
         Teewee()
         {
             // Color of Tiles: Purple
-            /*  X A X     
+            /*  
+                X A X     
                   X    */
+            matrix[2][1] = new Tile(Color::purple);
+            matrix[1][0] = new Tile(Color::purple);
             matrix[1][1] = new Tile(Color::purple);
-            matrix[0][0] = new Tile(Color::purple);
-            matrix[0][1] = new Tile(Color::purple);
-            matrix[0][2] = new Tile(Color::purple);
-            anchorPositionX = 1; // Spalte 1
-            anchorPositionY = 0; // Reihe 0
+            matrix[1][2] = new Tile(Color::purple);
             angle = 0; 
         }
 };

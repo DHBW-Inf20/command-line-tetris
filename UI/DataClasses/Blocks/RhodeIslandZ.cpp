@@ -18,8 +18,6 @@ class RhodeIslandZ:public TetrisBlock
             matrix[0][1] = new Tile(Color::green);
             matrix[1][1] = new Tile(Color::green);
             matrix[1][0] = new Tile(Color::green);
-            anchorPositionX = 1; // Spalte 1
-            anchorPositionY = 1; // Reihe 1
             angle = 0; 
         }
 };
