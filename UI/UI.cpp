@@ -12,7 +12,7 @@ class UI
     private:
         Color actualColor;
         int colorTesting; // Testzwecke
-        Tile * field [22][12];
+        Tile * field [22][12]; // [Reihe][Spalte]
         void init()
         {
             colorTesting = 0;
