@@ -16,9 +16,9 @@ class CleverlandZ:TetrisBlock
                       A X
                       X    */
                 matrix[0][2] = matrix[0][0];
-                matrix[2][1] = matrix[0][1];
+                matrix[1][2] = matrix[0][1];
                 matrix[1][1] = matrix[1][1]; // stays same
-                matrix[1][2] = matrix[1][2]; // stays same
+                matrix[2][1] = matrix[1][2]; // stays same
 
                 // Zurücksetzen der nun leeren Felder
                 matrix[0][0] = nullptr;
@@ -28,15 +28,14 @@ class CleverlandZ:TetrisBlock
                 anchorPositionY = 1; // Reihe 1
                 angle = 90; 
                 break;
-            
             case 90:
             /* case 270: */
                 /*  X X     
                       A X  */
                 matrix[0][0] = matrix[0][2];
-                matrix[0][1] = matrix[2][1];
+                matrix[0][1] = matrix[1][2];
                 matrix[1][1] = matrix[1][1];
-                matrix[1][2] = matrix[1][2];
+                matrix[1][2] = matrix[2][1];
 
                 // Zurücksetzen der nun leeren Felder
                 matrix[0][2] = nullptr;
