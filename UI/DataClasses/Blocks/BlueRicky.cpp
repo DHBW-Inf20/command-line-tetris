@@ -43,6 +43,9 @@ class BlueRicky:TetrisBlock
                 matrix[2][1] = nullptr;
                 matrix[0][1] = nullptr;
 
+                anchorPositionX = 1; // Spalte 1
+                anchorPositionY = 1; // Reihe 1
+
                 angle = 180;
                 break;
 
@@ -59,8 +62,12 @@ class BlueRicky:TetrisBlock
                 matrix[1][0] = nullptr;
                 matrix[1][2] = nullptr;
 
+                anchorPositionX = 1; // Spalte 1
+                anchorPositionY = 1; // Reihe 1
+
                 angle = 270;
                 break;
+
             case 270:
                  /*     
                     X  A  X
@@ -75,10 +82,13 @@ class BlueRicky:TetrisBlock
                 matrix[0][1] = nullptr;
                 matrix[2][1] = nullptr;
 
+                anchorPositionX = 1; // Spalte 1
+                anchorPositionY = 1; // Reihe 1
+
                 angle = 0;
                 break;
                 
-                default:
+            default:
                 break;
             }
         }
@@ -93,7 +103,7 @@ class BlueRicky:TetrisBlock
             matrix[1][2] = new Tile(Color::orange);
             matrix[2][2] = new Tile(Color::orange);
             anchorPositionX = 1; // Spalte 1
-            anchorPositionY = 0; // Reihe 0
+            anchorPositionY = 1; // Reihe 1
             angle = 0;
         }
 };

@@ -28,6 +28,7 @@ class CleverlandZ:TetrisBlock
                 anchorPositionY = 1; // Reihe 1
                 angle = 90; 
                 break;
+            
             case 90:
             /* case 270: */
                 /*  X X     
