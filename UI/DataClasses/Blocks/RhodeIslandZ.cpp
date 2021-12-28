@@ -3,7 +3,7 @@
 #include "../TetrisBlock.cpp"
 #endif
 
-class RhodeIslandZ:TetrisBlock
+class RhodeIslandZ:public TetrisBlock
 {
     public:
         void rotateRight()override

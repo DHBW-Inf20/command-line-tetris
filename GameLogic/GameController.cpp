@@ -1,5 +1,7 @@
 #include "../UI/DataClasses/TetrisBlock.cpp"
 
+#include "../UI/DataClasses/Blocks/BlueRicky.cpp"
+
 #include <chrono>
 #include <thread>
 #include <atomic>
@@ -9,7 +11,7 @@ class GameController
 {
 private:
     std::atomic<bool> gameRunning = false;
-    TetrisBlock currentBlock;
+    TetrisBlock* currentBlock;
     UI ui;
 
 public:
@@ -26,8 +28,9 @@ public:
     ~GameController();
 };
 
+
 void GameController::bKeyPressed()
-{
+{       
     gameRunning = false;
     printf("b pressed\n");
 }

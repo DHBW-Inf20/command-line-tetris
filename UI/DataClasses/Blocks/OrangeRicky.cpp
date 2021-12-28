@@ -3,7 +3,7 @@
 #include "../TetrisBlock.cpp"
 #endif
 
-class OrangeRicky:TetrisBlock
+class OrangeRicky:public TetrisBlock
 {
     public:
         void rotateRight()override
