@@ -22,7 +22,6 @@ class TetrisBlock
     protected:
         std::vector<std::vector<Tile*>> matrix; // [Reihe][Spalte] -> [Y][X]
         int angle;
-<<<<<<< HEAD
         int currentRow;
         int currentColumn;     
 
@@ -33,10 +32,8 @@ class TetrisBlock
             xxxx
         */
           
-=======
         int anchorPositionX;    // Spalte
         int anchorPositionY;    // Reihe
->>>>>>> 57cee4b58dc09a5606168396dc6f3f1160bb01ac
 
     public:
         void moveLeft()
