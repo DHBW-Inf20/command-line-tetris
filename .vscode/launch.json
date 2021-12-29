@@ -8,14 +8,14 @@
             "name": "g++.exe - Aktive Datei erstellen und debuggen",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/a.exe",
+            "program": "${workspaceRoot}\\a.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\cygwin64\\bin\\gdb.exe",
+            "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
             "setupCommands": [
                 {
                     "description": "Automatische Strukturierung und Einrückung für \"gdb\" aktivieren",
@@ -28,7 +28,7 @@
                     "ignoreFailures": true
                 }
             ],
-            //"preLaunchTask": "C/C++: g++.exe Aktive Datei kompilieren"
+           // "preLaunchTask": "C/C++: g++.exe Aktive Datei kompilieren"
         }
     ]
 }

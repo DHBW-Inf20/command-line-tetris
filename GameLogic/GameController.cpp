@@ -14,6 +14,11 @@
 #include "..UI/Config.cpp"
 #endif
 
+#ifndef _cleverlandZ_
+#define _cleverlandZ_
+#include "../UI/DataClasses/Blocks/CleverlandZ.cpp"
+#endif
+
 #include "../UI/UI.cpp"
 
 class GameController
@@ -21,9 +26,11 @@ class GameController
 private:
     std::atomic<bool> gameRunning = false;
     TetrisBlock* currentBlock;
+    TetrisBlock* currentBlockLastUpdate; //Hier wird der Block vom letzten Update gespeichert -> So kann bei einer Änderung das Spielfeld rekonstruiert werden
     std::vector<std::vector<Tile*>> field;
     UI ui;
-    void insertCurrentBlockInField();
+    bool tryInsertCurrentBlockInField();
+    void createBlock();
 
 public:
     GameController();
@@ -39,10 +46,45 @@ public:
     ~GameController();
 };
 
-void GameController::insertCurrentBlockInField()
-{
-    
+bool GameController::tryInsertCurrentBlockInField()
+{   
+    bool error = false;
+    auto tetirsBlockMatrixOld = currentBlockLastUpdate->buildMatrix();
+    auto tetrisBlockMatrix = currentBlock->buildMatrix();
+    for(int i=0; i<rowCount;i++)
+    {
+        for(int j=0; j<columnCount;j++)
+        {
+            if(tetirsBlockMatrixOld[i][j]!=nullptr)
+            {                    
+                 field[i][j] = nullptr; //Alte Position vom TetrisBock löschen
+            }                
+            auto tetrisBlockTile = tetrisBlockMatrix[i][j];
+            auto matrixBlockTile = field[i][j];
+            if(tetrisBlockTile==nullptr&&matrixBlockTile==nullptr)  //Alles bleibt wie gehabt
+            {
+               
+            }         
+            else if(tetrisBlockTile!=nullptr&&matrixBlockTile!=nullptr)   //Verboten (Position ist nicht frei)
+            {               
+                error =  true; 
+                //TOOD: ROLLBack
+            }      
+            else if(tetrisBlockTile!=nullptr&&matrixBlockTile==nullptr)  //Feld wird gesetzt
+            {
+                field[i][j] = tetrisBlockTile;
+            }
+        }   
+    }
+  
+    currentBlockLastUpdate =  new TetrisBlock(*currentBlock);  //TODO: Alte Löschen?
+    return !error;
+}
 
+void GameController::createBlock()
+{
+    currentBlock = new CleverlandZ();  
+    currentBlockLastUpdate = currentBlock;      
 }
 void GameController::bKeyPressed()
 {       
@@ -52,22 +94,22 @@ void GameController::bKeyPressed()
 
 void GameController::dKeyPressed()
 {
-
+    currentBlock->moveRight();
 }
 
 void GameController::aKeyPressed()
 {
-
+  currentBlock->moveLeft();
 }
 
 void GameController::wKeyPressed()
 {
-
+    currentBlock->rotateRight();
 }
 
 GameController::GameController()
 {
-    field = create2DArray<Tile*> (dimensionRow, dimensionColumn); // [Reihe][Spalte]
+    field = create2DArray<Tile*> (rowCount, columnCount); // [Reihe][Spalte]
 }
 
 bool GameController::isGameRunning()
@@ -77,13 +119,17 @@ bool GameController::isGameRunning()
 
 void GameController::update()
 {
+    if(tryInsertCurrentBlockInField())
     ui.draw(field);
+    if(!currentBlock->tryMoveDown())
+        createBlock(); //Am Boden
 }
+
 
 void GameController::start()
 {
     gameRunning = true;   
-    ui.init(field);
+    createBlock();
 }
 
 void GameController::finish()

@@ -22,31 +22,67 @@ class TetrisBlock
     protected:
         std::vector<std::vector<Tile*>> matrix; // [Reihe][Spalte] -> [Y][X]
         int angle;
-        int anchorPositionX;
-        int anchorPositionY;       
+        int currentRow;
+        int currentColumn;     
+
+        /*
+            xxxx
+            xOxx   <-- Ankerpunkt in der 4x4 Matrix
+            xxxx
+            xxxx
+        */
+          
 
     public:
-        void moveLeft();      
+        void moveLeft()
+        {
+            if(currentColumn>1)  //Ankerpunkt brauch 1 Abstand nach links       
+             currentColumn--;
+        }     
         
+        void moveRight()
+        {
+            if(currentColumn<columnCount-3) //Ankerpunkt brauch 2 Abstände nach rechts
+            currentColumn++;
+        }
 
-        void moveRight();
+        bool tryMoveDown()
+        {
+            if(currentRow<rowCount-4) //Ankerpunkt brauch 3 Abstände nach unten
+            {
+                currentRow++;    
+                return true;
+            }
+            return false;
+        }
+
         TetrisBlock()
         {
-            matrix = create2DArray<Tile*>(4,4);
-        }
+            matrix = create2DArray<Tile*>(4,4);            
+            currentRow = 2;
+            currentColumn = 4;
+        }     
+        TetrisBlock(const TetrisBlock& block) //Clone Constructor
+        {         
+            angle = block.angle;
+            currentRow = block.currentRow;
+            currentColumn = block.currentColumn;
+            matrix = block.matrix;
+        }        
+
         virtual void rotateRight()
         {
             
         }
         std::vector<std::vector<Tile*>> buildMatrix()
         {
-            std::vector<std::vector<Tile *>> field = create2DArray<Tile*>(dimensionColumn, dimensionRow);
+            std::vector<std::vector<Tile *>> field = create2DArray<Tile*>(rowCount, columnCount);
 
             for(int i=0; i<4;i++)
             {
                 for(int j =0; j<4;j++)
                 {
-                    field[i+anchorPositionX][j+anchorPositionY] = matrix[i][j];                 
+                    field[i+currentRow][j+currentColumn] = matrix[i][j];                 
                 }
             }           
             return field;

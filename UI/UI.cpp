@@ -36,27 +36,27 @@ class UI
             colorTesting = 0;
             
             // Clear Field
-            for(int b = 0; b < dimensionRow; b++)
+            for(int b = 0; b < rowCount; b++)
             {
-                for(int c = 0; c < dimensionColumn; c++)
+                for(int c = 0; c < columnCount; c++)
                 {
                     field[b][c] = nullptr;
                 }
             }
             
-            for(int k = 0; k < dimensionColumn; k++)
+            for(int k = 0; k < columnCount; k++)
             {   // Oben und Unten Rand
                 field[0][k] = new Tile(Color::black);
-                field[dimensionRow-1][k] = new Tile(Color::black);
+                field[rowCount-1][k] = new Tile(Color::black);
             }
             
             // Die obersten zwei Zeilen fehlen, deshalb +1 put
             // Die linkeste Zeile fehlt, deshalb +1 bei put
 
-            for(int h = 1; h < dimensionRow-1; h++)
+            for(int h = 1; h < rowCount-1; h++)
             {   // Links und Rechts Rand, [1;21] weil die bei der anderen schon gemacht wurden
                 field[h][0] = new Tile(Color::black);
-                field[h][dimensionColumn-1] = new Tile(Color::black);
+                field[h][columnCount-1] = new Tile(Color::black);
             }
         }
         /* ~UI() Irgendwie so geht das
@@ -74,9 +74,9 @@ void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
     colorTesting++; // Rand blinken
     hideCursor();
     clearLine();
-    for(int i=0; i<dimensionRow;i++)
+    for(int i=0; i<rowCount;i++)
     {        
-        for(int j=0; j<dimensionColumn;j++)
+        for(int j=0; j<columnCount;j++)
         {                  
             if(field[i][j] != nullptr) // Sicherstellen, dass ein Objekt existiert
             {
