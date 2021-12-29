@@ -21,8 +21,7 @@
 class UI
 {
     private:
-        Color actualColor;
-        int colorTesting; // Testzwecke               
+        Color actualColor;            
 
     public:
         void draw(std::vector<std::vector<Tile*>>); // [Reihe][Spalte]);
@@ -30,10 +29,10 @@ class UI
         {
                
         }
-         void init(std::vector<std::vector<Tile*>> & field)
+        
+        void init(std::vector<std::vector<Tile*>> & field)
         {
             clearScreen();   
-            colorTesting = 0;
             
             // Clear Field
             for(int b = 0; b < rowCount; b++)
@@ -71,7 +70,6 @@ class UI
 
 void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
 {      
-    colorTesting++; // Rand blinken
     hideCursor();
     clearLine();
     for(int i=0; i<rowCount;i++)
@@ -87,10 +85,7 @@ void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
                     setTextColor(YELLOW_TXT);
                     break;
                 case Color::black:
-                    if((colorTesting%2) == 0) // Rand blinken lassen = Optik xD
-                        setTextColor(BLACK_TXT);
-                    else
-                        setTextColor(BLUE_TXT);
+                    setTextColor(BLACK_TXT);
                     break;
                 case Color::blue:
                     setTextColor(BLUE_TXT);
@@ -99,7 +94,7 @@ void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
                     setTextColor(GREEN_TXT);
                     break;
                 case Color::orange:
-                    setTextColor(WHITE_TXT); // Eigentlich orange, gibt es jedoch nicht bei dem ANSI Zeugs!!! 
+                    setTextColor(BLUE_TXT); // Eigentlich orange, gibt es jedoch nicht bei dem ANSI Zeugs!!! @JDEV
                     break;
                 case Color::red:
                     setTextColor(RED_TXT);

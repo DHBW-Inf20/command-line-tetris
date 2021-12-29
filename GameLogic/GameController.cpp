@@ -57,20 +57,17 @@ bool GameController::tryInsertCurrentBlockInField()
         {
             if(tetirsBlockMatrixOld[i][j]!=nullptr)
             {                    
-                 field[i][j] = nullptr; //Alte Position vom TetrisBock löschen
+                if(i != 0 && i != rowCount-1 && j != 0 && j != columnCount-1) // Rand außen vor lassen
+                    field[i][j] = nullptr; //Alte Position vom TetrisBock löschen
             }                
             auto tetrisBlockTile = tetrisBlockMatrix[i][j];
             auto matrixBlockTile = field[i][j];
-            if(tetrisBlockTile==nullptr&&matrixBlockTile==nullptr)  //Alles bleibt wie gehabt
-            {
-               
-            }         
-            else if(tetrisBlockTile!=nullptr&&matrixBlockTile!=nullptr)   //Verboten (Position ist nicht frei)
+            if(tetrisBlockTile!=nullptr && matrixBlockTile!=nullptr)   //Verboten (Position ist nicht frei)
             {               
                 error =  true; 
-                //TOOD: ROLLBack
+                //TODO: Rollback
             }      
-            else if(tetrisBlockTile!=nullptr&&matrixBlockTile==nullptr)  //Feld wird gesetzt
+            else if(tetrisBlockTile!=nullptr && matrixBlockTile==nullptr)  //Feld wird gesetzt
             {
                 field[i][j] = tetrisBlockTile;
             }
@@ -83,8 +80,8 @@ bool GameController::tryInsertCurrentBlockInField()
 
 void GameController::createBlock()
 {
-    currentBlock = new CleverlandZ();  
-    currentBlockLastUpdate = currentBlock;      
+    currentBlock = new CleverlandZ();
+    currentBlockLastUpdate = currentBlock;
 }
 void GameController::bKeyPressed()
 {       
@@ -99,7 +96,7 @@ void GameController::dKeyPressed()
 
 void GameController::aKeyPressed()
 {
-  currentBlock->moveLeft();
+    currentBlock->moveLeft();
 }
 
 void GameController::wKeyPressed()
@@ -120,7 +117,7 @@ bool GameController::isGameRunning()
 void GameController::update()
 {
     if(tryInsertCurrentBlockInField())
-    ui.draw(field);
+        ui.draw(field);
     if(!currentBlock->tryMoveDown())
         createBlock(); //Am Boden
 }
@@ -129,6 +126,7 @@ void GameController::update()
 void GameController::start()
 {
     gameRunning = true;   
+    ui.init(field);
     createBlock();
 }
 

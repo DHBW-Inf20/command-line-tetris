@@ -23,7 +23,7 @@ class TetrisBlock
         std::vector<std::vector<Tile*>> matrix; // [Reihe][Spalte] -> [Y][X]
         int angle;
         int currentRow;
-        int currentColumn;     
+        int currentColumn;  
 
         /*
             xxxx
@@ -31,32 +31,59 @@ class TetrisBlock
             xxxx
             xxxx
         */
-          
-        int anchorPositionX;    // Spalte
-        int anchorPositionY;    // Reihe
 
     public:
+        bool isColumnEmpty(int column)
+        {
+            for(int i = 0; i < matrix.size(); i++)
+            {
+                if(matrix[i][column] != nullptr)
+                {
+                    return false; // Es gibt ein Element in dieser Spalte
+                }
+            }
+            return true;
+        }
+        
+        bool isRowEmpty(int row)
+        {
+            for(int i = 0; i < matrix.size(); i++)
+            {
+                if(matrix[row][i] != nullptr)
+                    return false; // Es gibt ein Element in dieser Reihe
+            }
+            return true;
+        }
+
         void moveLeft()
         {
-            if(currentColumn>0)  //Ankerpunkt brauch 1 Abstand nach links       
-             currentColumn--;
+            if((currentColumn > 1 && isColumnEmpty(0)) || currentColumn > 2)
+            {
+                currentColumn--;
+            }
         }     
         
         void moveRight()
         {
-            if(currentColumn<columnCount-3) //Ankerpunkt brauch 2 Abstände nach rechts
-            currentColumn++;
+            if((currentColumn < 10 && (isColumnEmpty(3) && isColumnEmpty(2))) || (currentColumn < 9 && isColumnEmpty(3)) || (currentColumn < 8))
+            {
+                currentColumn++;
+            }
         }
 
         bool tryMoveDown()
         {
-            if(currentRow<rowCount-4) //Ankerpunkt brauch 3 Abstände nach unten
+            if(/* (currentRow < rowCount-2 && isRowEmpty(3) && isRowEmpty(2)) || (currentRow < rowCount-3 && isRowEmpty(3)) || */ (currentRow < rowCount-4))
             {
-                currentRow++;    
+                currentRow++;
                 return true;
             }
             return false;
-            matrix = create2DArray<Tile*>(4,4);
+        }
+
+        TetrisBlock()
+        {
+            matrix = create2DArray<Tile*>(4,4);            
             /* 
                 0 1 2 3 4 5 6 7 8 9 10 11
               0 W N N N M M M M N N N  W
@@ -65,16 +92,10 @@ class TetrisBlock
               3 W N N N M M M M N N N  W
               4 W N N N N N N N N N N  W
              */
-            anchorPositionX = 5;
-            anchorPositionY = 1;
-        }
-
-        TetrisBlock()
-        {
-            matrix = create2DArray<Tile*>(4,4);            
             currentRow = 2;
-            currentColumn = 4;
+            currentColumn = 5;
         }     
+        
         TetrisBlock(const TetrisBlock& block) //Clone Constructor
         {         
             angle = block.angle;
@@ -83,10 +104,8 @@ class TetrisBlock
             matrix = block.matrix;
         }        
 
-        virtual void rotateRight()
-        {
-            
-        }
+        virtual void rotateRight(){}
+
         std::vector<std::vector<Tile*>> buildMatrix()
         {
             std::vector<std::vector<Tile *>> field = create2DArray<Tile*>(rowCount, columnCount);
@@ -100,6 +119,7 @@ class TetrisBlock
             }           
             return field;
         }
-        // Erbende Klassen ggf. noch eine Init-Methode, wo die 4x4-Matrix befüllt wird               
+        // Erbende Klassen ggf. noch eine Init-Methode, wo die 4x4-Matrix befüllt wird    
+
 };
 
