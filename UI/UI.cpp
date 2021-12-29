@@ -14,7 +14,7 @@
 
 #ifndef _utilities_
 #define _utilities_
-#include "../../Utilities/Utilities.h"
+#include "../Utilities/Utilities.h"
 #endif
 
 
@@ -47,13 +47,13 @@ class UI
             for(int k = 0; k < dimensionRow; k++)
             {   // Oben und Unten Rand
                 field[0][k] = new Tile(Color::black);
-                field[dimensionColumn-1][k] = new Tile(Color::black);
+                field[dimensionColumn-1][k] = new Tile(Color::black);  
             }
             
             // Die obersten zwei Zeilen fehlen, deshalb +1 put
             // Die linkeste Zeile fehlt, deshalb +1 bei put
 
-            for(int h = 1; h < 21; h++)
+            for(int h = 1; h < dimensionColumn-1; h++)
             {   // Links und Rechts Rand, [1;21] weil die bei der anderen schon gemacht wurden
                 field[h][0] = new Tile(Color::black);
                 field[h][dimensionColumn/2] = new Tile(Color::black);
