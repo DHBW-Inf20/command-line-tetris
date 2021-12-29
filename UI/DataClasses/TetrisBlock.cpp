@@ -15,7 +15,7 @@ class TetrisBlock
 {
 
     protected:
-        std::vector<std::vector<int>> matrix; // [Reihe][Spalte] -> [Y][X]
+        std::vector<std::vector<Tile*>> matrix; // [Reihe][Spalte] -> [Y][X]
         int angle;
         int anchorPositionX;
         int anchorPositionY;       
@@ -27,15 +27,15 @@ class TetrisBlock
         void moveRight();
         TetrisBlock()
         {
-            matrix = create2DArray(4,4);
+            matrix = create2DArray<Tile*>(4,4);
         }
         virtual void rotateRight()
         {
             
         }
-        std::vector<std::vector<int>> buildMatrix()
+        std::vector<std::vector<Tile*>> buildMatrix()
         {
-            std::vector<std::vector<int>> field = create2DArray(dimensionColumn, dimensionRow);
+            std::vector<std::vector<Tile *>> field = create2DArray<Tile*>(dimensionColumn, dimensionRow);
 
             for(int i=0; i<4;i++)
             {
