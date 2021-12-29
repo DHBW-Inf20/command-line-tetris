@@ -5,7 +5,7 @@
 class Smashboy:public TetrisBlock
 {
     public:
-        void rotateRight()override
+        void rotateRight() override
         {
             // Do nothing
         }
