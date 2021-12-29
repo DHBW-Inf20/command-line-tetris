@@ -1,2 +1,2 @@
-const extern int dimensionRow = 12;
-const extern int dimensionColumn = 22;
+const extern int dimensionRow = 22;
+const extern int dimensionColumn = 12;
