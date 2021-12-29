@@ -22,8 +22,8 @@ class TetrisBlock
     protected:
         std::vector<std::vector<Tile*>> matrix; // [Reihe][Spalte] -> [Y][X]
         int angle;
-        int anchorPositionX;
-        int anchorPositionY;       
+        int anchorPositionX;    // Spalte
+        int anchorPositionY;    // Reihe
 
     public:
         void moveLeft();      
@@ -33,6 +33,16 @@ class TetrisBlock
         TetrisBlock()
         {
             matrix = create2DArray<Tile*>(4,4);
+            /* 
+                0 1 2 3 4 5 6 7 8 9 10 11
+              0 W N N N M M M M N N N  W
+              1 W N N N M A M M N N N  W
+              2 W N N N M M M M N N N  W
+              3 W N N N M M M M N N N  W
+              4 W N N N N N N N N N N  W
+             */
+            anchorPositionX = 5;
+            anchorPositionY = 1;
         }
         virtual void rotateRight()
         {
