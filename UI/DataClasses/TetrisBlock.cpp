@@ -38,7 +38,7 @@ class TetrisBlock
     public:
         void moveLeft()
         {
-            if(currentColumn>1)  //Ankerpunkt brauch 1 Abstand nach links       
+            if(currentColumn>0)  //Ankerpunkt brauch 1 Abstand nach links       
              currentColumn--;
         }     
         
