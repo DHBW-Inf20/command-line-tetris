@@ -67,7 +67,7 @@ void GameController::wKeyPressed()
 
 GameController::GameController()
 {
-    field = create2DArray<Tile*> (dimensionColumn,dimensionRow); // [Reihe][Spalte]
+    field = create2DArray<Tile*> (dimensionRow, dimensionColumn); // [Reihe][Spalte]
 }
 
 bool GameController::isGameRunning()
