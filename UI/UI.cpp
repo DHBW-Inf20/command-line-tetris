@@ -7,29 +7,43 @@
 
 #include "../Utilities/AnsiEscape.h"
 
+#ifndef _config_
+#define _config_
+#include "Config.cpp"
+#endif
+
+#include "../../Utilities/Utilities.h"
+
 class UI
 {
     private:
         Color actualColor;
-        int colorTesting; // Testzwecke
-        Tile * field [22][12]; // [Reihe][Spalte]
-        void init()
+        int colorTesting; // Testzwecke               
+
+    public:
+        void draw(std::vector<std::vector<Tile*>>); // [Reihe][Spalte]);
+        UI()
         {
+               
+        }
+         void init(std::vector<std::vector<Tile*>> field)
+        {
+            clearScreen();   
             colorTesting = 0;
             
             // Clear Field
-            for(int b = 0; b < 22; b++)
+            for(int b = 0; b < dimensionColumn; b++)
             {
-                for(int c = 0; c < 12; c++)
+                for(int c = 0; c < dimensionRow; c++)
                 {
                     field[b][c] = nullptr;
                 }
             }
             
-            for(int k = 0; k < 12; k++)
+            for(int k = 0; k < dimensionRow; k++)
             {   // Oben und Unten Rand
                 field[0][k] = new Tile(Color::black);
-                field[21][k] = new Tile(Color::black);
+                field[dimensionColumn-1][k] = new Tile(Color::black);
             }
             
             // Die obersten zwei Zeilen fehlen, deshalb +1 put
@@ -38,16 +52,8 @@ class UI
             for(int h = 1; h < 21; h++)
             {   // Links und Rechts Rand, [1;21] weil die bei der anderen schon gemacht wurden
                 field[h][0] = new Tile(Color::black);
-                field[h][11] = new Tile(Color::black);
+                field[h][dimensionColumn/2] = new Tile(Color::black);
             }
-        }
-
-    public:
-        void draw();
-        UI()
-        {
-            clearScreen();
-            init();
         }
         /* ~UI() Irgendwie so geht das
         {
@@ -59,14 +65,14 @@ class UI
         } */
 };
 
-void UI::draw()
-{   
+void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
+{      
     colorTesting++; // Rand blinken
     hideCursor();
     clearLine();
-    for(int i=0; i<22;i++)
+    for(int i=0; i<dimensionColumn;i++)
     {        
-        for(int j=0; j<12;j++)
+        for(int j=0; j<dimensionRow;j++)
         {                  
             if(field[i][j] != nullptr) // Sicherstellen, dass ein Objekt existiert
             {

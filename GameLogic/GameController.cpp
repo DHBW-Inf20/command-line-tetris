@@ -5,6 +5,12 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
+
+#ifndef _config_
+#define _config_
+#include "../../UI/Config.cpp"
+#endif
+
 #include "../UI/UI.cpp"
 
 class GameController
@@ -12,7 +18,9 @@ class GameController
 private:
     std::atomic<bool> gameRunning = false;
     TetrisBlock* currentBlock;
+    Tile * field [dimensionColumn][dimensionRow]; // [Reihe][Spalte]
     UI ui;
+    void insertCurrentBlockInField();
 
 public:
     GameController();
@@ -28,7 +36,11 @@ public:
     ~GameController();
 };
 
+void GameController::insertCurrentBlockInField()
+{
+    
 
+}
 void GameController::bKeyPressed()
 {       
     gameRunning = false;
@@ -62,12 +74,13 @@ bool GameController::isGameRunning()
 
 void GameController::update()
 {
-    ui.draw();
+    ui.draw(field);
 }
 
 void GameController::start()
 {
     gameRunning = true;   
+    ui.init(field);
 }
 
 void GameController::finish()
