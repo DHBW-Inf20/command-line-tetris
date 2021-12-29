@@ -12,7 +12,11 @@
 #include "Config.cpp"
 #endif
 
+#ifndef _utilities_
+#define _utilities_
 #include "../../Utilities/Utilities.h"
+#endif
+
 
 class UI
 {

@@ -1,6 +1,9 @@
-#include "../UI/DataClasses/TetrisBlock.cpp"
 
-#include "../UI/DataClasses/Blocks/BlueRicky.cpp"
+#ifndef _tetrisblock_
+#define _tetrisblock_
+#include "../UI/DataClasses/TetrisBlock.cpp"
+#endif
+
 
 #include <chrono>
 #include <thread>
@@ -8,7 +11,7 @@
 
 #ifndef _config_
 #define _config_
-#include "../../UI/Config.cpp"
+#include "..UI/Config.cpp"
 #endif
 
 #include "../UI/UI.cpp"
@@ -18,7 +21,7 @@ class GameController
 private:
     std::atomic<bool> gameRunning = false;
     TetrisBlock* currentBlock;
-    Tile * field [dimensionColumn][dimensionRow]; // [Reihe][Spalte]
+    std::vector<std::vector<Tile*>> field;
     UI ui;
     void insertCurrentBlockInField();
 
@@ -64,7 +67,7 @@ void GameController::wKeyPressed()
 
 GameController::GameController()
 {
-
+    field = create2DArray<Tile*> (dimensionColumn,dimensionRow); // [Reihe][Spalte]
 }
 
 bool GameController::isGameRunning()
