@@ -24,7 +24,6 @@
 #include "../UI/DataClasses/Blocks/Teewee.cpp"
 #endif
 
-
 #include "../UI/UI.cpp"
 
 class GameController
@@ -37,6 +36,9 @@ private:
     UI ui;
     bool tryInsertCurrentBlockInField();
     void createBlock();
+    bool checkCanMoveDown(TetrisBlock *block);
+    void checkRows();
+    void deleteRow(int row);
 
 public:
     GameController();
@@ -68,12 +70,7 @@ bool GameController::tryInsertCurrentBlockInField()
             }
             auto tetrisBlockTile = tetrisBlockMatrix[i][j];
             auto matrixBlockTile = field[i][j];
-            if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr) // Verboten (Position ist nicht frei)
-            {
-                field = backup; // Rollback
-                return false;
-            }
-            else if (tetrisBlockTile != nullptr && matrixBlockTile == nullptr) // Feld wird gesetzt
+            if (tetrisBlockTile != nullptr && matrixBlockTile == nullptr) // Feld wird gesetzt
             {
                 field[i][j] = tetrisBlockTile;
             }
@@ -87,7 +84,7 @@ bool GameController::tryInsertCurrentBlockInField()
 void GameController::createBlock()
 {
 
-    switch (GetRandomNumberBetween(0, 6))
+    switch (GetRandomNumberBetween(0, 6)) 
     {
     case 0:
         currentBlock = new BlueRicky();
@@ -119,6 +116,41 @@ void GameController::bKeyPressed()
     printf("b pressed\n");
 }
 
+void GameController::deleteRow(int row)
+{
+    for (int j = row; j > 0; j--)
+    {
+        for (int i = 1; i < columnCount - 1; i++)
+        {
+            if (j == 1)
+            {
+                field[1][i] = nullptr;
+            }
+            else
+            {
+                field[j][i] = field[j - 1][i];
+            }
+        }
+    }
+}
+void GameController::checkRows()
+{
+    for (int i = 1; i < rowCount - 1; i++)
+    {
+        int matches = 0;
+        for (int j = 0; j < columnCount; j++)
+        {
+            if (field[i][j] != nullptr)
+                matches++;
+        }
+        if (matches == columnCount)
+        {
+            deleteRow(i);   
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));        
+        }
+    }
+}
+
 void GameController::dKeyPressed()
 {
     currentBlock->moveRight();
@@ -146,10 +178,55 @@ bool GameController::isGameRunning()
 
 void GameController::update()
 {
+
     if (tryInsertCurrentBlockInField())
         ui.draw(field);
-    if (!currentBlock->tryMoveDown())
+
+   
+    if (checkCanMoveDown(currentBlock))
+    {
+        currentBlock->tryMoveDown();
+    }
+    else
+    {
+        checkRows();
         createBlock(); // Am Boden
+    }
+
+}
+
+bool GameController::checkCanMoveDown(TetrisBlock *block)
+{
+    auto tileCopy = new TetrisBlock(*block);
+    auto fieldCopy = field;
+    if (!tileCopy->tryMoveDown())
+    {
+        return false;
+    }
+    auto tetrisBlockMatrix = tileCopy->buildMatrix();
+    auto tetirsBlockMatrixOld = currentBlockLastUpdate->buildMatrix();
+
+    for (int i = 0; i < rowCount; i++)
+    {
+        for (int j = 0; j < columnCount; j++)
+        {
+            if (tetirsBlockMatrixOld[i][j] != nullptr)
+            {
+                if (i != 0 && i != rowCount - 1 && j != 0 && j != columnCount - 1) // Rand außen vor lassen
+                    fieldCopy[i][j] = nullptr;                                     // Alte Position vom TetrisBock löschen
+            }
+
+            auto tetrisBlockTile = tetrisBlockMatrix[i][j];
+            auto matrixBlockTile = fieldCopy[i][j];
+            if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr) // Verboten (Position ist nicht frei)
+            {
+                return false;
+            }
+        }
+    }
+
+    delete tileCopy;
+    return true;
 }
 
 void GameController::start()
