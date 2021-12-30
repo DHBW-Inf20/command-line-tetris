@@ -69,9 +69,9 @@ class UI
 };
 
 void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
-{      
-    hideCursor();
+{          
     clearLine();
+    hideCursor();
     for(int i=0; i<rowCount;i++)
     {        
         for(int j=0; j<columnCount;j++)

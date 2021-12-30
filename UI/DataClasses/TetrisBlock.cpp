@@ -57,7 +57,7 @@ class TetrisBlock
 
         void moveLeft()
         {
-            if((currentColumn > 1 && isColumnEmpty(0)) || currentColumn > 2)
+            if((currentColumn > 0 && isColumnEmpty(0)) || currentColumn > 1)
             {
                 currentColumn--;
             }
@@ -65,7 +65,7 @@ class TetrisBlock
         
         void moveRight()
         {
-            if((currentColumn < 10 && (isColumnEmpty(3) && isColumnEmpty(2))) || (currentColumn < 9 && isColumnEmpty(3)) || (currentColumn < 8))
+            if((currentColumn < 9 && (isColumnEmpty(3) && isColumnEmpty(2))) || (currentColumn < 8 && isColumnEmpty(3)) || (currentColumn < 7))
             {
                 currentColumn++;
             }
@@ -73,7 +73,7 @@ class TetrisBlock
 
         bool tryMoveDown()
         {
-            if(/* (currentRow < rowCount-2 && isRowEmpty(3) && isRowEmpty(2)) || (currentRow < rowCount-3 && isRowEmpty(3)) || */ (currentRow < rowCount-4))
+            if((currentRow < rowCount-2 && isRowEmpty(3) && isRowEmpty(2)) || (currentRow < rowCount-3 && isRowEmpty(3)) ||  (currentRow < rowCount-4))
             {
                 currentRow++;
                 return true;
@@ -114,7 +114,10 @@ class TetrisBlock
             {
                 for(int j =0; j<4;j++)
                 {
-                    field[i+currentRow][j+currentColumn] = matrix[i][j];                 
+                    if(i+currentRow<rowCount&&j+currentColumn<columnCount) //Ist der Block ganz am Boden können Teile der Matrix mit Verschiebung außerhalb des Spielfelds sein (diese werden igonoriert)
+                    {
+                        field[i+currentRow][j+currentColumn] = matrix[i][j]; 
+                    }                
                 }
             }           
             return field;
