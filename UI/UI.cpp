@@ -114,8 +114,8 @@ void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
             {
                 setTextColor(WHITE_TXT); // Kein Tile(nullptr) => White
             }               
-            moveTo(i+1,j+1);
-            puts("█"); //▉
+            moveTo(i+1,(j*2)+1);
+            puts("██"); //▉
             moveUp(1);                
         }  
      
