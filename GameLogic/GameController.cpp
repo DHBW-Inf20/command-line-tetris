@@ -8,6 +8,7 @@
 #include <thread>
 #include <atomic>
 
+
 #ifndef _config_
 #define _config_
 #include "..UI/Config.cpp"
@@ -34,12 +35,14 @@ private:
     TetrisBlock *currentBlockLastUpdate; // Hier wird der Block vom letzten Update gespeichert -> So kann bei einer Änderung das Spielfeld rekonstruiert werden
     std::vector<std::vector<Tile *>> field;
     UI ui;
+    float blocksSpawned[7];
     bool tryInsertCurrentBlockInField();
     void createBlock();
     bool checkCanMove(TetrisBlock *block, char direction);
     void checkRows();
     void deleteRow(int row);
     int moveDownLimiter;
+    bool isSpawningBalanced(int number);
 
 public:
     GameController();
@@ -83,31 +86,54 @@ bool GameController::tryInsertCurrentBlockInField()
     return true;
 }
 
+bool GameController::isSpawningBalanced(int number)
+{
+    float sum = blocksSpawned[0] + blocksSpawned[1] + blocksSpawned[2] + blocksSpawned[3] + blocksSpawned[4] + blocksSpawned[5] + blocksSpawned[6];
+    float avg = sum/7;
+    if(blocksSpawned[number] > avg)
+    {
+        return false;
+    }
+    return true;
+}
+
 void GameController::createBlock()
 {
+    int num = GetRandomNumberBetween(0, 6);
+    while(!isSpawningBalanced(num))
+    {
+        num = GetRandomNumberBetween(0, 6);
+    }
 
-    switch (GetRandomNumberBetween(0, 6)) 
+    switch (num) 
     {
     case 0:
         currentBlock = new BlueRicky();
+        blocksSpawned[0]++;
         break;
     case 1:
         currentBlock = new CleverlandZ();
+        blocksSpawned[1]++;
         break;
     case 2:
         currentBlock = new Hero();
+        blocksSpawned[2]++;
         break;
     case 3:
         currentBlock = new OrangeRicky();
+        blocksSpawned[3]++;
         break;
     case 4:
         currentBlock = new RhodeIslandZ();
+        blocksSpawned[4]++;
         break;
     case 5:
         currentBlock = new Smashboy();
+        blocksSpawned[5]++;
         break;
     case 6:
         currentBlock = new Teewee();
+        blocksSpawned[6]++;
         break;
     }
     currentBlockLastUpdate = currentBlock;
@@ -183,6 +209,10 @@ GameController::GameController()
 {
     field = create2DArray<Tile *>(rowCount, columnCount); // [Reihe][Spalte]
     moveDownLimiter = 0;
+    for(int i = 0; i < 7; i++)
+    {
+        blocksSpawned[i] = 0;
+    }
 }
 
 bool GameController::isGameRunning()
