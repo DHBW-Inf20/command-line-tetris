@@ -8,6 +8,7 @@
 #include "Highscores/Highscore.cpp"
 
 int showStartMenuSelect(){
+    clearScreen();
     std::string selection;
     std::cout   <<"Welcome to our Tetris project" << std::endl
                 <<"Select what you want to do" << std::endl
@@ -21,44 +22,44 @@ int showStartMenuSelect(){
 
 int main()
 {    
-while(int selection = showStartMenuSelect()){
-
-switch (selection)
-{
-case 1:{
- GameController* controller  = new GameController();
-    Keylistener* listener = new Keylistener();
-
-    listener->stop();
-
-    listener->registerHandler('d', [controller]() {controller->dKeyPressed();});
-    listener->registerHandler('a', [controller]() {controller->aKeyPressed();});
-    listener->registerHandler('w',[controller]() {controller->wKeyPressed();});
-    listener->registerHandler('b',[controller]()  {controller->bKeyPressed();});
-    listener->startMultithreaded(); 
-
-   std::thread game([controller, listener]()
+    while(true)
     {
-        controller->start();    
-        while (controller->isGameRunning())
+        int selection = showStartMenuSelect();
+        switch (selection)
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            controller->update();        
+        case 1:{
+            GameController* controller  = new GameController();
+            Keylistener* listener = new Keylistener();
+
+            listener->stop();
+
+            listener->registerHandler('d', [controller]() {controller->dKeyPressed();});
+            listener->registerHandler('a', [controller]() {controller->aKeyPressed();});
+            listener->registerHandler('w', [controller]() {controller->wKeyPressed();});
+            listener->registerHandler('b', [controller]() {controller->bKeyPressed();});
+            listener->registerHandler('s', [controller]() {controller->sKeyPressed();});
+            listener->startMultithreaded(); 
+
+            std::thread game([controller, listener]()
+            {
+                controller->start();    
+                while (controller->isGameRunning())
+                {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                    controller->update();        
+                }
+                delete controller;
+                delete listener;
+            });
+            game.join();
+            break;
         }
-        delete controller;
-        delete listener;
-    });
-    game.join();
-    break;
-}
-case 2:
-showHighscore();
-break;
-default:
-std::cout << "This is not a valid option\n";
-
-    break;
-}
-
-}
+        case 2:
+            showHighscore();
+            break;
+        default:
+            std::cout << "This is not a valid option\n";
+            break;
+        }
+    }
 }

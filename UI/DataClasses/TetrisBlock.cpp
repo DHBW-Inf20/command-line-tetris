@@ -55,20 +55,24 @@ class TetrisBlock
             return true;
         }
 
-        void moveLeft()
+        bool tryMoveLeft()
         {
             if((currentColumn > 0 && isColumnEmpty(0)) || currentColumn > 1)
             {
                 currentColumn--;
+                return true;
             }
+            return false;
         }     
         
-        void moveRight()
+        bool tryMoveRight()
         {
             if((currentColumn < 9 && (isColumnEmpty(3) && isColumnEmpty(2))) || (currentColumn < 8 && isColumnEmpty(3)) || (currentColumn < 7))
             {
                 currentColumn++;
+                return true;
             }
+            return false;
         }
 
         bool tryMoveDown()

@@ -36,9 +36,10 @@ private:
     UI ui;
     bool tryInsertCurrentBlockInField();
     void createBlock();
-    bool checkCanMoveDown(TetrisBlock *block);
+    bool checkCanMove(TetrisBlock *block, char direction);
     void checkRows();
     void deleteRow(int row);
+    int moveDownLimiter;
 
 public:
     GameController();
@@ -50,6 +51,7 @@ public:
     void dKeyPressed();
     void aKeyPressed();
     void wKeyPressed();
+    void sKeyPressed();
 
     ~GameController();
 };
@@ -110,6 +112,7 @@ void GameController::createBlock()
     }
     currentBlockLastUpdate = currentBlock;
 }
+
 void GameController::bKeyPressed()
 {
     gameRunning = false;
@@ -133,6 +136,7 @@ void GameController::deleteRow(int row)
         }
     }
 }
+
 void GameController::checkRows()
 {
     for (int i = 1; i < rowCount - 1; i++)
@@ -153,22 +157,32 @@ void GameController::checkRows()
 
 void GameController::dKeyPressed()
 {
-    currentBlock->moveRight();
+    if(checkCanMove(currentBlock, 'r'))
+        currentBlock->tryMoveRight();
 }
 
 void GameController::aKeyPressed()
 {
-    currentBlock->moveLeft();
+    if(checkCanMove(currentBlock, 'l'))
+        currentBlock->tryMoveLeft();
 }
 
 void GameController::wKeyPressed()
 {
-    currentBlock->rotateRight();
+        // Gleich wie Left/Right/Down -> davor checken ! Noch einfügen!
+        currentBlock->rotateRight();
+}
+
+void GameController::sKeyPressed()
+{
+    if (checkCanMove(currentBlock, 'd'))
+        currentBlock->tryMoveDown();
 }
 
 GameController::GameController()
 {
     field = create2DArray<Tile *>(rowCount, columnCount); // [Reihe][Spalte]
+    moveDownLimiter = 0;
 }
 
 bool GameController::isGameRunning()
@@ -178,31 +192,50 @@ bool GameController::isGameRunning()
 
 void GameController::update()
 {
-
     if (tryInsertCurrentBlockInField())
         ui.draw(field);
 
-   
-    if (checkCanMoveDown(currentBlock))
+    if (checkCanMove(currentBlock, 'd') && (moveDownLimiter == 10))
     {
+        moveDownLimiter = 0;
         currentBlock->tryMoveDown();
     }
     else
     {
         checkRows();
-        createBlock(); // Am Boden
+        if(moveDownLimiter==10) // update wird öfters aufgerufen (kleineres Sleep), der Block soll aber nicht jedes mal nach unten
+        {
+            moveDownLimiter = 0;
+            createBlock(); // Am Boden
+        }
     }
-
+    moveDownLimiter++;
 }
 
-bool GameController::checkCanMoveDown(TetrisBlock *block)
+bool GameController::checkCanMove(TetrisBlock *block, char direction)
 {
     auto tileCopy = new TetrisBlock(*block);
     auto fieldCopy = field;
-    if (!tileCopy->tryMoveDown())
+    bool noBorder;
+    switch (direction)
+    {
+    case 'l': // left
+        noBorder = tileCopy->tryMoveLeft();
+        break;
+    case 'r': // right
+        noBorder = tileCopy->tryMoveRight();
+        break;
+    case 'd': // down
+        noBorder = tileCopy->tryMoveDown();
+        break;
+    default:
+        break;
+    }
+    if (!noBorder) // Block am Rand -> kein Verschieben möglich
     {
         return false;
     }
+
     auto tetrisBlockMatrix = tileCopy->buildMatrix();
     auto tetirsBlockMatrixOld = currentBlockLastUpdate->buildMatrix();
 
