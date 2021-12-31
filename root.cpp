@@ -8,7 +8,6 @@
 #include "Highscores/Highscore.cpp"
 
 int showStartMenuSelect(){
-    clearScreen();
     std::string selection;
     std::cout   <<"Welcome to our Tetris project" << std::endl
                 <<"Select what you want to do" << std::endl
@@ -22,9 +21,8 @@ int showStartMenuSelect(){
 
 int main()
 {    
-    while(true)
+    while(int selection = showStartMenuSelect())
     {
-        int selection = showStartMenuSelect();
         switch (selection)
         {
         case 1:{
