@@ -2,12 +2,31 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
+#include <string>
 #include "GameLogic/GameController.cpp"
 #include "GameLogic/Input/Keylistener.hpp"
+#include "Highscores/Highscore.cpp"
+
+int showStartMenuSelect(){
+    std::string selection;
+    std::cout   <<"Welcome to our Tetris project" << std::endl
+                <<"Select what you want to do" << std::endl
+                <<"1:\t Start a new game" << std::endl
+                <<"2:\t View the highscores" << std::endl
+                <<"0:\t Close the application" << std::endl;
+    std::cin >> selection;
+ 
+    return std::atoi(selection.c_str());
+}
 
 int main()
 {    
-    GameController* controller  = new GameController();
+while(int selection = showStartMenuSelect()){
+
+switch (selection)
+{
+case 1:{
+ GameController* controller  = new GameController();
     Keylistener* listener = new Keylistener();
 
     listener->stop();
@@ -30,5 +49,16 @@ int main()
         delete listener;
     });
     game.join();
+    break;
+}
+case 2:
+showHighscore();
+break;
+default:
+std::cout << "This is not a valid option\n";
 
+    break;
+}
+
+}
 }
