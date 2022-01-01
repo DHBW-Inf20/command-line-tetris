@@ -43,6 +43,7 @@ private:
     void deleteRow(int row);
     int moveDownLimiter;
     bool isSpawningBalanced(int number);
+    bool canDelete;
 
 public:
     GameController();
@@ -165,19 +166,23 @@ void GameController::deleteRow(int row)
 
 void GameController::checkRows()
 {
-    for (int i = 1; i < rowCount - 1; i++)
+    if(canDelete)
     {
-        int matches = 0;
-        for (int j = 0; j < columnCount; j++)
+        for (int i = 1; i < rowCount - 1; i++)
         {
-            if (field[i][j] != nullptr)
-                matches++;
+            int matches = 0;
+            for (int j = 0; j < columnCount; j++)
+            {
+                if (field[i][j] != nullptr)
+                    matches++;
+            }
+            if (matches == columnCount)
+            {
+                deleteRow(i);  
+                std::this_thread::sleep_for(std::chrono::milliseconds(150));        
+            }
         }
-        if (matches == columnCount)
-        {
-            deleteRow(i);   
-            std::this_thread::sleep_for(std::chrono::milliseconds(150));        
-        }
+        canDelete = false; 
     }
 }
 
@@ -225,20 +230,20 @@ void GameController::update()
     if (tryInsertCurrentBlockInField())
         ui.draw(field);
 
-    if (checkCanMove(currentBlock, 'd') && (moveDownLimiter == 10))
+    if(moveDownLimiter == 10)
     {
-        moveDownLimiter = 0;
-        currentBlock->tryMoveDown();
-    }
-    else
-    {
-        checkRows();
-        if(moveDownLimiter==10) // update wird öfters aufgerufen (kleineres Sleep), der Block soll aber nicht jedes mal nach unten
+        if (checkCanMove(currentBlock, 'd'))
         {
-            moveDownLimiter = 0;
+            currentBlock->tryMoveDown();
+        }
+        else
+        {
+            canDelete = true; // Reihe darf gelöscht werden
             createBlock(); // Am Boden
         }
+        moveDownLimiter = 0;
     }
+    checkRows();
     moveDownLimiter++;
 }
 
@@ -295,6 +300,7 @@ bool GameController::checkCanMove(TetrisBlock *block, char direction)
 void GameController::start()
 {
     gameRunning = true;
+    canDelete = false;
     ui.init(field);
     createBlock();
 }
