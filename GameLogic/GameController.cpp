@@ -80,6 +80,12 @@ bool GameController::tryInsertCurrentBlockInField()
             {
                 field[i][j] = tetrisBlockTile;
             }
+            else if(tetrisBlockTile != nullptr && matrixBlockTile != nullptr)
+            {
+                // Warum geht das nicht amk?
+                printf("Stop");
+                finish();
+            }
         }
     }
 
@@ -138,6 +144,7 @@ void GameController::createBlock()
         break;
     }
     currentBlockLastUpdate = currentBlock;
+
 }
 
 void GameController::bKeyPressed()
@@ -240,6 +247,7 @@ void GameController::update()
         {
             canDelete = true; // Reihe darf gelöscht werden
             createBlock(); // Am Boden
+
         }
         moveDownLimiter = 0;
     }
@@ -307,6 +315,8 @@ void GameController::start()
 
 void GameController::finish()
 {
+    gameRunning = false;
+    printf("Game Over\n");
 }
 
 GameController::~GameController()
