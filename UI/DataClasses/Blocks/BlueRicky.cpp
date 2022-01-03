@@ -6,6 +6,15 @@
 class BlueRicky: public TetrisBlock
 {
     public:
+       BlueRicky(const TetrisBlock& block) :TetrisBlock(block)
+       {
+       }
+
+        TetrisBlock* clone(TetrisBlock* block) override
+        {
+            auto a = new BlueRicky(*block);
+            return a;
+        };
         void rotateRight() override
         {
             switch (angle)

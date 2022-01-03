@@ -10,6 +10,7 @@
 
 #include <shared_mutex>
 
+
 #ifndef _config_
 #define _config_
 #include "..UI/Config.cpp"
@@ -268,7 +269,8 @@ void GameController::update()
 
 bool GameController::checkCanMove(TetrisBlock *block, char direction)
 {
-    auto tileCopy = new TetrisBlock(*block);
+    //auto tileCopy = new TetrisBlock(*block);
+    auto tileCopy = block->clone(block);
     auto fieldCopy = field;
     bool noBorder;
     switch (direction)
@@ -289,33 +291,46 @@ bool GameController::checkCanMove(TetrisBlock *block, char direction)
         return false;
     }
     if (!noBorder) // Block am Rand -> kein Verschieben möglich
-    {
+    {      
         return false;
     }
 
     auto tetrisBlockMatrix = tileCopy->buildMatrix();
     auto tetirsBlockMatrixOld = currentBlockLastUpdate->buildMatrix();
 
+  
+   
+
     for (int i = 0; i < rowCount; i++)
     {
         for (int j = 0; j < columnCount; j++)
         {
+                      
+
             if (tetirsBlockMatrixOld[i][j] != nullptr)
             {
                 if (i != 0 && i != rowCount - 1 && j != 0 && j != columnCount - 1) // Rand außen vor lassen
                     fieldCopy[i][j] = nullptr;                                     // Alte Position vom TetrisBock löschen
             }
-
+           
+           
             auto tetrisBlockTile = tetrisBlockMatrix[i][j];
             auto matrixBlockTile = fieldCopy[i][j];
+
+                         
+
             if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr) // Verboten (Position ist nicht frei)
             {
                 delete tileCopy;
+                 ui.draw3(fieldCopy);
+                   ui.draw2(tetrisBlockMatrix);
                 return false;
             }
-        }
+        } 
+            
     }
-
+      ui.draw2(tetrisBlockMatrix);
+  ui.draw3(fieldCopy);  
     delete tileCopy;
     return true;
 }
