@@ -9,7 +9,7 @@
 
 class Keylistener{
     private:
-        std::map<char, std::function<void()>> eventHandlers;
+        std::map<int, std::function<void()>> eventHandlers;
         bool running;      
         mutable std::shared_mutex eventHandlerMutex;
         mutable std::shared_mutex runningMutex;
@@ -20,8 +20,8 @@ class Keylistener{
         Keylistener();
         void startMultithreaded();
         void stop();
-        void registerHandler(char key, std::function<void()> handler);
-        void removeHandler(char key);
+        void registerHandler(int key, std::function<void()> handler);
+        void removeHandler(int key);
         ~Keylistener();
 };
 

@@ -60,6 +60,7 @@ public:
     void aKeyPressed();
     void wKeyPressed();
     void sKeyPressed();
+    void enterKeyPressed();
 
     ~GameController();
 };
@@ -228,6 +229,19 @@ void GameController::sKeyPressed()
     mainLock.unlock();
 }
 
+void GameController::enterKeyPressed()
+{
+    mainLock.lock();
+    auto tileCopy = currentBlock->clone(currentBlock);
+    while(checkCanMove(tileCopy, 'd'))
+    {  
+        currentBlock->tryMoveDown();
+        tileCopy->tryMoveDown();
+    }
+    delete tileCopy;
+    mainLock.unlock();
+}
+
 GameController::GameController()
 {
     field = create2DArray<Tile *>(rowCount, columnCount); // [Reihe][Spalte]
@@ -269,7 +283,6 @@ void GameController::update()
 
 bool GameController::checkCanMove(TetrisBlock *block, char direction)
 {
-    //auto tileCopy = new TetrisBlock(*block);
     auto tileCopy = block->clone(block);
     auto fieldCopy = field;
     bool noBorder;
@@ -298,34 +311,25 @@ bool GameController::checkCanMove(TetrisBlock *block, char direction)
     auto tetrisBlockMatrix = tileCopy->buildMatrix();
     auto tetirsBlockMatrixOld = currentBlockLastUpdate->buildMatrix();
 
-  
-   
-
     for (int i = 0; i < rowCount; i++)
     {
         for (int j = 0; j < columnCount; j++)
         {
-                      
-
             if (tetirsBlockMatrixOld[i][j] != nullptr)
             {
                 if (i != 0 && i != rowCount - 1 && j != 0 && j != columnCount - 1) // Rand außen vor lassen
                     fieldCopy[i][j] = nullptr;                                     // Alte Position vom TetrisBock löschen
             }
-           
-           
+                    
             auto tetrisBlockTile = tetrisBlockMatrix[i][j];
             auto matrixBlockTile = fieldCopy[i][j];
-
-                         
 
             if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr) // Verboten (Position ist nicht frei)
             {
                 delete tileCopy;
                 return false;
             }
-        } 
-            
+        }           
     }  
     delete tileCopy;
     return true;
