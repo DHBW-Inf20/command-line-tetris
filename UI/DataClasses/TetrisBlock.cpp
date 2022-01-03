@@ -24,6 +24,7 @@ class TetrisBlock
         int angle;
         int currentRow;
         int currentColumn;  
+        virtual void rotateRight(){}
 
         /*
             xxxx
@@ -108,7 +109,27 @@ class TetrisBlock
             matrix = block.matrix;
         }        
 
-        virtual void rotateRight(){}
+      
+        bool tryRotateRight()
+        {
+           auto copy = matrix;
+           rotateRight();
+            for(int i=0; i<4;i++)
+            {
+                for(int j =0; j<4;j++)
+                {
+                    if(matrix[i][j]!=nullptr)
+                    {
+                        if(i+currentRow>=rowCount-1||j+currentColumn>=columnCount-1 || i+currentRow<1 || i+currentColumn <1)
+                        {
+                            matrix = copy;
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;     
+        }
 
         std::vector<std::vector<Tile*>> buildMatrix()
         {
