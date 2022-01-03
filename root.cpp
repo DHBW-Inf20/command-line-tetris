@@ -31,11 +31,12 @@ int main()
 
             listener->stop();
 
-            listener->registerHandler('d', [controller]() {controller->dKeyPressed();});
-            listener->registerHandler('a', [controller]() {controller->aKeyPressed();});
-            listener->registerHandler('w', [controller]() {controller->wKeyPressed();});
-            listener->registerHandler('b', [controller]() {controller->bKeyPressed();});
-            listener->registerHandler('s', [controller]() {controller->sKeyPressed();});
+            listener->registerHandler(100, [controller]() {controller->dKeyPressed();}); // d
+            listener->registerHandler(97, [controller]() {controller->aKeyPressed();}); // a
+            listener->registerHandler(119, [controller]() {controller->wKeyPressed();}); // w
+            listener->registerHandler(98, [controller]() {controller->bKeyPressed();}); // b
+            listener->registerHandler(115, [controller]() {controller->sKeyPressed();}); // s
+            listener->registerHandler(32, [controller]() {controller->enterKeyPressed();}); // enter
             listener->startMultithreaded(); 
 
             std::thread game([controller, listener]()

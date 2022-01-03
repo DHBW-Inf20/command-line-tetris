@@ -25,8 +25,7 @@ class UI
 
     public:
         void draw(std::vector<std::vector<Tile*>>); // [Reihe][Spalte]);
-        void draw2(std::vector<std::vector<Tile*>>); // [Reihe][Spalte]);
-        void draw3(std::vector<std::vector<Tile*>>); // [Reihe][Spalte]);
+
         UI()
         {
                
@@ -70,115 +69,6 @@ class UI
         } */
 };
 
-void UI::draw3(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
-{          
-    clearLine();
-    hideCursor();
-    for(int i=0; i<rowCount;i++)
-    {        
-        for(int j=0; j<columnCount;j++)
-        {                  
-            if(field[i][j] != nullptr) // Sicherstellen, dass ein Objekt existiert
-            {
-                actualColor = field[i][j]->getColor();
-                switch (actualColor)
-                {
-                case Color::yellow:
-                    setTextColor(YELLOW_TXT);
-                    break;
-                case Color::black:
-                    setTextColor(BLACK_TXT);
-                    break;
-                case Color::blue:
-                    setTextColor(BLUE_TXT);
-                    break;
-                case Color::green:
-                    setTextColor(GREEN_TXT);
-                    break;
-                case Color::orange:
-                    setTextColor(BLUE_TXT); // Eigentlich orange, gibt es jedoch nicht bei dem ANSI Zeugs!!! @JDEV
-                    break;
-                case Color::red:
-                    setTextColor(RED_TXT);
-                    break;
-                case Color::turquoise:
-                    setTextColor(CYAN_TXT);
-                    break;
-                case Color::purple:
-                    setTextColor(MAGENTA_TXT);
-                    break;
-                default:
-                    setTextColor(WHITE_TXT);
-                    break;
-                }
-            }     
-            else
-            {
-                setTextColor(WHITE_TXT); // Kein Tile(nullptr) => White
-            }               
-            moveTo(i+1,(j*2)+1+53);
-            puts("██"); //▉
-            moveUp(1);                
-        }  
-     
-    } 
-    moveTo(0,0);
-}
-
-void UI::draw2(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
-{          
-    clearLine();
-    hideCursor();
-    for(int i=0; i<rowCount;i++)
-    {        
-        for(int j=0; j<columnCount;j++)
-        {                  
-            if(field[i][j] != nullptr) // Sicherstellen, dass ein Objekt existiert
-            {
-                actualColor = field[i][j]->getColor();
-                switch (actualColor)
-                {
-                case Color::yellow:
-                    setTextColor(YELLOW_TXT);
-                    break;
-                case Color::black:
-                    setTextColor(BLACK_TXT);
-                    break;
-                case Color::blue:
-                    setTextColor(BLUE_TXT);
-                    break;
-                case Color::green:
-                    setTextColor(GREEN_TXT);
-                    break;
-                case Color::orange:
-                    setTextColor(BLUE_TXT); // Eigentlich orange, gibt es jedoch nicht bei dem ANSI Zeugs!!! @JDEV
-                    break;
-                case Color::red:
-                    setTextColor(RED_TXT);
-                    break;
-                case Color::turquoise:
-                    setTextColor(CYAN_TXT);
-                    break;
-                case Color::purple:
-                    setTextColor(MAGENTA_TXT);
-                    break;
-                default:
-                    setTextColor(WHITE_TXT);
-                    break;
-                }
-            }     
-            else
-            {
-                setTextColor(WHITE_TXT); // Kein Tile(nullptr) => White
-            }               
-            moveTo(i+1,(j*2)+1+26);
-            puts("██"); //▉
-            moveUp(1);                
-        }  
-     
-    } 
-    moveTo(0,0);
-}
 
 void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
 {          

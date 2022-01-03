@@ -6,6 +6,16 @@
 class RhodeIslandZ:public TetrisBlock
 {
     public:
+        RhodeIslandZ(const TetrisBlock& block) : TetrisBlock(block)
+        {
+        }
+
+        TetrisBlock* clone(TetrisBlock* block) override
+        {
+            auto a = new RhodeIslandZ(*block);
+            return a;
+        };
+        
         void rotateRight() override
         {
             switch (angle)

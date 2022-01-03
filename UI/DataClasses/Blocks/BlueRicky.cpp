@@ -6,7 +6,7 @@
 class BlueRicky: public TetrisBlock
 {
     public:
-       BlueRicky(const TetrisBlock& block) :TetrisBlock(block)
+       BlueRicky(const TetrisBlock& block) : TetrisBlock(block)
        {
        }
 
@@ -15,6 +15,7 @@ class BlueRicky: public TetrisBlock
             auto a = new BlueRicky(*block);
             return a;
         };
+
         void rotateRight() override
         {
             switch (angle)

@@ -149,13 +149,13 @@ void Keylistener::stop()
     this->running = false;
     runningMutex.unlock();
 }
-void Keylistener::registerHandler(char key, std::function<void()> handler)
+void Keylistener::registerHandler(int key, std::function<void()> handler)
 {
     eventHandlerMutex.lock();    
     eventHandlers[key] = handler;
     eventHandlerMutex.unlock();
 }
-void Keylistener::removeHandler(char key)
+void Keylistener::removeHandler(int key)
 {
     eventHandlerMutex.lock();    
     eventHandlers.erase(key);
