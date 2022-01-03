@@ -115,27 +115,8 @@ class TetrisBlock
       
         bool tryRotateRight()
         {         
-
-           for(int i=0; i<4;i++)
-            {
-                for(int j =0; j<4;j++)
-                {
-                    log(matrix[i][j]==nullptr?"0":"1");
-                }
-                log("\n");
-            }
-            log("\n\n");
-           rotateRight();
-             for(int i=0; i<4;i++)
-            {
-                for(int j =0; j<4;j++)
-                {
-                    log(matrix[i][j]==nullptr?"0":"1");
-                }
-                log("\n");
-            }
-             log("\n\n");
-            
+        
+           rotateRight();          
             for(int i=0; i<4;i++)
             {
                 for(int j =0; j<4;j++)
