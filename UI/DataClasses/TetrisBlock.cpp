@@ -111,8 +111,7 @@ class TetrisBlock
 
       
         bool tryRotateRight()
-        {
-           auto copy = matrix;
+        {         
            rotateRight();
             for(int i=0; i<4;i++)
             {
@@ -121,8 +120,10 @@ class TetrisBlock
                     if(matrix[i][j]!=nullptr)
                     {
                         if(i+currentRow>=rowCount-1||j+currentColumn>=columnCount-1 || i+currentRow<1 || i+currentColumn <1)
-                        {
-                            matrix = copy;
+                        { 
+                            rotateRight(); //Originaldrehung wiederherstellen
+                            rotateRight();
+                            rotateRight();
                             return false;
                         }
                     }
