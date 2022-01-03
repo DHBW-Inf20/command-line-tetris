@@ -82,7 +82,7 @@ bool GameController::tryInsertCurrentBlockInField()
             }
             else if(tetrisBlockTile != nullptr && matrixBlockTile != nullptr)
             {
-                // Warum geht das nicht amk?
+                // Warum geht das nicht amk?               
                 printf("Stop");
                 finish();
             }
@@ -206,9 +206,9 @@ void GameController::aKeyPressed()
 }
 
 void GameController::wKeyPressed()
-{
-        // Gleich wie Left/Right/Down -> davor checken ! Noch einfügen!
-        currentBlock->rotateRight();
+{       
+    if(checkCanMove(currentBlock,'t'))
+        currentBlock->tryRotateRight();
 }
 
 void GameController::sKeyPressed()
@@ -271,6 +271,9 @@ bool GameController::checkCanMove(TetrisBlock *block, char direction)
     case 'd': // down
         noBorder = tileCopy->tryMoveDown();
         break;
+    case 't':
+        noBorder = tileCopy->tryRotateRight();
+        break;
     default:
         break;
     }
@@ -296,6 +299,7 @@ bool GameController::checkCanMove(TetrisBlock *block, char direction)
             auto matrixBlockTile = fieldCopy[i][j];
             if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr) // Verboten (Position ist nicht frei)
             {
+                delete tileCopy;
                 return false;
             }
         }
