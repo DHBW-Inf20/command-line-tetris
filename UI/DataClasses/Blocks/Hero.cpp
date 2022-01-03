@@ -53,10 +53,10 @@ class Hero: public TetrisBlock
             // Color of Tiles: Turquise
             /*  
                 X A X X  */
-            matrix[1][0] = new Tile(Color::red);
-            matrix[1][1] = new Tile(Color::red);
-            matrix[1][2] = new Tile(Color::red);
-            matrix[1][3] = new Tile(Color::red);
+            matrix[1][0] = new Tile(Color::turquoise);
+            matrix[1][1] = new Tile(Color::turquoise);
+            matrix[1][2] = new Tile(Color::turquoise);
+            matrix[1][3] = new Tile(Color::turquoise);
             angle = 0; 
         }            
 };
