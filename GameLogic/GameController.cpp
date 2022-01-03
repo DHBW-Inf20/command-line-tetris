@@ -8,6 +8,7 @@
 #include <thread>
 #include <atomic>
 
+#include <shared_mutex>
 
 #ifndef _config_
 #define _config_
@@ -41,6 +42,8 @@ private:
     bool checkCanMove(TetrisBlock *block, char direction);
     void checkRows();
     void deleteRow(int row);
+    mutable std::mutex mainLock;
+
     int moveDownLimiter;
     bool isSpawningBalanced(int number);
     bool canDelete;
@@ -80,9 +83,9 @@ bool GameController::tryInsertCurrentBlockInField()
             {
                 field[i][j] = tetrisBlockTile;
             }
-            else if(tetrisBlockTile != nullptr && matrixBlockTile != nullptr)
+            else if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr)
             {
-                // Warum geht das nicht amk?               
+                // Warum geht das nicht amk?
                 printf("Stop");
                 finish();
             }
@@ -96,8 +99,8 @@ bool GameController::tryInsertCurrentBlockInField()
 bool GameController::isSpawningBalanced(int number)
 {
     float sum = blocksSpawned[0] + blocksSpawned[1] + blocksSpawned[2] + blocksSpawned[3] + blocksSpawned[4] + blocksSpawned[5] + blocksSpawned[6];
-    float avg = sum/7;
-    if(blocksSpawned[number] > avg)
+    float avg = sum / 7;
+    if (blocksSpawned[number] > avg)
     {
         return false;
     }
@@ -107,12 +110,12 @@ bool GameController::isSpawningBalanced(int number)
 void GameController::createBlock()
 {
     int num = GetRandomNumberBetween(0, 6);
-    while(!isSpawningBalanced(num))
+    while (!isSpawningBalanced(num))
     {
         num = GetRandomNumberBetween(0, 6);
     }
 
-    switch (num) 
+    switch (num)
     {
     case 0:
         currentBlock = new BlueRicky();
@@ -144,7 +147,6 @@ void GameController::createBlock()
         break;
     }
     currentBlockLastUpdate = currentBlock;
-
 }
 
 void GameController::bKeyPressed()
@@ -173,7 +175,7 @@ void GameController::deleteRow(int row)
 
 void GameController::checkRows()
 {
-    if(canDelete)
+    if (canDelete)
     {
         for (int i = 1; i < rowCount - 1; i++)
         {
@@ -185,43 +187,51 @@ void GameController::checkRows()
             }
             if (matches == columnCount)
             {
-                deleteRow(i);  
-                std::this_thread::sleep_for(std::chrono::milliseconds(150));        
+                deleteRow(i);
+                std::this_thread::sleep_for(std::chrono::milliseconds(150));
             }
         }
-        canDelete = false; 
+        canDelete = false;
     }
 }
 
 void GameController::dKeyPressed()
 {
-    if(checkCanMove(currentBlock, 'r'))
+    mainLock.lock();
+    if (checkCanMove(currentBlock, 'r'))
         currentBlock->tryMoveRight();
+    mainLock.unlock();
 }
 
 void GameController::aKeyPressed()
 {
-    if(checkCanMove(currentBlock, 'l'))
+    mainLock.lock();
+    if (checkCanMove(currentBlock, 'l'))
         currentBlock->tryMoveLeft();
+    mainLock.unlock();
 }
 
 void GameController::wKeyPressed()
-{       
-    if(checkCanMove(currentBlock,'t'))
+{
+    mainLock.lock();
+    if (checkCanMove(currentBlock, 't'))
         currentBlock->tryRotateRight();
+    mainLock.unlock();
 }
 
 void GameController::sKeyPressed()
 {
+    mainLock.lock();
     if (checkCanMove(currentBlock, 'd'))
         currentBlock->tryMoveDown();
+    mainLock.unlock();
 }
 
 GameController::GameController()
 {
     field = create2DArray<Tile *>(rowCount, columnCount); // [Reihe][Spalte]
     moveDownLimiter = 0;
-    for(int i = 0; i < 7; i++)
+    for (int i = 0; i < 7; i++)
     {
         blocksSpawned[i] = 0;
     }
@@ -234,10 +244,11 @@ bool GameController::isGameRunning()
 
 void GameController::update()
 {
+    mainLock.lock();
     if (tryInsertCurrentBlockInField())
         ui.draw(field);
 
-    if(moveDownLimiter == 10)
+    if (moveDownLimiter == 10)
     {
         if (checkCanMove(currentBlock, 'd'))
         {
@@ -246,13 +257,13 @@ void GameController::update()
         else
         {
             canDelete = true; // Reihe darf gelöscht werden
-            createBlock(); // Am Boden
-
+            createBlock();    // Am Boden
         }
         moveDownLimiter = 0;
     }
     checkRows();
     moveDownLimiter++;
+    mainLock.unlock();
 }
 
 bool GameController::checkCanMove(TetrisBlock *block, char direction)
@@ -275,7 +286,7 @@ bool GameController::checkCanMove(TetrisBlock *block, char direction)
         noBorder = tileCopy->tryRotateRight();
         break;
     default:
-        break;
+        return false;
     }
     if (!noBorder) // Block am Rand -> kein Verschieben möglich
     {
