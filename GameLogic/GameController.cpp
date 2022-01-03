@@ -322,15 +322,11 @@ bool GameController::checkCanMove(TetrisBlock *block, char direction)
             if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr) // Verboten (Position ist nicht frei)
             {
                 delete tileCopy;
-                 ui.draw3(fieldCopy);
-                   ui.draw2(tetrisBlockMatrix);
                 return false;
             }
         } 
             
-    }
-      ui.draw2(tetrisBlockMatrix);
-  ui.draw3(fieldCopy);  
+    }  
     delete tileCopy;
     return true;
 }

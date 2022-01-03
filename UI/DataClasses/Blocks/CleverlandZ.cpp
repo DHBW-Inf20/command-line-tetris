@@ -6,7 +6,7 @@
 class CleverlandZ: public TetrisBlock
 {
     public:
-       CleverlandZ(const TetrisBlock& block) :TetrisBlock(block)
+       CleverlandZ(const TetrisBlock& block) : TetrisBlock(block)
        {
        }
        

@@ -5,6 +5,16 @@
 class Hero: public TetrisBlock
 {
     public:
+        Hero(const TetrisBlock& block) : TetrisBlock(block)
+        {
+        }
+
+        TetrisBlock* clone(TetrisBlock* block) override
+        {
+            auto a = new Hero(*block);
+            return a;
+        };
+
         void rotateRight() override
         {
             switch (angle)

@@ -5,6 +5,16 @@
 class Smashboy:public TetrisBlock
 {
     public:
+        Smashboy(const TetrisBlock& block) : TetrisBlock(block)
+        {
+        }
+
+        TetrisBlock* clone(TetrisBlock* block) override
+        {
+            auto a = new Smashboy(*block);
+            return a;
+        };
+        
         void rotateRight() override
         {
             // Do nothing

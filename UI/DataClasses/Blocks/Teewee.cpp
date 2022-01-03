@@ -6,6 +6,16 @@
 class Teewee:public TetrisBlock
 {
     public:
+        Teewee(const TetrisBlock& block) : TetrisBlock(block)
+        {
+        }
+
+        TetrisBlock* clone(TetrisBlock* block) override
+        {
+            auto a = new Teewee(*block);
+            return a;
+        };
+        
         void rotateRight() override
         {
             switch (angle)
