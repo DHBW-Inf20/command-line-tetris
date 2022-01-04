@@ -105,6 +105,7 @@ int key_press()
         }
     }
 }
+
 bool Keylistener::isRunning()
 {   
     runningMutex.lock();
@@ -112,6 +113,7 @@ bool Keylistener::isRunning()
     runningMutex.unlock();
     return running;
 }
+
 void Keylistener::pollingLoop()
 {    
     while (isRunning())
@@ -134,6 +136,7 @@ void Keylistener::pollingLoop()
 Keylistener::Keylistener()
 {
 }
+
 void Keylistener::startMultithreaded()
 { 
     if(this->isRunning()) return;  
@@ -143,24 +146,28 @@ void Keylistener::startMultithreaded()
     std::thread s ([this](){pollingLoop();});    
     s.detach();
 }
+
 void Keylistener::stop()
 {
     runningMutex.lock();
     this->running = false;
     runningMutex.unlock();
 }
+
 void Keylistener::registerHandler(int key, std::function<void()> handler)
 {
     eventHandlerMutex.lock();    
     eventHandlers[key] = handler;
     eventHandlerMutex.unlock();
 }
+
 void Keylistener::removeHandler(int key)
 {
     eventHandlerMutex.lock();    
     eventHandlers.erase(key);
     eventHandlerMutex.unlock();
 }
+
 Keylistener::~Keylistener()
 {
 }
