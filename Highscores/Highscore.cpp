@@ -64,16 +64,21 @@ void showHighscore()
 
 void addHighscore(int score, std::string name)
 { 
+   // Probleme bereits geprüft => keine Probleme:
+   // - Wird nicht aufgerufen
+   // - Score falsch
+
    std::vector<std::string> lineArr = getHighScores();
-   std::vector<std::string> splitVector;
    bool isBigger = false;
    int position;
    int num;
+   
    for(int i = 1; i < 11; i++)
    {
+      std::vector<std::string> splitVector;
       split(lineArr[i], ' ', splitVector);
       num = std::stoi(splitVector[1]); // actual score as int
-      if(score >= num)
+      if(score > num)
       {
          isBigger = true;
          position = i;
@@ -87,7 +92,9 @@ void addHighscore(int score, std::string name)
       {
          lineArr[i+1] = lineArr[i];
       }
-      lineArr[position] = name + ", " + std::to_string(score) + " Punkte";
+      std::string scoreStr = std::to_string(score);
+      lineArr[position] = name + ", " + scoreStr + " Punkte";
+      // Bis hier kommt er nicht
       writeToFile(lineArr);
    }
 }
