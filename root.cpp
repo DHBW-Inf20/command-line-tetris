@@ -48,6 +48,7 @@ int main()
                     controller->update();        
                 }
                 controller->stop();
+                listener->stop();
                 delete controller;
                 delete listener;
             });
