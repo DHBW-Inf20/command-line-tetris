@@ -44,6 +44,7 @@ private:
     void checkRows();
     void deleteRow(int row);
     mutable std::mutex mainLock;
+    int waitingTime[11] = {18, 16, 15, 13, 11, 10, 8, 7, 5, 4, 3};
 
     int moveDownLimiter;
     bool isSpawningBalanced(int number);
@@ -298,7 +299,7 @@ void GameController::update()
     if (tryInsertCurrentBlockInField())
         ui.draw(field, score, level);
 
-    if (moveDownLimiter == 11)
+    if (moveDownLimiter == waitingTime[level])
     {
         if (checkCanMove(currentBlock, 'd'))
         {

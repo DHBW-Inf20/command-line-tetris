@@ -44,7 +44,7 @@ int main()
                 controller->start();    
                 while (controller->isGameRunning())
                 {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(15));
+                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
                     controller->update();        
                 }
                 controller->stop();

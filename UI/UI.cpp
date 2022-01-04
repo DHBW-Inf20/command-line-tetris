@@ -141,7 +141,7 @@ void UI::addScoreAndLevel(int score, int level)
     const char * chLevel = strLevel.c_str();
 
     // Berandung Score
-    for(int j = 27; j < 40; j++)
+    for(int j = 27; j < 44; j++)
     {
         moveTo(5,j);
         puts("▄");
@@ -152,9 +152,9 @@ void UI::addScoreAndLevel(int score, int level)
     puts("█");
     moveTo(7,27);
     puts("█");
-    moveTo(6,39);
+    moveTo(6,43);
     puts("█");
-    moveTo(7,39);
+    moveTo(7,43);
     puts("█");
     
     // Eintragen Score&Level
