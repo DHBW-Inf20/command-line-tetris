@@ -15,8 +15,17 @@ int showStartMenuSelect(){
                 <<"2:\t View the highscores" << std::endl
                 <<"0:\t Close the application" << std::endl;
     std::cin >> selection;
- 
-    return std::atoi(selection.c_str());
+    
+    int res = -1;
+    try
+    {
+        res =  std::stoi(selection.c_str());
+    }
+    catch(...)
+    {
+        
+    }
+    return res;
 }
 
 int main()

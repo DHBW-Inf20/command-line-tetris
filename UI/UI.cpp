@@ -130,6 +130,7 @@ void UI::clear()
 {
     clearScreen();
     restoreConsole();
+     moveTo(0,0);
 }
 
 

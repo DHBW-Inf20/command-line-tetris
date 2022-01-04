@@ -94,7 +94,7 @@ bool GameController::tryInsertCurrentBlockInField()
             {
                 // Warum geht das nicht amk?
                 printf("Stop");
-                finish();
+                finish();               
             }
         }
     }
@@ -155,7 +155,17 @@ void GameController::createBlock()
     }
 
     auto matrix = currentBlock->buildMatrix();
-    
+    for (int i = 0; i < rowCount; i++)
+    {
+        for (int j = 0; j < columnCount; j++)
+        {
+            if(field[i][j]!=nullptr&&matrix[i][j]!=nullptr)
+            {
+                finish();
+                return;
+            }
+        }
+    }
 
     currentBlockLastUpdate = currentBlock;
 }
@@ -384,7 +394,7 @@ void GameController::start()
 
 void GameController::finish()
 {
-    gameRunning = false;
+    gameRunning = false;   
     printf("Game Over\n");
 }
 
