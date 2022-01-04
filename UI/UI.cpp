@@ -21,10 +21,11 @@
 class UI
 {
     private:
-        Color actualColor;            
+        Color actualColor;   
+        void addScoreAndLevel(int score, int level);         
 
     public:
-        void draw(std::vector<std::vector<Tile*>>); // [Reihe][Spalte]);
+        void draw(std::vector<std::vector<Tile*>>, int score, int level); // [Reihe][Spalte]);
 
         UI()
         {
@@ -70,7 +71,7 @@ class UI
 };
 
 
-void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
+void UI::draw(std::vector<std::vector<Tile*>> field, int score, int level) // [Reihe][Spalte])
 {          
     clearLine();
     hideCursor();
@@ -119,8 +120,44 @@ void UI::draw(std::vector<std::vector<Tile*>> field) // [Reihe][Spalte])
             moveTo(i+1,(j*2)+1);
             puts("██"); //▉
             moveUp(1);                
-        }  
-     
+        }    
     } 
+    addScoreAndLevel(score, level); // Show Score and Level
     moveTo(0,0);
+}
+
+void UI::addScoreAndLevel(int score, int level)
+{
+    std::string strScore = std::to_string(score);
+    std::string strLevel = std::to_string(level);
+    const char * chScore = strScore.c_str();
+    const char * chLevel = strLevel.c_str();
+    
+    // Berandung Score
+    for(int j = 27; j < 40; j++)
+    {
+        moveTo(5,j);
+        puts("▄");
+        moveTo(8,j);
+        puts("▀");
+    }
+    moveTo(6,27);
+    puts("█");
+    moveTo(7,27);
+    puts("█");
+    moveTo(6,39);
+    puts("█");
+    moveTo(7,39);
+    puts("█");
+    
+    // Eintragen Score&Level
+    moveTo(6,28);
+    puts("Level: ");
+    moveTo(6,35);
+    puts(chLevel);
+
+    moveTo(7,28);
+    puts("Score: ");
+    moveTo(7,35);
+    puts(chScore);
 }

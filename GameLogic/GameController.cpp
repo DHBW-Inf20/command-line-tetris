@@ -48,6 +48,9 @@ private:
     int moveDownLimiter;
     bool isSpawningBalanced(int number);
     bool canDelete;
+    int level;
+    int score;
+    int rowsCleared;
 
 public:
     GameController();
@@ -179,6 +182,7 @@ void GameController::checkRows()
 {
     if (canDelete)
     {
+        int rowsDeleted = 0;
         for (int i = 1; i < rowCount - 1; i++)
         {
             int matches = 0;
@@ -190,10 +194,36 @@ void GameController::checkRows()
             if (matches == columnCount)
             {
                 deleteRow(i);
+                rowsDeleted++;
                 std::this_thread::sleep_for(std::chrono::milliseconds(150));
             }
         }
         canDelete = false;
+        
+        switch (rowsDeleted) // Add Score
+        {
+        case 1:
+            score = score + (40+(40*level));
+            break;
+        case 2:
+            score = score + (100+(100*level));
+            break;
+        case 3:
+            score = score + (300+(300*level));
+            break;
+        case 4:
+            score = score + (1200+(1200*level));
+            break;
+        default: // = 0 lines cleared
+            break;
+        }
+
+        rowsCleared = rowsCleared + rowsDeleted;
+        if(rowsCleared >= 10 && level < 10)
+        {
+            level++;
+            rowsCleared = rowsCleared - 10;
+        }
     }
 }
 
@@ -261,9 +291,9 @@ void GameController::update()
 {
     mainLock.lock();
     if (tryInsertCurrentBlockInField())
-        ui.draw(field);
+        ui.draw(field, score, level);
 
-    if (moveDownLimiter == 10)
+    if (moveDownLimiter == 11)
     {
         if (checkCanMove(currentBlock, 'd'))
         {
@@ -341,6 +371,9 @@ void GameController::start()
     canDelete = false;
     ui.init(field);
     createBlock();
+    level = 0;
+    score = 0;
+    rowsCleared = 0;
 }
 
 void GameController::finish()
