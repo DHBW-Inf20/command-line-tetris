@@ -66,6 +66,7 @@ public:
     void sKeyPressed();
     void enterKeyPressed();
     void stop();
+    int getScore();
 
     ~GameController();
 };
@@ -401,6 +402,11 @@ void GameController::finish()
 void GameController::stop()
 {
     ui.clear();
+}
+
+int GameController::getScore()
+{
+    return score;
 }
 
 GameController::~GameController()

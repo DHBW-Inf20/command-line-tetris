@@ -7,7 +7,10 @@
 #include "GameLogic/Input/Keylistener.hpp"
 #include "Highscores/Highscore.cpp"
 
-int showStartMenuSelect(){
+int showStartMenuSelect()
+{
+    moveTo(0,0);
+    clearScreen();
     std::string selection;
     std::cout   <<"Welcome to our Tetris project" << std::endl
                 <<"Select what you want to do" << std::endl
@@ -35,6 +38,10 @@ int main()
         switch (selection)
         {
         case 1:{
+            printf("Insert your Name: ");
+            std::string name;
+            std::cin >> name;
+            
             GameController* controller  = new GameController();
             Keylistener* listener = new Keylistener();
 
@@ -48,7 +55,7 @@ int main()
             listener->registerHandler(32, [controller]() {controller->enterKeyPressed();}); // enter
             listener->startMultithreaded(); 
 
-            std::thread game([controller, listener]()
+            std::thread game([controller, listener, name]()
             {
                 controller->start();    
                 while (controller->isGameRunning())
@@ -57,7 +64,11 @@ int main()
                     controller->update();        
                 }
                 listener->stop();
-                controller->stop();            
+                controller->stop();
+
+                int score = controller->getScore();
+                addHighscore(score, name);
+                
                 delete controller;
                 delete listener;
             });
@@ -65,7 +76,10 @@ int main()
             break;
         }
         case 2:
+            clearScreen();
+            moveTo(0,0);
             showHighscore();
+            std::this_thread::sleep_for(std::chrono::milliseconds(5000));
             break;
         default:
             std::cout << "This is not a valid option\n";
