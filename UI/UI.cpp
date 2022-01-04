@@ -31,7 +31,7 @@ class UI
         {
                
         }
-        
+        void clear();
         void init(std::vector<std::vector<Tile*>> & field)
         {
             clearScreen();   
@@ -126,13 +126,20 @@ void UI::draw(std::vector<std::vector<Tile*>> field, int score, int level) // [R
     moveTo(0,0);
 }
 
+void UI::clear()
+{
+    clearScreen();
+    restoreConsole();
+}
+
+
 void UI::addScoreAndLevel(int score, int level)
 {
     std::string strScore = std::to_string(score);
     std::string strLevel = std::to_string(level);
     const char * chScore = strScore.c_str();
     const char * chLevel = strLevel.c_str();
-    
+
     // Berandung Score
     for(int j = 27; j < 40; j++)
     {

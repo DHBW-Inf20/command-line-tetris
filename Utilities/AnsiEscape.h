@@ -1,6 +1,7 @@
 //https://solarianprogrammer.com/2019/04/08/c-programming-ansi-escape-codes-windows-macos-linux-terminals/
 #include <stdio.h>
 #include <iostream>
+#include <stdio.h>
 
 enum Colors {
     RESET_COLOR,
@@ -28,6 +29,12 @@ enum ClearCodes {
   CLEAR_FROM_CURSOR_TO_BEGIN,
   CLEAR_ALL
 };
+
+void restoreConsole(void) {
+   // Reset colors
+     printf("\x1b[0m");	
+ }
+
 
  void setTextColor(int code) {
     printf("\x1b[%dm", code);

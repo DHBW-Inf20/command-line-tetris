@@ -47,6 +47,7 @@ int main()
                     std::this_thread::sleep_for(std::chrono::milliseconds(15));
                     controller->update();        
                 }
+                controller->stop();
                 delete controller;
                 delete listener;
             });
