@@ -56,8 +56,8 @@ int main()
                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
                     controller->update();        
                 }
-                controller->stop();
                 listener->stop();
+                controller->stop();            
                 delete controller;
                 delete listener;
             });
