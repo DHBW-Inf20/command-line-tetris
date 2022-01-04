@@ -5,8 +5,7 @@
 #include <vector>
 #include <map>
 
-void split(const std::string &s, char c,
-           std::vector<std::string> &v)
+void split(const std::string &s, char c, std::vector<std::string> &v)
 {
    std::string::size_type i = 0;
    std::string::size_type j = s.find(c);
@@ -22,29 +21,26 @@ void split(const std::string &s, char c,
    }
 }
 
-void showHighscore(){
+void showHighscore()
 {
-   int platz = 1;
-    std::string res;
-   std::ifstream stream;
-   stream.open("Highscores/Highscore.csv");
-   std::string line;
-   if (stream.is_open())
    {
-    std::getline(stream, line);  
-       for (int i = 1; i < 6; i++)
-       {
-           std::vector<std::string> v;
-           std::getline(stream, line);
-           split(line, ',', v);
+      int platz = 1;
+      std::string res;
+      std::ifstream stream;
+      stream.open("Highscores/Highscore.csv");
+      std::string line;
+      if (stream.is_open())
+      {
+         std::getline(stream, line);  
+         for (int i = 1; i < 6; i++)
+         {
+            std::vector<std::string> v;
+            std::getline(stream, line);
+            split(line, ',', v);
             std::cout << "Platz " << platz << ": " << v[0] << " mit"  << v[1] << std::endl; 
             platz++;
-       }
-      
-      stream.close();
-}
-
-}
-
-
+         }
+         stream.close();
+      }
+   }
 }

@@ -24,37 +24,44 @@ enum Colors {
     WHITE_BKG    
 };
 
-enum ClearCodes {
+enum ClearCodes 
+{
   CLEAR_FROM_CURSOR_TO_END,
   CLEAR_FROM_CURSOR_TO_BEGIN,
   CLEAR_ALL
 };
 
-void restoreConsole(void) {
+void restoreConsole(void) 
+{
    // Reset colors
      printf("\x1b[0m");	
- }
+}
 
 
- void setTextColor(int code) {
+void setTextColor(int code) 
+{
     printf("\x1b[%dm", code);
 }
 
- void setTextColorBright(int code) {
+void setTextColorBright(int code) 
+{
     printf("\x1b[%d;1m", code);
 }
 
-void clearScreen(void) {
-printf("\x1b[%dJ", CLEAR_ALL);
- }
+void clearScreen(void) 
+{
+    printf("\x1b[%dJ", CLEAR_ALL);
+}
  
-void clearScreenToBottom(void) {
+void clearScreenToBottom(void) 
+{
 	printf("\x1b[%dJ", CLEAR_FROM_CURSOR_TO_END);
 }
 
-void clearScreenToTop(void) {
+void clearScreenToTop(void) 
+{
 	printf("\x1b[%dJ", CLEAR_FROM_CURSOR_TO_BEGIN);
- }
+}
 
 void hideCursor() //https://rosettacode.org/wiki/Terminal_control/Hiding_the_cursor
 {
@@ -65,12 +72,14 @@ void moveRight(int positions)
 {
     printf("\x1b[%dC", positions); 
 }
+
 void moveUp(int positions)
 {
     printf("\x1b[%dA", positions);
 }
 
-void clearLine(void) {
+void clearLine(void) 
+{
  	printf("\x1b[%dK", CLEAR_ALL);
 }
 
