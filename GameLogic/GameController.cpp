@@ -51,19 +51,20 @@ private:
     int level;
     int score;
     int rowsCleared;
+    void finish();
 
 public:
     GameController();
     bool isGameRunning();
     void update();
-    void start();
-    void finish();
+    void start();   
     void bKeyPressed();
     void dKeyPressed();
     void aKeyPressed();
     void wKeyPressed();
     void sKeyPressed();
     void enterKeyPressed();
+    void stop();
 
     ~GameController();
 };
@@ -151,6 +152,10 @@ void GameController::createBlock()
         blocksSpawned[6]++;
         break;
     }
+
+    auto matrix = currentBlock->buildMatrix();
+    
+
     currentBlockLastUpdate = currentBlock;
 }
 
@@ -380,6 +385,11 @@ void GameController::finish()
 {
     gameRunning = false;
     printf("Game Over\n");
+}
+
+void GameController::stop()
+{
+    ui.clear();
 }
 
 GameController::~GameController()
