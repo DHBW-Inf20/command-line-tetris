@@ -31,6 +31,24 @@ int showStartMenuSelect()
     return res;
 }
 
+void showGameOver(int score, std::string name, int level)
+{
+    std::string tempScore = "Score: " + std::to_string(score);
+    std::string tempLevel = "Level: " + std::to_string(level);
+    std::string tempName = "Name: " + name;
+    const char * chName = tempName.c_str();
+    const char * chScore = tempScore.c_str();
+    const char * chLevel = tempLevel.c_str();
+
+    clearScreen();
+    moveTo(0,0);
+    puts("GAME OVER \n");
+    puts(chName);
+    puts(chLevel);
+    puts(chScore);
+    std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+}
+
 int main()
 {    
     while(int selection = showStartMenuSelect())
@@ -67,8 +85,10 @@ int main()
                 controller->stop();
 
                 int score = controller->getScore();
+                int level = controller->getLevel();
                 addHighscore(score, name);
-                
+                showGameOver(score, name, level);
+
                 delete controller;
                 delete listener;
             });

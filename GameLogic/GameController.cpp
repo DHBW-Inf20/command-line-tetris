@@ -67,6 +67,7 @@ public:
     void enterKeyPressed();
     void stop();
     int getScore();
+    int getLevel();
 
     ~GameController();
 };
@@ -407,6 +408,11 @@ void GameController::stop()
 int GameController::getScore()
 {
     return score;
+}
+
+int GameController::getLevel()
+{
+    return level;
 }
 
 GameController::~GameController()
