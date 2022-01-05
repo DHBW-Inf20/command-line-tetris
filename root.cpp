@@ -6,6 +6,9 @@
 #include "GameLogic/GameController.cpp"
 #include "GameLogic/Input/Keylistener.hpp"
 #include "Highscores/Highscore.cpp"
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 int showStartMenuSelect()
 {
@@ -51,6 +54,10 @@ void showGameOver(int score, std::string name, int level)
 
 int main()
 {    
+    #ifdef _WIN32
+    // Make utf8 vaible
+    SetConsoleOutputCP(CP_UTF8);
+    #endif
     while(int selection = showStartMenuSelect())
     {
         switch (selection)
