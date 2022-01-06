@@ -54,6 +54,8 @@ void showGameOver(int score, std::string name, int level)
 
 int main()
 {    
+    setupConsole();
+    restoreConsole();
     #ifdef _WIN32
     // Make utf8 vaible
     SetConsoleOutputCP(CP_UTF8);
@@ -93,13 +95,11 @@ int main()
 
                 int score = controller->getScore();
                 int level = controller->getLevel();
-
                 addHighscore(score, name);
                 showGameOver(score, name, level);
 
                 delete controller;
                 delete listener;
-                showCursor();
             });
             game.join();
             break;
