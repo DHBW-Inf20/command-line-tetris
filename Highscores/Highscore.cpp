@@ -5,6 +5,20 @@
 #include <vector>
 #include <map>
 
+void writeToFile(std::vector<std::string> lines)
+{
+   std::ofstream stream;
+   stream.open("Highscores/Highscore.csv");
+   if(stream.is_open())
+   {
+      for(int i = 0; i < 11; i++)
+      {
+         stream << lines[i] << std::endl;
+      }
+      stream << "Test" << std::endl;
+   }
+}
+
 void split(const std::string &s, char c, std::vector<std::string> &v)
 {
    std::string::size_type i = 0;
@@ -21,26 +35,66 @@ void split(const std::string &s, char c, std::vector<std::string> &v)
    }
 }
 
+std::vector<std::string> getHighScores()
+{
+   std::vector<std::string> lineArr;
+   std::ifstream stream;
+   stream.open("Highscores/Highscore.csv", std::ios::out);
+   std::string line;
+   if (stream.is_open())
+   {
+      while(std::getline(stream, line))
+      {
+         lineArr.push_back(line);
+      }
+   }
+   stream.close(); 
+   return lineArr;
+}
+
 void showHighscore()
 {
+   std::vector<std::string> v;
+   std::vector<std::string> lineArr = getHighScores();
+   for(int i = 1; i < 11; i++)
    {
-      int platz = 1;
-      std::string res;
-      std::ifstream stream;
-      stream.open("Highscores/Highscore.csv");
-      std::string line;
-      if (stream.is_open())
+      std::cout << i << ". Platz:" <<  lineArr[i] << std::endl;
+   }
+}
+
+void addHighscore(int score, std::string name)
+{ 
+   // Probleme bereits geprüft => keine Probleme:
+   // - Wird nicht aufgerufen
+   // - Score falsch
+
+   std::vector<std::string> lineArr = getHighScores();
+   bool isBigger = false;
+   int position;
+   int num;
+   
+   for(int i = 1; i < 11; i++)
+   {
+      std::vector<std::string> splitVector;
+      split(lineArr[i], ' ', splitVector);
+      num = std::stoi(splitVector[1]); // actual score as int
+      if(score > num)
       {
-         std::getline(stream, line);  
-         for (int i = 1; i < 6; i++)
-         {
-            std::vector<std::string> v;
-            std::getline(stream, line);
-            split(line, ',', v);
-            std::cout << "Platz " << platz << ": " << v[0] << " mit"  << v[1] << std::endl; 
-            platz++;
-         }
-         stream.close();
+         isBigger = true;
+         position = i;
+         break;
       }
+   }
+
+   if(isBigger) // Einfügen
+   {   
+      for(int i = position; i < 10; i++)
+      {
+         lineArr[i+1] = lineArr[i];
+      }
+      std::string scoreStr = std::to_string(score);
+      lineArr[position] = name + ", " + scoreStr + " Punkte";
+      // Bis hier kommt er nicht
+      writeToFile(lineArr);
    }
 }

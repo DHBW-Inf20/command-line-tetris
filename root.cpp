@@ -6,8 +6,14 @@
 #include "GameLogic/GameController.cpp"
 #include "GameLogic/Input/Keylistener.hpp"
 #include "Highscores/Highscore.cpp"
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
-int showStartMenuSelect(){
+int showStartMenuSelect()
+{
+    moveTo(0,0);
+    clearScreen();
     std::string selection;
     std::cout   <<"Welcome to our Tetris project" << std::endl
                 <<"Select what you want to do" << std::endl
@@ -28,13 +34,39 @@ int showStartMenuSelect(){
     return res;
 }
 
+void showGameOver(int score, std::string name, int level)
+{
+    std::string tempScore = "Score: " + std::to_string(score);
+    std::string tempLevel = "Level: " + std::to_string(level);
+    std::string tempName = "Name: " + name;
+    const char * chName = tempName.c_str();
+    const char * chScore = tempScore.c_str();
+    const char * chLevel = tempLevel.c_str();
+
+    clearScreen();
+    moveTo(0,0);
+    puts("GAME OVER \n");
+    puts(chName);
+    puts(chLevel);
+    puts(chScore);
+    std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+}
+
 int main()
 {    
+    #ifdef _WIN32
+    // Make utf8 vaible
+    SetConsoleOutputCP(CP_UTF8);
+    #endif
     while(int selection = showStartMenuSelect())
     {
         switch (selection)
         {
         case 1:{
+            printf("Insert your Name: ");
+            std::string name;
+            std::cin >> name;
+            
             GameController* controller  = new GameController();
             Keylistener* listener = new Keylistener();
 
@@ -48,7 +80,7 @@ int main()
             listener->registerHandler(32, [controller]() {controller->enterKeyPressed();}); // enter
             listener->startMultithreaded(); 
 
-            std::thread game([controller, listener]()
+            std::thread game([controller, listener, name]()
             {
                 controller->start();    
                 while (controller->isGameRunning())
@@ -57,7 +89,13 @@ int main()
                     controller->update();        
                 }
                 listener->stop();
-                controller->stop();            
+                controller->stop();
+
+                int score = controller->getScore();
+                int level = controller->getLevel();
+                addHighscore(score, name);
+                showGameOver(score, name, level);
+
                 delete controller;
                 delete listener;
             });
@@ -65,7 +103,10 @@ int main()
             break;
         }
         case 2:
+            clearScreen();
+            moveTo(0,0);
             showHighscore();
+            std::this_thread::sleep_for(std::chrono::milliseconds(5000));
             break;
         default:
             std::cout << "This is not a valid option\n";
