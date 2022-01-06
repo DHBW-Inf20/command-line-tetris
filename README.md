@@ -1,5 +1,6 @@
 # Tetris auf der Kommandozeile
 
+### Allgemeine Informationen
 - Projektteilnehmer: Jonathan Schwab, Luca Negron, Jonas Weis
 - Programmiersprache: C++
 - Build-Command: Wir haben im "out"-Verzeichnis eine Makefile
