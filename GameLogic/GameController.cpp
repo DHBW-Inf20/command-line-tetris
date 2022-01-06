@@ -68,7 +68,7 @@ public:
     void stop();
     int getScore();
     int getLevel();
-
+    // Test .gitignore
     ~GameController();
 };
 
