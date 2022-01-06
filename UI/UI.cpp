@@ -97,7 +97,7 @@ void UI::draw(std::vector<std::vector<Tile*>> field, int score, int level) // [R
                     setTextColor(GREEN_TXT);
                     break;
                 case Color::orange:
-                    setTextColor(BLUE_TXT); // Eigentlich orange, gibt es jedoch nicht bei dem ANSI Zeugs!!! @JDEV
+                    setTextColor(RED_TXT); // Eigentlich orange, gibt es jedoch nicht bei dem ANSI Zeugs!!! @JDEV
                     break;
                 case Color::red:
                     setTextColor(RED_TXT);
