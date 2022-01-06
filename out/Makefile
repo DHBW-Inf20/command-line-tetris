@@ -6,7 +6,7 @@ tetris:
 	$(command) -c ../UI/DataClasses/*.cpp
 	$(command) -c ../UI/DataClasses/Blocks/*.cpp
 	$(command) -c ../Utilities/*.cpp
-	$(command) -c ../Highscores/*.cpp
+	$(command) -c ../GameLogic/Highscores/*.cpp
 	$(command) -c ../GameLogic/*.cpp
 	$(command) -c ../GameLogic/Input/*.cpp
 	$(command) -o tetris  *.o

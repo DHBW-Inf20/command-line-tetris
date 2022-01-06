@@ -24,9 +24,6 @@
     <ClCompile Include="gamelogic\input\Keylistener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="highscores\Highscore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ui\UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,6 +66,9 @@
     <ClCompile Include="Utilities\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameLogic\Highscores\Highscore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gamelogic\input\keylib.h">
@@ -87,9 +87,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="utilities\Utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Highscores\Highscore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameLogic\GameController.h">
@@ -126,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gamelogic\input\Keylistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Highscores\Highscore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

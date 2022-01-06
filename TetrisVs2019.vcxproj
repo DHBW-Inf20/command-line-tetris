@@ -99,9 +99,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gamelogic\GameController.cpp" />
+    <ClCompile Include="GameLogic\Highscores\Highscore.cpp" />
     <ClCompile Include="GameLogic\Input\keylib.cpp" />
     <ClCompile Include="gamelogic\input\Keylistener.cpp" />
-    <ClCompile Include="highscores\Highscore.cpp" />
     <ClCompile Include="root.cpp" />
     <ClCompile Include="ui\dataclasses\blocks\BlueRicky.cpp" />
     <ClCompile Include="ui\dataclasses\blocks\CleverlandZ.cpp" />
@@ -119,9 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameLogic\GameController.h" />
+    <ClInclude Include="GameLogic\Highscores\Highscore.h" />
     <ClInclude Include="gamelogic\input\keylib.h" />
     <ClInclude Include="gamelogic\input\Keylistener.h" />
-    <ClInclude Include="Highscores\Highscore.h" />
     <ClInclude Include="ui\Config.h" />
     <ClInclude Include="UI\DataClasses\Blocks\BlueRicky.h" />
     <ClInclude Include="UI\DataClasses\Blocks\CleverlandZ.h" />

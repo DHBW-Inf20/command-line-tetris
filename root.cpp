@@ -6,8 +6,8 @@
 #include <string>
 #include "GameLogic/GameController.h"
 #include "GameLogic/Input/Keylistener.h"
-#include "Highscores/Highscore.h"
 #include "Utilities/AnsiEscape.h"
+#include "GameLogic/Highscores/Highscore.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -98,7 +98,7 @@ int main()
 
                 const auto score = controller->GetScore();
                 const auto level = controller->GetLevel();
-                AddHighscore(score, name);
+                AddHighscore(score, name);            	
                 ShowGameOver(score, name, level);
 
                 delete controller;
