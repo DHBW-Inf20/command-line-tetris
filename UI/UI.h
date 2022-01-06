@@ -17,15 +17,7 @@ public:
 
 	UI();
 	void Clear();
-	void Init(std::vector<std::vector<Tile*>>& field);
-	/* ~UI() Irgendwie so geht das
-	{
-	    for(int f = 0; f < 22; f++)
-	    {
-	        delete [] field[f];
-	    }
-	    delete [] field;
-	} */
+	void Init(std::vector<std::vector<Tile*>>& field);	
 };
 
 #endif // UI_H

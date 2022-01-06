@@ -16,7 +16,7 @@ class GameController
 private:
     std::atomic<bool> GameRunning = false;
     TetrisBlock* CurrentBlock{};
-    TetrisBlock* CurrentBlockLastUpdate{}; // Hier wird der Block vom letzten Update gespeichert -> So kann bei einer Änderung das Spielfeld rekonstruiert werden
+    TetrisBlock* CurrentBlockLastUpdate{}; // Hier wird der Block vom letzten Update gespeichert -> So kann bei einer ï¿½nderung das Spielfeld rekonstruiert werden
     std::vector<std::vector<Tile*>> Field;
     UI Ui;
     float BlocksSpawned[7]{};

@@ -8,6 +8,7 @@
 #include "GameLogic/Input/Keylistener.h"
 #include "Highscores/Highscore.h"
 #include "Utilities/AnsiEscape.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -55,7 +56,7 @@ void ShowGameOver(const int score, const std::string name, const int level)
 }
 
 int main()
-{    
+{
     setupConsole();
     restoreConsole();
     #ifdef _WIN32
@@ -107,7 +108,7 @@ int main()
             game.join();
             break;
         }
-        case 2:
+        case 2:     
             clearScreen();
             moveTo(0,0);
             ShowHighscore();

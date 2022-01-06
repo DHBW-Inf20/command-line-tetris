@@ -26,6 +26,7 @@ bool TetrisBlock::IsRowEmpty(const int row)
 	return true;
 }
 
+
 bool TetrisBlock::TryMoveLeft()
 {
 	if ((currentColumn > 0 && IsColumnEmpty(0)) || currentColumn > 1)

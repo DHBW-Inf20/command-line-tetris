@@ -7,14 +7,6 @@
 #include "Config.h"
 #include "../Utilities/AnsiEscape.h"
 
-/* ~UI() Irgendwie so geht das  TODO
-      {
-          for(int f = 0; f < 22; f++)
-          {
-              delete [] field[f];
-          }
-          delete [] field;
-      } */
 
 void UI::Draw(const std::vector<std::vector<Tile*>>& field, const int score, const int level) // [Reihe][Spalte])
 {          

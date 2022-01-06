@@ -8,7 +8,7 @@ int GetRandomNumberBetween(const int lower, const int upper)
     std::random_device rd;
     //Standard mersenne_twister_engine seeded with rd()
     std::mt19937 gen(rd());
-    const std::uniform_int_distribution<> dis(lower, upper);
+    std::uniform_int_distribution<> dis(lower, upper);
     return dis(gen);
 }
 
