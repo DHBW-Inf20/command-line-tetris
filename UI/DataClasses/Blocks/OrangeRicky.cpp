@@ -1,22 +1,18 @@
-#ifndef _tetrisblock_
-#define _tetrisblock_
-#include "../TetrisBlock.cpp"
-#endif
+#include "../TetrisBlock.h"
+#include "OrangeRicky.h"
 
-class OrangeRicky:public TetrisBlock
-{
-    public:
-        OrangeRicky(const TetrisBlock& block) : TetrisBlock(block)
+
+		OrangeRicky::OrangeRicky(const TetrisBlock& block) : TetrisBlock(block)
         {
         }
 
-        TetrisBlock* clone(TetrisBlock* block) override
+        TetrisBlock* OrangeRicky::Clone()
         {
-            auto a = new OrangeRicky(*block);
+	        auto* const a = new OrangeRicky(*this);
             return a;
         };
 
-        void rotateRight() override
+        void OrangeRicky::RotateRight()
         {
             switch (angle)
             {
@@ -87,7 +83,7 @@ class OrangeRicky:public TetrisBlock
                 break;
             }
         }
-        OrangeRicky()
+        OrangeRicky::OrangeRicky()
         {
             /*  
                 X A X    
@@ -98,4 +94,3 @@ class OrangeRicky:public TetrisBlock
             matrix[2][0] = new Tile(Color::orange);
             angle = 0;
         }
-};

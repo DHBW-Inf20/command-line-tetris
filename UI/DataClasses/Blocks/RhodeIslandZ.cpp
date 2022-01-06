@@ -1,22 +1,19 @@
-#ifndef _tetrisblock_
-#define _tetrisblock_
-#include "../TetrisBlock.cpp"
-#endif
+#include "../TetrisBlock.h"
+#include "RhodeIslandZ.h"
 
-class RhodeIslandZ:public TetrisBlock
-{
-    public:
-        RhodeIslandZ(const TetrisBlock& block) : TetrisBlock(block)
+
+		RhodeIslandZ::RhodeIslandZ(const TetrisBlock& block) : TetrisBlock(block)
         {
         }
 
-        TetrisBlock* clone(TetrisBlock* block) override
+        TetrisBlock* RhodeIslandZ::Clone()
         {
-            auto a = new RhodeIslandZ(*block);
+	        auto* const a = new RhodeIslandZ(*this);
             return a;
         };
+
         
-        void rotateRight() override
+        void RhodeIslandZ::RotateRight()
         {
             switch (angle)
             {
@@ -57,7 +54,7 @@ class RhodeIslandZ:public TetrisBlock
                 break;
             }
         }
-        RhodeIslandZ()
+        RhodeIslandZ::RhodeIslandZ()
         {
             /*    X X     
                 X A    */
@@ -67,4 +64,3 @@ class RhodeIslandZ:public TetrisBlock
             matrix[1][0] = new Tile(Color::green);
             angle = 0; 
         }
-};

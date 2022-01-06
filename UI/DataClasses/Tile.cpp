@@ -1,24 +1,19 @@
-#ifndef _color_
-#define _color_
-#include "Color.cpp"
-#endif
+#include "Tile.h"
+
+#include "Color.h"
 
 
-class Tile
+Tile::Tile(const Color col)
 {
-    private:
-        Color color;
-    public:
-        Tile(Color col)
-        {
-            this->color = col;
-        }
-        Tile()
-        {
-            this->color = Color::white;
-        }
-        Color getColor()
-        {
-            return this->color;
-        }
-};
+	this->color = col;
+}
+
+Tile::Tile()
+{
+	this->color = Color::white;
+}
+
+Color Tile::GetColor() const
+{
+	return this->color;
+}

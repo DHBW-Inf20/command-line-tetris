@@ -1,22 +1,20 @@
-#ifndef _tetrisblock_
-#define _tetrisblock_
-#include "../TetrisBlock.cpp"
-#endif
+#include "BlueRicky.h"
 
-class BlueRicky: public TetrisBlock
-{
-    public:
-       BlueRicky(const TetrisBlock& block) : TetrisBlock(block)
+#include "../TetrisBlock.h"
+
+
+
+BlueRicky::BlueRicky(const TetrisBlock& block) : TetrisBlock(block)
        {
        }
 
-        TetrisBlock* clone(TetrisBlock* block) override
+          TetrisBlock* BlueRicky::Clone()
         {
-            auto a = new BlueRicky(*block);
+	        auto* const a = new BlueRicky(*this);
             return a;
         };
 
-        void rotateRight() override
+        void BlueRicky::RotateRight()
         {
             switch (angle)
             {
@@ -94,7 +92,7 @@ class BlueRicky: public TetrisBlock
             }
         }
         
-        BlueRicky()
+        BlueRicky::BlueRicky()
         {                       
             /*
                 X A X       
@@ -105,4 +103,3 @@ class BlueRicky: public TetrisBlock
             matrix[2][2] = new Tile(Color::orange);
             angle = 0;
         }
-};

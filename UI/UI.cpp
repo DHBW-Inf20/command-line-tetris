@@ -1,88 +1,34 @@
-#ifndef _tile_
-#define _tile_
-#include "./DataClasses/Tile.cpp"
-#endif
+#include "UI.h"
 
-#include <stdio.h>
+#include <string>
 
+
+
+#include "Config.h"
 #include "../Utilities/AnsiEscape.h"
 
-#ifndef _config_
-#define _config_
-#include "Config.cpp"
-#endif
+/* ~UI() Irgendwie so geht das  TODO
+      {
+          for(int f = 0; f < 22; f++)
+          {
+              delete [] field[f];
+          }
+          delete [] field;
+      } */
 
-#ifndef _utilities_
-#define _utilities_
-#include "../Utilities/Utilities.h"
-#endif
-
-
-class UI
-{
-    private:
-        Color actualColor;   
-        void addScoreAndLevel(int score, int level);         
-
-    public:
-        void draw(std::vector<std::vector<Tile*>>, int score, int level); // [Reihe][Spalte]);
-
-        UI()
-        {
-               
-        }
-        void clear();
-        void init(std::vector<std::vector<Tile*>> & field)
-        {
-            clearScreen();   
-            
-            // Clear Field
-            for(int b = 0; b < rowCount; b++)
-            {
-                for(int c = 0; c < columnCount; c++)
-                {
-                    field[b][c] = nullptr;
-                }
-            }
-            
-            for(int k = 0; k < columnCount; k++)
-            {   // Oben und Unten Rand
-                field[0][k] = new Tile(Color::black);
-                field[rowCount-1][k] = new Tile(Color::black);
-            }
-            
-            // Die obersten zwei Zeilen fehlen, deshalb +1 put
-            // Die linkeste Zeile fehlt, deshalb +1 bei put
-
-            for(int h = 1; h < rowCount-1; h++)
-            {   // Links und Rechts Rand, [1;21] weil die bei der anderen schon gemacht wurden
-                field[h][0] = new Tile(Color::black);
-                field[h][columnCount-1] = new Tile(Color::black);
-            }
-        }
-        /* ~UI() Irgendwie so geht das
-        {
-            for(int f = 0; f < 22; f++)
-            {
-                delete [] field[f];
-            }
-            delete [] field;
-        } */
-};
-
-
-void UI::draw(std::vector<std::vector<Tile*>> field, int score, int level) // [Reihe][Spalte])
+void UI::Draw(const std::vector<std::vector<Tile*>>& field, const int score, const int level) // [Reihe][Spalte])
 {          
     clearLine();
     hideCursor();
-    for(int i=0; i<rowCount;i++)
-    {        
-        for(int j=0; j<columnCount;j++)
+
+    for(auto i=0; i<rowCount;i++)
+    { 
+        for(auto j=0; j<columnCount;j++)
         {                  
             if(field[i][j] != nullptr) // Sicherstellen, dass ein Objekt existiert
             {
-                actualColor = field[i][j]->getColor();
-                switch (actualColor)
+                ActualColor = field[i][j]->GetColor();
+                switch (ActualColor)
                 {
                 case Color::yellow:
                     setTextColor(YELLOW_TXT);
@@ -122,27 +68,62 @@ void UI::draw(std::vector<std::vector<Tile*>> field, int score, int level) // [R
             moveUp(1);                
         }    
     } 
-    addScoreAndLevel(score, level); // Show Score and Level
+    AddScoreAndLevel(score, level); // Show Score and Level
     moveTo(0,0);
 }
 
-void UI::clear()
+void UI::Clear()
 {
     clearScreen();
     restoreConsole();
     moveTo(0,0);
 }
 
-
-void UI::addScoreAndLevel(int score, int level)
+void UI::Init(std::vector<std::vector<Tile*>>& field)
 {
-    std::string strScore = std::to_string(score);
-    std::string strLevel = std::to_string(level);
-    const char * chScore = strScore.c_str();
-    const char * chLevel = strLevel.c_str();
+	clearScreen();
+
+
+	// Clear Field
+	for (auto b = 0; b < rowCount; b++)
+	{
+		for (auto c = 0; c < columnCount; c++)
+		{
+			field[b][c] = nullptr;
+		}
+	}
+
+	for (auto k = 0; k < columnCount; k++)
+	{
+		// Oben und Unten Rand
+		field[0][k] = new Tile(Color::black);
+		field[rowCount - 1][k] = new Tile(Color::black);
+	}
+
+	// Die obersten zwei Zeilen fehlen, deshalb +1 put
+	// Die linkeste Zeile fehlt, deshalb +1 bei put
+
+	for (auto h = 1; h < rowCount - 1; h++)
+	{
+		// Links und Rechts Rand, [1;21] weil die bei der anderen schon gemacht wurden
+		field[h][0] = new Tile(Color::black);
+		field[h][columnCount - 1] = new Tile(Color::black);
+	}
+}
+
+UI::UI()
+{
+	
+}
+void UI::AddScoreAndLevel(const int score, const int level) const
+{
+	const auto strScore = std::to_string(score);
+	const auto strLevel = std::to_string(level);
+	const auto* chScore = strScore.c_str();
+	const auto* chLevel = strLevel.c_str();
 
     // Berandung Score
-    for(int j = 27; j < 44; j++)
+    for(auto j = 27; j < 44; j++)
     {
         moveTo(5,j);
         puts("▄");

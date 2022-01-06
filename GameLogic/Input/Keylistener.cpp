@@ -1,28 +1,25 @@
-#include "Keylistener.hpp"
-#include <stdlib.h>
-#include <iostream>
-#include <string>
+#include "Keylistener.h"
 #include "keylib.h"
 
 
-bool Keylistener::isRunning()
+bool Keylistener::IsRunning() const
 {   
-    runningMutex.lock();
-    auto running = this->running;
-    runningMutex.unlock();
+    RunningMutex.lock();
+    const auto running = this->running;
+    RunningMutex.unlock();
     return running;
 }
 
-void Keylistener::pollingLoop()
+void Keylistener::PollingLoop()
 {    
-    while (isRunning())
+    while (IsRunning())
     {  
       
-        const int key = key_press(); // blocks until a key is pressed     
-        eventHandlerMutex.lock();
-        auto match = eventHandlers.find(key);
-        eventHandlerMutex.unlock();
-        if(match!=eventHandlers.end())
+        const auto key = key_press(); // blocks until a key is pressed     
+        EventHandlerMutex.lock();
+        auto match = EventHandlers.find(key);
+        EventHandlerMutex.unlock();
+        if(match!=EventHandlers.end())
         {
             (match->second)();
         }     
@@ -32,39 +29,39 @@ void Keylistener::pollingLoop()
 
 
 
-Keylistener::Keylistener()
+Keylistener::Keylistener(): running(false)
 {
 }
 
-void Keylistener::startMultithreaded()
+void Keylistener::StartMultithreaded()
 { 
-    if(this->isRunning()) return;  
-    runningMutex.lock();
+    if(this->IsRunning()) return;  
+    RunningMutex.lock();
     this->running = true;
-    runningMutex.unlock();
-    std::thread s ([this](){pollingLoop();});    
+    RunningMutex.unlock();
+    std::thread s ([this](){PollingLoop();});    
     s.detach();
 }
 
-void Keylistener::stop()
+void Keylistener::Stop()
 {
-    runningMutex.lock();
+    RunningMutex.lock();
     this->running = false;
-    runningMutex.unlock();
+    RunningMutex.unlock();
 }
 
-void Keylistener::registerHandler(int key, std::function<void()> handler)
+void Keylistener::RegisterHandler(const int key, const std::function<void()> handler)
 {
-    eventHandlerMutex.lock();    
-    eventHandlers[key] = handler;
-    eventHandlerMutex.unlock();
+    EventHandlerMutex.lock();    
+    EventHandlers[key] = handler;
+    EventHandlerMutex.unlock();
 }
 
-void Keylistener::removeHandler(int key)
+void Keylistener::RemoveHandler(const int key)
 {
-    eventHandlerMutex.lock();    
-    eventHandlers.erase(key);
-    eventHandlerMutex.unlock();
+    EventHandlerMutex.lock();    
+    EventHandlers.erase(key);
+    EventHandlerMutex.unlock();
 }
 
 Keylistener::~Keylistener()

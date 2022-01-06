@@ -1,24 +1,27 @@
+#ifndef UTILITIES_H
+#define UTILITIES_H
+
 
 #include <vector>
-#include <random>
-#include <iostream>
 
- 
-template <typename T> 
-std::vector<std::vector<T>> create2DArray(unsigned height, unsigned width)
+
+template <typename T>
+std::vector<std::vector<T>> Create2DArray(unsigned height, unsigned width)
 {
-    return std::vector<std::vector<T>>(height, std::vector<T>(width, 0));
+    auto vector = std::vector<std::vector<T>>(height, std::vector<T>(width, 0));
+	for(unsigned int i=0; i<vector.size();i++)
+	{
+		for(unsigned int j=0; j<vector[i].size();j++)
+		{
+			vector[i][j] = nullptr;
+		}
+	}
+    return vector;
 }
 
 
-//Will be used to obtain a seed for the random number engine
-std::random_device rd;
-    //Standard mersenne_twister_engine seeded with rd()
-std::mt19937 gen(rd());
+int GetRandomNumberBetween(int lower, int upper);
 
-int GetRandomNumberBetween(int lower, int upper)
-{
-    std::uniform_int_distribution<> dis(lower, upper);
-    return dis(gen);
-}
 
+
+#endif // UTILITIES_H

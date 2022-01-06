@@ -1,22 +1,17 @@
-#ifndef _tetrisblock_
-#define _tetrisblock_
-#include "../TetrisBlock.cpp"
-#endif
+#include  "CleverlandZ.h"
 
-class CleverlandZ: public TetrisBlock
-{
-    public:
-       CleverlandZ(const TetrisBlock& block) : TetrisBlock(block)
+
+	   CleverlandZ::CleverlandZ(const TetrisBlock& block) : TetrisBlock(block)
        {
        }
        
-        TetrisBlock* clone(TetrisBlock* block) override
+       TetrisBlock* CleverlandZ::Clone()
         {
-            auto a = new CleverlandZ(*block);
+	        auto* a = new CleverlandZ(*this);
             return a;
         };
 
-        void rotateRight() override
+        void CleverlandZ::RotateRight()
         {
             switch (angle)
             {
@@ -34,7 +29,7 @@ class CleverlandZ: public TetrisBlock
                 matrix[0][0] = nullptr;
                 matrix[0][1] = nullptr;
 
-                angle = 90; 
+                angle = 90;
                 break;
             case 90:
             /* case 270: */
@@ -49,14 +44,14 @@ class CleverlandZ: public TetrisBlock
                 matrix[0][2] = nullptr;
                 matrix[2][1] = nullptr;
 
-                angle = 0; 
+                angle = 0;
                 break;
             
             default:
                 break;
             }
         }
-        CleverlandZ()
+        CleverlandZ::CleverlandZ()
         {
             /*  X X     
                   A X  */
@@ -64,6 +59,5 @@ class CleverlandZ: public TetrisBlock
             matrix[0][1] = new Tile(Color::red);
             matrix[1][1] = new Tile(Color::red);
             matrix[1][2] = new Tile(Color::red);
-            angle = 0; 
+            angle = 0;
         }
-};

@@ -2,15 +2,17 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
+#include <iostream>
 #include <string>
-#include "GameLogic/GameController.cpp"
-#include "GameLogic/Input/Keylistener.hpp"
-#include "Highscores/Highscore.cpp"
+#include "GameLogic/GameController.h"
+#include "GameLogic/Input/Keylistener.h"
+#include "Highscores/Highscore.h"
+#include "Utilities/AnsiEscape.h"
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
-int showStartMenuSelect()
+int ShowStartMenuSelect()
 {
     moveTo(0,0);
     clearScreen();
@@ -21,8 +23,8 @@ int showStartMenuSelect()
                 <<"2:\t View the highscores" << std::endl
                 <<"0:\t Close the application" << std::endl;
     std::cin >> selection;
-    
-    int res = -1;
+
+    auto res = -1;
     try
     {
         res =  std::stoi(selection.c_str());
@@ -34,14 +36,14 @@ int showStartMenuSelect()
     return res;
 }
 
-void showGameOver(int score, std::string name, int level)
+void ShowGameOver(const int score, const std::string name, const int level)
 {
-    std::string tempScore = "Score: " + std::to_string(score);
-    std::string tempLevel = "Level: " + std::to_string(level);
-    std::string tempName = "Name: " + name;
-    const char * chName = tempName.c_str();
-    const char * chScore = tempScore.c_str();
-    const char * chLevel = tempLevel.c_str();
+	const auto tempScore = "Score: " + std::to_string(score);
+	const auto tempLevel = "Level: " + std::to_string(level);
+	const auto tempName = "Name: " + name;
+	const auto* chName = tempName.c_str();
+	const auto* chScore = tempScore.c_str();
+	const auto* chLevel = tempLevel.c_str();
 
     clearScreen();
     moveTo(0,0);
@@ -60,7 +62,7 @@ int main()
     // Make utf8 vaible
     SetConsoleOutputCP(CP_UTF8);
     #endif
-    while(int selection = showStartMenuSelect())
+    while(const auto selection = ShowStartMenuSelect())
     {
         switch (selection)
         {
@@ -68,38 +70,39 @@ int main()
             printf("Insert your Name: ");
             std::string name;
             std::cin >> name;
-            
-            GameController* controller  = new GameController();
-            Keylistener* listener = new Keylistener();
 
-            listener->stop();
+            auto* controller = new GameController();
+            auto* listener = new Keylistener();
 
-            listener->registerHandler(100, [controller]() {controller->dKeyPressed();}); // d
-            listener->registerHandler(97, [controller]() {controller->aKeyPressed();}); // a
-            listener->registerHandler(119, [controller]() {controller->wKeyPressed();}); // w
-            listener->registerHandler(98, [controller]() {controller->bKeyPressed();}); // b
-            listener->registerHandler(115, [controller]() {controller->sKeyPressed();}); // s
-            listener->registerHandler(32, [controller]() {controller->enterKeyPressed();}); // enter
-            listener->startMultithreaded(); 
+            listener->Stop();
+
+            listener->RegisterHandler(100, [controller]() {controller->DKeyPressed();}); // d
+            listener->RegisterHandler(97, [controller]() {controller->AKeyPressed();}); // a
+            listener->RegisterHandler(119, [controller]() {controller->WKeyPressed();}); // w
+            listener->RegisterHandler(98, [controller]() {controller->BKeyPressed();}); // b
+            listener->RegisterHandler(115, [controller]() {controller->SKeyPressed();}); // s
+            listener->RegisterHandler(32, [controller]() {controller->EnterKeyPressed();}); // enter
+            listener->StartMultithreaded(); 
 
             std::thread game([controller, listener, name]()
             {
-                controller->start();    
-                while (controller->isGameRunning())
+                controller->Start();    
+                while (controller->IsGameRunning())
                 {
                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                    controller->update();        
+                    controller->Update();        
                 }
-                listener->stop();
-                controller->stop();
+                listener->Stop();
+                controller->Stop();
 
-                int score = controller->getScore();
-                int level = controller->getLevel();
-                addHighscore(score, name);
-                showGameOver(score, name, level);
+                const auto score = controller->GetScore();
+                const auto level = controller->GetLevel();
+                AddHighscore(score, name);
+                ShowGameOver(score, name, level);
 
                 delete controller;
                 delete listener;
+                showCursor();
             });
             game.join();
             break;
@@ -107,7 +110,7 @@ int main()
         case 2:
             clearScreen();
             moveTo(0,0);
-            showHighscore();
+            ShowHighscore();
             std::this_thread::sleep_for(std::chrono::milliseconds(5000));
             break;
         default:

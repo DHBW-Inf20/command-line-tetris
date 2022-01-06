@@ -1,125 +1,64 @@
-
-#ifndef _tetrisblock_
-#define _tetrisblock_
-#include "../UI/DataClasses/TetrisBlock.cpp"
-#endif
-
-#include <chrono>
-#include <thread>
-#include <atomic>
-
-#include <shared_mutex>
+#include "GameController.h"
 
 
-#ifndef _config_
-#define _config_
-#include "..UI/Config.cpp"
-#endif
 
-#ifndef _blocks_
-#define _blocks_
-#include "../UI/DataClasses/Blocks/CleverlandZ.cpp"
-#include "../UI/DataClasses/Blocks/BlueRicky.cpp"
-#include "../UI/DataClasses/Blocks/Hero.cpp"
-#include "../UI/DataClasses/Blocks/OrangeRicky.cpp"
-#include "../UI/DataClasses/Blocks/RhodeIslandZ.cpp"
-#include "../UI/DataClasses/Blocks/Smashboy.cpp"
-#include "../UI/DataClasses/Blocks/Teewee.cpp"
-#endif
+#include "../UI/Config.h"
+#include "../UI/DataClasses/Blocks/BlueRicky.h"
+#include "../UI/DataClasses/Blocks/CleverlandZ.h"
+#include "../UI/DataClasses/Blocks/Hero.h"
+#include "../UI/DataClasses/Blocks/OrangeRicky.h"
+#include "../UI/DataClasses/Blocks/RhodeIslandZ.h"
+#include "../UI/DataClasses/Blocks/Smashboy.h"
+#include "../UI/DataClasses/Blocks/Teewee.h"
 
-#include "../UI/UI.cpp"
-
-class GameController
+bool GameController::TryInsertCurrentBlockInField()
 {
-private:
-    std::atomic<bool> gameRunning = false;
-    TetrisBlock *currentBlock;
-    TetrisBlock *currentBlockLastUpdate; // Hier wird der Block vom letzten Update gespeichert -> So kann bei einer Änderung das Spielfeld rekonstruiert werden
-    std::vector<std::vector<Tile *>> field;
-    UI ui;
-    float blocksSpawned[7];
-    bool tryInsertCurrentBlockInField();
-    void createBlock();
-    bool checkCanMove(TetrisBlock *block, char direction);
-    void checkRows();
-    void deleteRow(int row);
-    mutable std::mutex mainLock;
-    int waitingTime[11] = {18, 16, 15, 13, 11, 10, 8, 7, 5, 4, 3};
-
-    int moveDownLimiter;
-    bool isSpawningBalanced(int number);
-    bool canDelete;
-    int level;
-    int score;
-    int rowsCleared;
-    void finish();
-
-public:
-    GameController();
-    bool isGameRunning();
-    void update();
-    void start();   
-    void bKeyPressed();
-    void dKeyPressed();
-    void aKeyPressed();
-    void wKeyPressed();
-    void sKeyPressed();
-    void enterKeyPressed();
-    void stop();
-    int getScore();
-    int getLevel();
-
-    ~GameController();
-};
-
-bool GameController::tryInsertCurrentBlockInField()
-{
-    auto backup = field;
-    auto tetirsBlockMatrixOld = currentBlockLastUpdate->buildMatrix();
-    auto tetrisBlockMatrix = currentBlock->buildMatrix();
-    for (int i = 0; i < rowCount; i++)
+    auto backup = Field;
+    auto tetrisBlockMatrixOld = CurrentBlockLastUpdate->BuildMatrix();
+    auto tetrisBlockMatrix = CurrentBlock->BuildMatrix();
+    for (auto i = 0; i < rowCount; i++)
     {
-        for (int j = 0; j < columnCount; j++)
+        for (auto j = 0; j < columnCount; j++)
         {
-            if (tetirsBlockMatrixOld[i][j] != nullptr)
+            if (tetrisBlockMatrixOld[i][j] != nullptr)
             {
                 if (i != 0 && i != rowCount - 1 && j != 0 && j != columnCount - 1) // Rand außen vor lassen
-                    field[i][j] = nullptr;                                         // Alte Position vom TetrisBock löschen
+                    Field[i][j] = nullptr;                                         // Alte Position vom TetrisBock löschen
             }
-            auto tetrisBlockTile = tetrisBlockMatrix[i][j];
-            auto matrixBlockTile = field[i][j];
+            auto* const tetrisBlockTile = tetrisBlockMatrix[i][j];
+            auto* const matrixBlockTile = Field[i][j];
             if (tetrisBlockTile != nullptr && matrixBlockTile == nullptr) // Feld wird gesetzt
             {
-                field[i][j] = tetrisBlockTile;
+                Field[i][j] = tetrisBlockTile;
             }
             else if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr)
             {
                 // Warum geht das nicht amk?
                 printf("Stop");
-                finish();               
+                Finish();               
             }
         }
     }
 
-    currentBlockLastUpdate = new TetrisBlock(*currentBlock); // TODO: Alte Löschen?
+    CurrentBlockLastUpdate = CurrentBlock->Clone(); // TODO: Alte Löschen?
     return true;
 }
 
-bool GameController::isSpawningBalanced(int number)
+bool GameController::IsSpawningBalanced(const int number)
 {
-    float sum = blocksSpawned[0] + blocksSpawned[1] + blocksSpawned[2] + blocksSpawned[3] + blocksSpawned[4] + blocksSpawned[5] + blocksSpawned[6];
-    float avg = sum / 7;
-    if (blocksSpawned[number] > avg)
+	const auto sum = BlocksSpawned[0] + BlocksSpawned[1] + BlocksSpawned[2] + BlocksSpawned[3] + BlocksSpawned[4] + BlocksSpawned[5] + BlocksSpawned[6];
+	const auto avg = sum / 7;
+    if (BlocksSpawned[number] > avg)
     {
         return false;
     }
     return true;
 }
 
-void GameController::createBlock()
+void GameController::CreateBlock()
 {
-    int num = GetRandomNumberBetween(0, 6);
-    while (!isSpawningBalanced(num))
+	auto num = GetRandomNumberBetween(0, 6);
+    while (!IsSpawningBalanced(num))
     {
         num = GetRandomNumberBetween(0, 6);
     }
@@ -127,226 +66,228 @@ void GameController::createBlock()
     switch (num)
     {
     case 0:
-        currentBlock = new BlueRicky();
-        blocksSpawned[0]++;
+        CurrentBlock = new BlueRicky();
+        BlocksSpawned[0]++;
         break;
     case 1:
-        currentBlock = new CleverlandZ();
-        blocksSpawned[1]++;
+        CurrentBlock = new CleverlandZ();
+        BlocksSpawned[1]++;
         break;
     case 2:
-        currentBlock = new Hero();
-        blocksSpawned[2]++;
+        CurrentBlock = new Hero();
+        BlocksSpawned[2]++;
         break;
     case 3:
-        currentBlock = new OrangeRicky();
-        blocksSpawned[3]++;
+        CurrentBlock = new OrangeRicky();
+        BlocksSpawned[3]++;
         break;
     case 4:
-        currentBlock = new RhodeIslandZ();
-        blocksSpawned[4]++;
+        CurrentBlock = new RhodeIslandZ();
+        BlocksSpawned[4]++;
         break;
     case 5:
-        currentBlock = new Smashboy();
-        blocksSpawned[5]++;
+        CurrentBlock = new Smashboy();
+        BlocksSpawned[5]++;
         break;
     case 6:
-        currentBlock = new Teewee();
-        blocksSpawned[6]++;
+        CurrentBlock = new Teewee();
+        BlocksSpawned[6]++;
         break;
+    default:    
+        break;;
     }
 
-    auto matrix = currentBlock->buildMatrix();
-    for (int i = 0; i < rowCount; i++)
+    auto matrix = CurrentBlock->BuildMatrix();
+    for (auto i = 0; i < rowCount; i++)
     {
-        for (int j = 0; j < columnCount; j++)
+        for (auto j = 0; j < columnCount; j++)
         {
-            if(field[i][j]!=nullptr&&matrix[i][j]!=nullptr)
+            if(Field[i][j]!=nullptr&&matrix[i][j]!=nullptr)
             {
-                finish();
+                Finish();
                 return;
             }
         }
     }
 
-    currentBlockLastUpdate = currentBlock;
+    CurrentBlockLastUpdate = CurrentBlock;
 }
 
-void GameController::bKeyPressed()
+void GameController::BKeyPressed()
 {
-    gameRunning = false;
+    GameRunning = false;
     printf("b pressed\n");
 }
 
-void GameController::deleteRow(int row)
+void GameController::DeleteRow(const int row)
 {
-    for (int j = row; j > 0; j--)
+    for (auto j = row; j > 0; j--)
     {
-        for (int i = 1; i < columnCount - 1; i++)
+        for (auto i = 1; i < columnCount - 1; i++)
         {
             if (j == 1)
             {
-                field[1][i] = nullptr;
+                Field[1][i] = nullptr;
             }
             else
             {
-                field[j][i] = field[j - 1][i];
+                Field[j][i] = Field[j - 1][i];
             }
         }
     }
 }
 
-void GameController::checkRows()
+void GameController::CheckRows()
 {
-    if (canDelete)
+    if (CanDelete)
     {
-        int rowsDeleted = 0;
-        for (int i = 1; i < rowCount - 1; i++)
+	    auto rowsDeleted = 0;
+        for (auto i = 1; i < rowCount - 1; i++)
         {
-            int matches = 0;
-            for (int j = 0; j < columnCount; j++)
+	        auto matches = 0;
+            for (auto j = 0; j < columnCount; j++)
             {
-                if (field[i][j] != nullptr)
+                if (Field[i][j] != nullptr)
                     matches++;
             }
             if (matches == columnCount)
             {
-                deleteRow(i);
+                DeleteRow(i);
                 rowsDeleted++;
                 std::this_thread::sleep_for(std::chrono::milliseconds(150));
             }
         }
-        canDelete = false;
+        CanDelete = false;
         
         switch (rowsDeleted) // Add Score
         {
         case 1:
-            score = score + (40+(40*level));
+            Score = Score + (40+(40*Level));
             break;
         case 2:
-            score = score + (100+(100*level));
+            Score = Score + (100+(100*Level));
             break;
         case 3:
-            score = score + (300+(300*level));
+            Score = Score + (300+(300*Level));
             break;
         case 4:
-            score = score + (1200+(1200*level));
+            Score = Score + (1200+(1200*Level));
             break;
         default: // = 0 lines cleared
             break;
         }
 
-        rowsCleared = rowsCleared + rowsDeleted;
-        if(rowsCleared >= 10 && level < 10)
+        RowsCleared = RowsCleared + rowsDeleted;
+        if(RowsCleared >= 10 && Level < 10)
         {
-            level++;
-            rowsCleared = rowsCleared - 10;
+            Level++;
+            RowsCleared = RowsCleared - 10;
         }
     }
 }
 
-void GameController::dKeyPressed()
+void GameController::DKeyPressed() const
 {
-    mainLock.lock();
-    if (checkCanMove(currentBlock, 'r'))
-        currentBlock->tryMoveRight();
-    mainLock.unlock();
+    MainLock.lock();
+    if (CheckCanMove(CurrentBlock, 'r'))
+        CurrentBlock->TryMoveRight();
+    MainLock.unlock();
 }
 
-void GameController::aKeyPressed()
+void GameController::AKeyPressed() const
 {
-    mainLock.lock();
-    if (checkCanMove(currentBlock, 'l'))
-        currentBlock->tryMoveLeft();
-    mainLock.unlock();
+    MainLock.lock();
+    if (CheckCanMove(CurrentBlock, 'l'))
+        CurrentBlock->TryMoveLeft();
+    MainLock.unlock();
 }
 
-void GameController::wKeyPressed()
+void GameController::WKeyPressed() const
 {
-    mainLock.lock();
-    if (checkCanMove(currentBlock, 't'))
-        currentBlock->tryRotateRight();
-    mainLock.unlock();
+    MainLock.lock();
+    if (CheckCanMove(CurrentBlock, 't'))
+        CurrentBlock->TryRotateRight();
+    MainLock.unlock();
 }
 
-void GameController::sKeyPressed()
+void GameController::SKeyPressed() const
 {
-    mainLock.lock();
-    if (checkCanMove(currentBlock, 'd'))
-        currentBlock->tryMoveDown();
-    mainLock.unlock();
+    MainLock.lock();
+    if (CheckCanMove(CurrentBlock, 'd'))
+        CurrentBlock->TryMoveDown();
+    MainLock.unlock();
 }
 
-void GameController::enterKeyPressed()
+void GameController::EnterKeyPressed() const
 {
-    mainLock.lock();
-    auto tileCopy = currentBlock->clone(currentBlock);
-    while(checkCanMove(tileCopy, 'd'))
+    MainLock.lock();
+    auto* tileCopy = CurrentBlock->Clone();
+    while(CheckCanMove(tileCopy, 'd'))
     {  
-        currentBlock->tryMoveDown();
-        tileCopy->tryMoveDown();
+        CurrentBlock->TryMoveDown();
+        tileCopy->TryMoveDown();
     }
     delete tileCopy;
-    mainLock.unlock();
+    MainLock.unlock();
 }
 
 GameController::GameController()
 {
-    field = create2DArray<Tile *>(rowCount, columnCount); // [Reihe][Spalte]
-    moveDownLimiter = 0;
-    for (int i = 0; i < 7; i++)
+    Field = Create2DArray<Tile *>(rowCount, columnCount); // [Reihe][Spalte]
+    MoveDownLimiter = 0;
+    for (auto i = 0; i < 7; i++)
     {
-        blocksSpawned[i] = 0;
+        BlocksSpawned[i] = 0;
     }
 }
 
-bool GameController::isGameRunning()
+bool GameController::IsGameRunning() const
 {
-    return gameRunning;
+    return GameRunning;
 }
 
-void GameController::update()
+void GameController::Update()
 {
-    mainLock.lock();
-    if (tryInsertCurrentBlockInField())
-        ui.draw(field, score, level);
+    MainLock.lock();
+    if (TryInsertCurrentBlockInField())
+        Ui.Draw(Field, Score, Level);
 
-    if (moveDownLimiter == waitingTime[level])
+    if (MoveDownLimiter == WaitingTime[Level])
     {
-        if (checkCanMove(currentBlock, 'd'))
+        if (CheckCanMove(CurrentBlock, 'd'))
         {
-            currentBlock->tryMoveDown();
+            CurrentBlock->TryMoveDown();
         }
         else
         {
-            canDelete = true; // Reihe darf gelöscht werden
-            createBlock();    // Am Boden
+            CanDelete = true; // Reihe darf gelöscht werden
+            CreateBlock();    // Am Boden
         }
-        moveDownLimiter = 0;
+        MoveDownLimiter = 0;
     }
-    checkRows();
-    moveDownLimiter++;
-    mainLock.unlock();
+    CheckRows();
+    MoveDownLimiter++;
+    MainLock.unlock();
 }
 
-bool GameController::checkCanMove(TetrisBlock *block, char direction)
+bool GameController::CheckCanMove(TetrisBlock *block, const char direction) const
 {
-    auto tileCopy = block->clone(block);
-    auto fieldCopy = field;
+	auto* tileCopy = block->Clone();
+    auto fieldCopy = Field;
     bool noBorder;
     switch (direction)
     {
     case 'l': // left
-        noBorder = tileCopy->tryMoveLeft();
+        noBorder = tileCopy->TryMoveLeft();
         break;
     case 'r': // right
-        noBorder = tileCopy->tryMoveRight();
+        noBorder = tileCopy->TryMoveRight();
         break;
     case 'd': // down
-        noBorder = tileCopy->tryMoveDown();
+        noBorder = tileCopy->TryMoveDown();
         break;
     case 't':
-        noBorder = tileCopy->tryRotateRight();
+        noBorder = tileCopy->TryRotateRight();
         break;
     default:
         return false;
@@ -356,21 +297,21 @@ bool GameController::checkCanMove(TetrisBlock *block, char direction)
         return false;
     }
 
-    auto tetrisBlockMatrix = tileCopy->buildMatrix();
-    auto tetirsBlockMatrixOld = currentBlockLastUpdate->buildMatrix();
+    auto tetrisBlockMatrix = tileCopy->BuildMatrix();
+    auto tetirsBlockMatrixOld = CurrentBlockLastUpdate->BuildMatrix();
 
-    for (int i = 0; i < rowCount; i++)
+    for (auto i = 0; i < rowCount; i++)
     {
-        for (int j = 0; j < columnCount; j++)
+        for (auto j = 0; j < columnCount; j++)
         {
             if (tetirsBlockMatrixOld[i][j] != nullptr)
             {
                 if (i != 0 && i != rowCount - 1 && j != 0 && j != columnCount - 1) // Rand außen vor lassen
                     fieldCopy[i][j] = nullptr;                                     // Alte Position vom TetrisBock löschen
             }
-                    
-            auto tetrisBlockTile = tetrisBlockMatrix[i][j];
-            auto matrixBlockTile = fieldCopy[i][j];
+
+            auto* const tetrisBlockTile = tetrisBlockMatrix[i][j];
+            auto* const matrixBlockTile = fieldCopy[i][j];
 
             if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr) // Verboten (Position ist nicht frei)
             {
@@ -383,35 +324,35 @@ bool GameController::checkCanMove(TetrisBlock *block, char direction)
     return true;
 }
 
-void GameController::start()
+void GameController::Start()
 {
-    gameRunning = true;
-    canDelete = false;
-    ui.init(field);
-    createBlock();
-    level = 0;
-    score = 0;
-    rowsCleared = 0;
+    GameRunning = true;
+    CanDelete = false;
+    Ui.Init(Field);
+    CreateBlock();
+    Level = 0;
+    Score = 0;
+    RowsCleared = 0;
 }
 
-void GameController::finish()
+void GameController::Finish()
 {
-    gameRunning = false;
+    GameRunning = false;
 }
 
-void GameController::stop()
+void GameController::Stop()
 {
-    ui.clear();
+    Ui.Clear();
 }
 
-int GameController::getScore()
+int GameController::GetScore() const
 {
-    return score;
+    return Score;
 }
 
-int GameController::getLevel()
+int GameController::GetLevel() const
 {
-    return level;
+    return Level;
 }
 
 GameController::~GameController()

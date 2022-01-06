@@ -1,25 +1,25 @@
-#ifndef _tetrisblock_
-#define _tetrisblock_
-#include "../TetrisBlock.cpp"
-#endif
-class Smashboy:public TetrisBlock
-{
-    public:
-        Smashboy(const TetrisBlock& block) : TetrisBlock(block)
+
+#include "Smashboy.h"
+
+#include "../TetrisBlock.h"
+
+
+		Smashboy::Smashboy(const TetrisBlock& block) : TetrisBlock(block)
         {
         }
 
-        TetrisBlock* clone(TetrisBlock* block) override
+        TetrisBlock* Smashboy::Clone()
         {
-            auto a = new Smashboy(*block);
+	        auto* const a = new Smashboy(*this);
             return a;
         };
+
         
-        void rotateRight() override
+        void Smashboy::RotateRight()
         {
             // Do nothing
         }
-        Smashboy()
+        Smashboy::Smashboy()
         {
             /*    X X     
                   A X  */
@@ -29,4 +29,3 @@ class Smashboy:public TetrisBlock
             matrix[1][2] = new Tile(Color::yellow);
             angle = 0;
         }
-};

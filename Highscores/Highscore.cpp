@@ -1,27 +1,26 @@
 #include <fstream>
 #include <string>
-#include <functional>
 #include <iostream>
 #include <vector>
-#include <map>
+#include "Highscore.h"
 
-void writeToFile(std::vector<std::string> lines)
+void WriteToFile(std::vector<std::string> lines)
 {
    std::ofstream stream;
    stream.open("Highscores/Highscore.CSV");
    if(stream.is_open())
    {
-      for(int i = 0; i < lines.size(); i++)
+      for (auto& line : lines)
       {
-         stream << lines[i] << std::endl;
+         stream << line << std::endl;
       }
    }
 }
 
-void split(const std::string &s, char c, std::vector<std::string> &v)
+void Split(const std::string &s, const char c, std::vector<std::string> &v)
 {
    std::string::size_type i = 0;
-   std::string::size_type j = s.find(c);
+   auto j = s.find(c);
 
    while (j != std::string::npos)
    {
@@ -34,7 +33,7 @@ void split(const std::string &s, char c, std::vector<std::string> &v)
    }
 }
 
-std::vector<std::string> getHighScores()
+std::vector<std::string> GetHighScores()
 {
    std::vector<std::string> lineArr;
    std::ifstream stream;
@@ -51,28 +50,27 @@ std::vector<std::string> getHighScores()
    return lineArr;
 }
 
-void showHighscore()
+void ShowHighscore()
 {
    std::vector<std::string> v;
-   std::vector<std::string> lineArr = getHighScores();
-   for(int i = 1; i < lineArr.size(); i++)
+   auto lineArr = GetHighScores();
+   for(unsigned int i = 1; i < lineArr.size(); i++)
    {
       std::cout << i << ". Platz:" <<  lineArr[i] << std::endl;
    }
 }
 
-void addHighscore(int score, std::string name)
-{ 
-   std::vector<std::string> lineArr = getHighScores();
-   bool isBigger = false;
-   int position = 1;
-   int num;
-   
-   for(int i = 1; i < lineArr.size(); i++)
+void AddHighscore(const int score, const std::string name)
+{
+	auto lineArr = GetHighScores();
+	auto isBigger = false;
+    unsigned int position = 1;
+
+	for(unsigned int i = 1; i < lineArr.size(); i++)
    {
       std::vector<std::string> splitVector;
-      split(lineArr[i], ' ', splitVector);
-      num = std::stoi(splitVector[1]); // actual score as int
+      Split(lineArr[i], ' ', splitVector);
+      const int num = std::stoi(splitVector[1]); // actual score as int
       if(score > num)
       {
          isBigger = true;
@@ -84,12 +82,12 @@ void addHighscore(int score, std::string name)
 
    if(isBigger) // Einfügen
    {
-      for(int i = position; i < lineArr.size()-1; i++)
+      for(unsigned int i = position; i < lineArr.size()-1; i++)
       {
          lineArr[i+1] = lineArr[i];
       }   
    }
-   std::string scoreStr = std::to_string(score);
+   const auto scoreStr = std::to_string(score);
    if(position == lineArr.size() && position < 11)
    {
       lineArr.push_back(name + ", " + scoreStr + " Punkte");
@@ -98,5 +96,5 @@ void addHighscore(int score, std::string name)
    {
       lineArr[position] = name + ", " + scoreStr + " Punkte";
    }
-   writeToFile(lineArr);
+   WriteToFile(lineArr);
 }
