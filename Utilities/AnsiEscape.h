@@ -18,11 +18,13 @@
 
 static HANDLE stdoutHandle, stdinHandle;
 static DWORD outModeInit, inModeInit;
+#endif
 
 void setupConsole(void);
 
 
 void restoreConsole(void);
+
 
 void getCursorPosition(int* row, int* col);
 
@@ -82,6 +84,5 @@ void moveDown(int positions);
 void moveLeft(int positions);
 
 void moveTo(int row, int col);
-#endif
 
 #endif  //ANSIESCAPE_H
