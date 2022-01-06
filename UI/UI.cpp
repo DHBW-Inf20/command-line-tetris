@@ -109,6 +109,7 @@ UI::UI()
 }
 void UI::AddScoreAndLevel(const int score, const int level) const
 {
+    setTextColor(WHITE_TXT);
 	const auto strScore = std::to_string(score);
 	const auto strLevel = std::to_string(level);
 	const auto* chScore = strScore.c_str();

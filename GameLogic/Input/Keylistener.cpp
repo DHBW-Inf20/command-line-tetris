@@ -14,8 +14,7 @@ bool Keylistener::IsRunning() const
 void Keylistener::PollingLoop()
 {    
     while (IsRunning())
-    {  
-      
+    {      
         const auto key = key_press(); // blocks until a key is pressed     
         EventHandlerMutex.lock();
         auto match = EventHandlers.find(key);
