@@ -396,8 +396,7 @@ void GameController::start()
 
 void GameController::finish()
 {
-    gameRunning = false;   
-    printf("Game Over\n");
+    gameRunning = false;
 }
 
 void GameController::stop()

@@ -93,11 +93,13 @@ int main()
 
                 int score = controller->getScore();
                 int level = controller->getLevel();
+
                 addHighscore(score, name);
                 showGameOver(score, name, level);
 
                 delete controller;
                 delete listener;
+                showCursor();
             });
             game.join();
             break;

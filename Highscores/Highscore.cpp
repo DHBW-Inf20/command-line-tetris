@@ -11,7 +11,7 @@ void writeToFile(std::vector<std::string> lines)
    stream.open("Highscores/Highscore.CSV");
    if(stream.is_open())
    {
-      for(int i = 0; i < 11; i++)
+      for(int i = 0; i < lines.size(); i++)
       {
          stream << lines[i] << std::endl;
       }
@@ -38,7 +38,7 @@ std::vector<std::string> getHighScores()
 {
    std::vector<std::string> lineArr;
    std::ifstream stream;
-   stream.open("Highscores/Highscore.CSV", std::ios::out);
+   stream.open("Highscores/Highscore.CSV");
    std::string line;
    if (stream.is_open())
    {
@@ -47,7 +47,7 @@ std::vector<std::string> getHighScores()
          lineArr.push_back(line);
       }
    }
-   stream.close(); 
+   stream.close();
    return lineArr;
 }
 
@@ -83,13 +83,20 @@ void addHighscore(int score, std::string name)
    }
 
    if(isBigger) // Einfügen
-   {   
-      for(int i = position; i < 10; i++)
+   {
+      for(int i = position; i < lineArr.size()-1; i++)
       {
          lineArr[i+1] = lineArr[i];
       }   
    }
    std::string scoreStr = std::to_string(score);
-   lineArr[position] = name + ", " + scoreStr + " Punkte"; // Ist quasi auch der else-Fall
+   if(position == lineArr.size() && position < 11)
+   {
+      lineArr.push_back(name + ", " + scoreStr + " Punkte");
+   }
+   else if(position < lineArr.size())
+   {
+      lineArr[position] = name + ", " + scoreStr + " Punkte";
+   }
    writeToFile(lineArr);
 }

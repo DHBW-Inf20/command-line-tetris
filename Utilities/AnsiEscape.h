@@ -68,6 +68,11 @@ void hideCursor() //https://rosettacode.org/wiki/Terminal_control/Hiding_the_cur
     printf("\u001B[?25l");
 }
 
+void showCursor()
+{
+    printf("\u001B[?25h");
+}
+
 void moveRight(int positions)
 {
     printf("\x1b[%dC", positions); 
