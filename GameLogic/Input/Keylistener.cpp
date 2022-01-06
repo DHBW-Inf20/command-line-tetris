@@ -1,5 +1,4 @@
 #include "Keylistener.hpp"
-#include <Windows.h>
 #include <stdlib.h>
 #include <iostream>
 #include <string>
