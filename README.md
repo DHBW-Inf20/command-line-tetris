@@ -3,7 +3,7 @@
 ### Allgemeine Informationen
 - Projektteilnehmer: Jonathan Schwab, Luca Negron, Jonas Weis
 - Programmiersprache: C++
-- Build-Command: Wir haben im "out"-Verzeichnis eine Makefile
+- Build-Command: Wir haben im "out"-Verzeichnis eine Makefile, diese erzeugt eine ausführbare Datei
 
 ### Was wurde umgesetzt
 Ein klassisches Tetris-Spiel ist möglich. Darunter verstehen wir folgendes:
