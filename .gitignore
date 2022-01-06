@@ -18,6 +18,7 @@
 *.dll
 *.vs
 *.vscode
+*.txt
 
 # Fortran module files
 *.mod
