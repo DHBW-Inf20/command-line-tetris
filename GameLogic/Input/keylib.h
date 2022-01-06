@@ -76,6 +76,7 @@ int key_press() { // not working: F11 (-122, toggles fullscreen)
         }
     }
 }
+
 #else
 #include <sys/ioctl.h>
 #include <termios.h>
