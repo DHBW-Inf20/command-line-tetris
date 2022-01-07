@@ -13,7 +13,9 @@ public:
     Tile();
     Tile(const Tile& tile);
 
-    Tile* Clone();
+    ~Tile() = default;
+
+    Tile* Clone() const;
 
     Color GetColor() const;
 };

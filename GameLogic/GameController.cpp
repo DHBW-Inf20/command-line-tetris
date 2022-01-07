@@ -11,6 +11,7 @@
 #include "../UI/DataClasses/Blocks/RhodeIslandZ.h"
 #include "../UI/DataClasses/Blocks/Smashboy.h"
 #include "../UI/DataClasses/Blocks/Teewee.h"
+#include "../Utilities/Logger.h"
 #include "../Utilities/MemoryLeakDetection.h"
 
 bool GameController::TryInsertCurrentBlockInField()
@@ -124,13 +125,15 @@ void GameController::BKeyPressed()
 
 void GameController::DeleteRow(const int row)
 {
+
     for (auto j = row; j > 0; j--)
     {
         for (auto i = 1; i < columnCount - 1; i++)
-        {
+        {        	
             if (j == 1)
             {
-                Field[1][i] = nullptr;
+                delete Field[row][i];
+                Field[1][i] = nullptr;              
             }
             else
             {
@@ -369,7 +372,10 @@ GameController::~GameController()
 	{
 		for(size_t j=0; j<Field[j].size();j++)
 		{
-            delete i[j]; //Da jedes Tile irgendwann im Field auftaucht, reicht es aus, am Ende lediglich das gesamte Field zu löschen
+            Log(i[j]==nullptr?"0":"1");
+			if(i[j]!=nullptr)
+                delete i[j]; //Da jedes Tile irgendwann im Field auftaucht, reicht es aus, am Ende lediglich das gesamte Field zu löschen
 		}
+        Log("\n");
 	}
 }

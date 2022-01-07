@@ -20,8 +20,7 @@ Tile::Tile(const Tile& tile)
 }
 
 
-
-Tile* Tile::Clone()
+Tile* Tile::Clone() const
 {
 	auto* const a = new Tile(*this);
 	return a;
