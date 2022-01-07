@@ -69,7 +69,7 @@ void AddHighscore(const int score, const std::string name)
 {
 	auto lineArr = GetHighScores();
 	auto isBigger = false;
-   unsigned int position = 0;
+   int position = 0;
 
 	for(unsigned int i = 0; i < lineArr.size(); i++)
    {
