@@ -1,9 +1,12 @@
 #include "../TetrisBlock.h"
 #include "RhodeIslandZ.h"
 
+#include "../../../Utilities/MemoryLeakDetection.h"
+
 
 		RhodeIslandZ::RhodeIslandZ(const TetrisBlock& block) : TetrisBlock(block)
         {
+
         }
 
         TetrisBlock* RhodeIslandZ::Clone()

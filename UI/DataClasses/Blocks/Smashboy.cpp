@@ -2,6 +2,7 @@
 #include "Smashboy.h"
 
 #include "../TetrisBlock.h"
+#include "../../../Utilities/MemoryLeakDetection.h"
 
 
 		Smashboy::Smashboy(const TetrisBlock& block) : TetrisBlock(block)
@@ -9,7 +10,7 @@
         }
 
         TetrisBlock* Smashboy::Clone()
-        {
+        {          
 	        auto* const a = new Smashboy(*this);
             return a;
         };

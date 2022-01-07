@@ -136,6 +136,7 @@
     <ClInclude Include="UI\UI.h" />
     <ClInclude Include="utilities\AnsiEscape.h" />
     <ClInclude Include="utilities\Logger.h" />
+    <ClInclude Include="Utilities\MemoryLeakDetection.h" />
     <ClInclude Include="utilities\Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

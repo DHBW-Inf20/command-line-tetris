@@ -1,5 +1,7 @@
 #include  "CleverlandZ.h"
 
+#include "../../../Utilities/MemoryLeakDetection.h"
+
 
 	   CleverlandZ::CleverlandZ(const TetrisBlock& block) : TetrisBlock(block)
        {

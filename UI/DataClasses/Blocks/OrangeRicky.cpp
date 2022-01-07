@@ -1,9 +1,12 @@
 #include "../TetrisBlock.h"
 #include "OrangeRicky.h"
 
+#include "../../../Utilities/MemoryLeakDetection.h"
 
-		OrangeRicky::OrangeRicky(const TetrisBlock& block) : TetrisBlock(block)
+
+OrangeRicky::OrangeRicky(const TetrisBlock& block) : TetrisBlock(block)
         {
+        
         }
 
         TetrisBlock* OrangeRicky::Clone()

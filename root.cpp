@@ -8,6 +8,7 @@
 #include "GameLogic/Input/Keylistener.h"
 #include "Utilities/AnsiEscape.h"
 #include "GameLogic/Highscores/Highscore.h"
+#include "Utilities/MemoryLeakDetection.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -119,4 +120,8 @@ int main()
             break;
         }
     }
+
+	#ifdef debug
+    _CrtDumpMemoryLeaks();
+	#endif
 }

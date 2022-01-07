@@ -11,6 +11,9 @@ public:
     Tile(Color col);
 
     Tile();
+    Tile(const Tile& tile);
+
+    Tile* Clone();
 
     Color GetColor() const;
 };

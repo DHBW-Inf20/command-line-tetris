@@ -4,9 +4,11 @@
 #include <vector>
 #include "Highscore.h"
 
+#include "../../Utilities/MemoryLeakDetection.h"
+
 
 void WriteToFile(std::vector<std::string> lines)
-{
+{	
    std::ofstream stream;
    stream.open("./Highscore.CSV");
    if(stream.is_open())

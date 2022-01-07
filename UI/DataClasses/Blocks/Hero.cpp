@@ -1,8 +1,11 @@
 #include "../TetrisBlock.h"
 #include "Hero.h"
 
+#include "../../../Utilities/MemoryLeakDetection.h"
+
 Hero::Hero(const TetrisBlock& block): TetrisBlock(block)
 {
+	
 }
 
 TetrisBlock* Hero::Clone()

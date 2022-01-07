@@ -2,9 +2,11 @@
 #include "keylib.h"
 #include <thread>
 
+#include "../../Utilities/MemoryLeakDetection.h"
+
 
 bool Keylistener::IsRunning() const
-{   
+{
     RunningMutex.lock();
     const auto running = this->running;
     RunningMutex.unlock();

@@ -11,10 +11,10 @@
 #include "../UI/DataClasses/Blocks/RhodeIslandZ.h"
 #include "../UI/DataClasses/Blocks/Smashboy.h"
 #include "../UI/DataClasses/Blocks/Teewee.h"
+#include "../Utilities/MemoryLeakDetection.h"
 
 bool GameController::TryInsertCurrentBlockInField()
-{
-    auto backup = Field;
+{  
     auto tetrisBlockMatrixOld = CurrentBlockLastUpdate->BuildMatrix();
     auto tetrisBlockMatrix = CurrentBlock->BuildMatrix();
     for (auto i = 0; i < rowCount; i++)
@@ -41,8 +41,8 @@ bool GameController::TryInsertCurrentBlockInField()
         }
     }
   
-  
-    CurrentBlockLastUpdate = CurrentBlock->Clone(); // TODO: Alte Löschen?
+    delete CurrentBlockLastUpdate;
+    CurrentBlockLastUpdate = CurrentBlock->Clone(); 
     return true;
 }
 
@@ -64,7 +64,7 @@ void GameController::CreateBlock()
     {
         num = GetRandomNumberBetween(0, 6);
     }
-
+     delete CurrentBlock;
     switch (num)
     {
     case 0:
@@ -112,7 +112,8 @@ void GameController::CreateBlock()
         }
     }
 
-    CurrentBlockLastUpdate = CurrentBlock;
+    delete CurrentBlockLastUpdate;
+    CurrentBlockLastUpdate = CurrentBlock->Clone();
 }
 
 void GameController::BKeyPressed()
@@ -235,12 +236,12 @@ void GameController::EnterKeyPressed() const
 
 GameController::GameController()
 {
-    Field = Create2DArray<Tile *>(rowCount, columnCount); // [Reihe][Spalte]
-    MoveDownLimiter = 0;
-    for (auto i = 0; i < 7; i++)
-    {
-        BlocksSpawned[i] = 0;
-    }
+	Field = Create2DArray<Tile*>(rowCount, columnCount); // [Reihe][Spalte]
+	MoveDownLimiter = 0;
+	for (auto i = 0; i < 7; i++)
+	{
+		BlocksSpawned[i] = 0;
+	}
 }
 
 bool GameController::IsGameRunning() const
@@ -276,6 +277,7 @@ bool GameController::CheckCanMove(TetrisBlock *block, const char direction) cons
 {
 	auto* tileCopy = block->Clone();
     auto fieldCopy = Field;
+	
     bool noBorder;
     switch (direction)
     {
@@ -302,6 +304,7 @@ bool GameController::CheckCanMove(TetrisBlock *block, const char direction) cons
     auto tetrisBlockMatrix = tileCopy->BuildMatrix();
     auto tetirsBlockMatrixOld = CurrentBlockLastUpdate->BuildMatrix();
 
+    int success = true;
     for (auto i = 0; i < rowCount; i++)
     {
         for (auto j = 0; j < columnCount; j++)
@@ -317,13 +320,14 @@ bool GameController::CheckCanMove(TetrisBlock *block, const char direction) cons
 
             if (tetrisBlockTile != nullptr && matrixBlockTile != nullptr) // Verboten (Position ist nicht frei)
             {
-                delete tileCopy;
-                return false;
+                success = false;
+                break;
             }
         }           
-    }  
+    }
+	
     delete tileCopy;
-    return true;
+    return success;
 }
 
 void GameController::Start()
@@ -359,4 +363,13 @@ int GameController::GetLevel() const
 
 GameController::~GameController()
 {
+    delete CurrentBlockLastUpdate;
+    delete CurrentBlock;
+	for (auto& i : Field)
+	{
+		for(size_t j=0; j<Field[j].size();j++)
+		{
+            delete i[j]; //Da jedes Tile irgendwann im Field auftaucht, reicht es aus, am Ende lediglich das gesamte Field zu löschen
+		}
+	}
 }

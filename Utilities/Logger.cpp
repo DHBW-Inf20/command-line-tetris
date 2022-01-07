@@ -1,5 +1,7 @@
 #include  "Logger.h"
 
+#include "MemoryLeakDetection.h"
+
 void Log(std::string str )
 {
     //  std::time_t result = std::time(nullptr);      

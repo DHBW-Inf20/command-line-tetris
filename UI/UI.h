@@ -15,7 +15,7 @@ class UI
 public:
 	void Draw(const std::vector<std::vector<Tile*>>& field, int score, int level); // [Reihe][Spalte]);
 
-	UI();
+	UI();	
 	void Clear();
 	void Init(std::vector<std::vector<Tile*>>& field);	
 };

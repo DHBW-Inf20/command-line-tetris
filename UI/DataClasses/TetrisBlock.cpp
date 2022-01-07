@@ -2,6 +2,7 @@
 
 
 #include "../Config.h"
+#include "../../Utilities/MemoryLeakDetection.h"
 #include "../../Utilities/Utilities.h"
 
 bool TetrisBlock::IsColumnEmpty(const int column)
@@ -82,9 +83,7 @@ TetrisBlock::TetrisBlock(const TetrisBlock& block)
 	matrix = block.matrix;
 }
 
-TetrisBlock::~TetrisBlock()
-{
-}
+
 
 bool TetrisBlock::TryRotateRight()
 {
@@ -120,7 +119,8 @@ std::vector<std::vector<Tile*>> TetrisBlock::BuildMatrix()
 			if (i + currentRow < rowCount && j + currentColumn < columnCount)
 				//Ist der Block ganz am Boden können Teile der Matrix mit Verschiebung außerhalb des Spielfelds sein (diese werden igonoriert)
 			{
-				field[i + currentRow][j + currentColumn] = matrix[i][j];
+				if (matrix[i][j] != nullptr)
+					field[i + currentRow][j + currentColumn] = matrix[i][j];
 			}
 		}
 	}

@@ -128,5 +128,8 @@
     <ClInclude Include="GameLogic\Highscores\Highscore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\MemoryLeakDetection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

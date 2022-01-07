@@ -6,10 +6,11 @@
 
 #include "Config.h"
 #include "../Utilities/AnsiEscape.h"
+#include "../Utilities/MemoryLeakDetection.h"
 
 
 void UI::Draw(const std::vector<std::vector<Tile*>>& field, const int score, const int level) // [Reihe][Spalte])
-{          
+{
     clearLine();
     hideCursor();
 
@@ -103,10 +104,10 @@ void UI::Init(std::vector<std::vector<Tile*>>& field)
 	}
 }
 
-UI::UI()
+UI::UI(): ActualColor()
 {
-	
 }
+
 void UI::AddScoreAndLevel(const int score, const int level) const
 {
     setTextColor(WHITE_TXT);

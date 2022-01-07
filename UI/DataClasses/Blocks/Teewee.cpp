@@ -1,8 +1,10 @@
 #include "../TetrisBlock.h"
 #include "Teewee.h"
 
+#include "../../../Utilities/MemoryLeakDetection.h"
 
-	Teewee::Teewee(const TetrisBlock &block) : TetrisBlock(block)
+
+Teewee::Teewee(const TetrisBlock &block) : TetrisBlock(block)
     {
     }
 
@@ -31,7 +33,7 @@
             angle = 90;
             break;
 
-        case 90:
+        case 90:        	
             /*    X
                 X A X   */
             matrix[0][1] = matrix[1][0];
