@@ -69,7 +69,7 @@ void AddHighscore(const int score, const std::string name)
 {
 	auto lineArr = GetHighScores();
 	auto isBigger = false;
-    unsigned int position = 1;
+   unsigned int position = 0;
 
 	for(unsigned int i = 0; i < lineArr.size(); i++)
    {
@@ -85,21 +85,28 @@ void AddHighscore(const int score, const std::string name)
       position++;
    }
 
+   const auto scoreStr = std::to_string(score);
+   const auto fullLine = name + ", " + scoreStr + " Punkte";
+
    if(isBigger) // Einfügen
    {
-      for(unsigned int i = position; i < lineArr.size()-1; i++)
+      std::string temp;
+      for(int i = 9; i > position-1; i--)
       {
-         lineArr[i+1] = lineArr[i];
-      }   
+         if(lineArr.size() == i && i > 0)
+         {
+            lineArr.push_back(lineArr[i-1]);
+         } 
+         else if(lineArr.size()-1 >= i && i > 0)
+         {
+            lineArr[i] = lineArr[i-1];
+         }
+      }
+      lineArr[position] = fullLine;
    }
-   const auto scoreStr = std::to_string(score);
-   if(lineArr.size() < 11)
+   else if(lineArr.size() < 10)
    {
-      lineArr.push_back(name + ", " + scoreStr + " Punkte");
-   }
-   else if(position < lineArr.size())
-   {
-      lineArr[position] = name + ", " + scoreStr + " Punkte";
+      lineArr.push_back(fullLine);
    }
    WriteToFile(lineArr);
 }

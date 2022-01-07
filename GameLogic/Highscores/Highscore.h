@@ -9,5 +9,4 @@ void ShowHighscore();
 
 void AddHighscore(int score, std::string name);
 
-
 #endif // HIGHSCORE_H
