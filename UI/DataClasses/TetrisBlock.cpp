@@ -83,6 +83,10 @@ TetrisBlock::TetrisBlock(const TetrisBlock& block)
 	matrix = block.matrix;
 }
 
+TetrisBlock::~TetrisBlock() = default;
+/*Die Tiles in der Matrix müssen hier nicht gelöscht werden,
+da diese im Field im GameContorller referenziert werden und dort im Destruktor gelöscht werden
+*/
 
 
 bool TetrisBlock::TryRotateRight()

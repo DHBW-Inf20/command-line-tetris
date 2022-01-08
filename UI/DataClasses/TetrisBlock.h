@@ -42,6 +42,7 @@ public:
 
     TetrisBlock(const TetrisBlock& block);
 
+	virtual ~TetrisBlock() ;
 
     bool TryRotateRight();
 

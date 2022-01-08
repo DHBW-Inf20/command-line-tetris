@@ -1,15 +1,6 @@
-﻿  Highscore.cpp
-D:\Users\Jona\Dokumente\C++ Tetris\Repos\command-line-tetris\GameLogic\Highscores\Highscore.cpp(102,35): warning C4018: '>=': signed/unsigned mismatch
-  keylib.cpp
-  AnsiEscape.cpp
-  Logger.cpp
-  Utilities.cpp
-  GameController.cpp
-  Keylistener.cpp
+﻿  GameController.cpp
   root.cpp
-  UI.cpp
   TetrisBlock.cpp
-  Tile.cpp
   BlueRicky.cpp
   CleverlandZ.cpp
   Hero.cpp
