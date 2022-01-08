@@ -97,9 +97,9 @@ BlueRicky::BlueRicky(const TetrisBlock& block) : TetrisBlock(block)
             /*
                 X A X       
                     X  */
-            matrix[1][0] = new Tile(Color::orange);
-            matrix[1][1] = new Tile(Color::orange);
-            matrix[1][2] = new Tile(Color::orange);
-            matrix[2][2] = new Tile(Color::orange);
+            matrix[1][0] = new Tile(Color::blue);
+            matrix[1][1] = new Tile(Color::blue);
+            matrix[1][2] = new Tile(Color::blue);
+            matrix[2][2] = new Tile(Color::blue);
             angle = 0;
         }
