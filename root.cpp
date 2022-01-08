@@ -38,6 +38,17 @@ int ShowStartMenuSelect()
     return res;
 }
 
+void AnimateString(std::string str, bool linebreak, int delay)
+{
+    for (int i = 0; i < str.length(); i++) {
+        std::cout << str[i] << std::flush;
+        std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+    }
+    if (linebreak) {
+        std::cout << std::endl;
+    }
+}
+
 void ShowGameOver(const int score, const std::string name, const int level)
 {
 	const auto tempScore = "Score: " + std::to_string(score);
@@ -49,10 +60,10 @@ void ShowGameOver(const int score, const std::string name, const int level)
 
     clearScreen();
     moveTo(0,0);
-    puts("GAME OVER \n");
-    puts(chName);
-    puts(chLevel);
-    puts(chScore);
+    AnimateString(std::string("Game Over"), true, 200);
+    AnimateString(std::string(chName), true, 50);
+    AnimateString(std::string(chLevel), true, 50);
+    AnimateString(std::string(chScore), true, 50);
     std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 }
 
