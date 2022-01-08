@@ -2,6 +2,7 @@
 #include "keylib.h"
 #include <thread>
 
+
 #include "../../Utilities/MemoryLeakDetection.h"
 
 
@@ -17,7 +18,7 @@ void Keylistener::PollingLoop()
 {    
     while (IsRunning())
     {      
-        const auto key = key_press(); // blocks until a key is pressed     
+        const auto key = key_press(); // blocks until a key is pressed      
         EventHandlerMutex.lock();
         auto match = EventHandlers.find(key);
         EventHandlerMutex.unlock();

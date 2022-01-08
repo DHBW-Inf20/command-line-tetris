@@ -202,7 +202,7 @@ void GameController::CheckRows()
     }
 }
 
-void GameController::DKeyPressed() const
+void GameController::RightKeyPressed() const
 {
     MainLock.lock();
     if (CheckCanMove(CurrentBlock, 'r'))
@@ -210,7 +210,7 @@ void GameController::DKeyPressed() const
     MainLock.unlock();
 }
 
-void GameController::AKeyPressed() const
+void GameController::LeftKeyPressed() const
 {
     MainLock.lock();
     if (CheckCanMove(CurrentBlock, 'l'))
@@ -218,7 +218,7 @@ void GameController::AKeyPressed() const
     MainLock.unlock();
 }
 
-void GameController::WKeyPressed() const
+void GameController::UpKeyPressed() const
 {
     MainLock.lock();
     if (CheckCanMove(CurrentBlock, 't'))
@@ -226,7 +226,7 @@ void GameController::WKeyPressed() const
     MainLock.unlock();
 }
 
-void GameController::SKeyPressed() const
+void GameController::DownKeyPressed() const
 {
     MainLock.lock();
     if (CheckCanMove(CurrentBlock, 'd'))

@@ -78,11 +78,15 @@ int main()
 
             listener->Stop();
 
-            listener->RegisterHandler(100, [controller]() {controller->DKeyPressed();}); // d
-            listener->RegisterHandler(97, [controller]() {controller->AKeyPressed();}); // a
-            listener->RegisterHandler(119, [controller]() {controller->WKeyPressed();}); // w
+            listener->RegisterHandler(100, [controller]() {controller->RightKeyPressed();}); // d        
+            listener->RegisterHandler(-39, [controller]() {controller->RightKeyPressed();}); // right
+            listener->RegisterHandler(97, [controller]() {controller->LeftKeyPressed();}); // a
+            listener->RegisterHandler(-37, [controller]() {controller->LeftKeyPressed();}); // left
+            listener->RegisterHandler(119, [controller]() {controller->UpKeyPressed();}); // w
+            listener->RegisterHandler(-38, [controller]() {controller->UpKeyPressed();}); // up
             listener->RegisterHandler(98, [controller]() {controller->BKeyPressed();}); // b
-            listener->RegisterHandler(115, [controller]() {controller->SKeyPressed();}); // s
+            listener->RegisterHandler(115, [controller]() {controller->DownKeyPressed();}); // s
+      		listener->RegisterHandler(-40, [controller]() {controller->DownKeyPressed();}); // down
             listener->RegisterHandler(32, [controller]() {controller->EnterKeyPressed();}); // enter
             listener->StartMultithreaded(); 
 

@@ -42,10 +42,10 @@ public:
     void Update();
     void Start();
     void BKeyPressed();
-    void DKeyPressed() const;
-    void AKeyPressed() const;
-    void WKeyPressed() const;
-    void SKeyPressed() const;
+    void DownKeyPressed() const;
+    void LeftKeyPressed() const;
+    void UpKeyPressed() const;
+    void RightKeyPressed() const;
     void EnterKeyPressed() const;
     void Stop();
     int GetScore() const;
