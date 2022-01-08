@@ -36,10 +36,10 @@ Teewee::Teewee(const TetrisBlock &block) : TetrisBlock(block)
         case 90:        	
             /*    X
                 X A X   */
+            matrix[1][2] = matrix[0][1];
             matrix[0][1] = matrix[1][0];
             matrix[1][0] = matrix[2][1];
             matrix[1][1] = matrix[1][1]; // same
-            matrix[1][2] = matrix[0][1];
 
             // Zurücksetzen der nun leeren Felder
             matrix[2][1] = nullptr;
@@ -51,10 +51,10 @@ Teewee::Teewee(const TetrisBlock &block) : TetrisBlock(block)
             /*    X
                   A X
                   X     */
-            matrix[0][1] = matrix[1][0];
-            matrix[1][2] = matrix[0][1];
-            matrix[1][1] = matrix[1][1]; // same
             matrix[2][1] = matrix[1][2];
+            matrix[1][2] = matrix[0][1];
+            matrix[0][1] = matrix[1][0];
+            matrix[1][1] = matrix[1][1]; // same
 
             // Zurücksetzen der nun leeren Felder
             matrix[1][0] = nullptr;
@@ -67,9 +67,9 @@ Teewee::Teewee(const TetrisBlock &block) : TetrisBlock(block)
                 X A X
                   X     */
             matrix[1][0] = matrix[2][1];
+            matrix[2][1] = matrix[1][2];
             matrix[1][2] = matrix[0][1];
             matrix[1][1] = matrix[1][1]; // same
-            matrix[2][1] = matrix[1][2];
 
             // Zurücksetzen der nun leeren Felder
             matrix[0][1] = nullptr;

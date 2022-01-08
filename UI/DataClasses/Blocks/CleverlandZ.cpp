@@ -22,10 +22,10 @@
                 /*      X    
                       A X
                       X    */
+                matrix[2][1] = matrix[1][2];
                 matrix[0][2] = matrix[0][0];
                 matrix[1][2] = matrix[0][1];
                 matrix[1][1] = matrix[1][1]; // stays same
-                matrix[2][1] = matrix[1][2];
 
                 // Zurücksetzen der nun leeren Felder
                 matrix[0][0] = nullptr;

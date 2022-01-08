@@ -25,7 +25,9 @@ bool GameController::TryInsertCurrentBlockInField()
             if (tetrisBlockMatrixOld[i][j] != nullptr)
             {
                 if (i != 0 && i != rowCount - 1 && j != 0 && j != columnCount - 1) // Rand außen vor lassen
-                    Field[i][j] = nullptr;                                         // Alte Position vom TetrisBock löschen
+                {            
+                    Field[i][j] = nullptr;                                         // Alte Position vom TetrisBock löschen                   
+                }
             }
             auto* const tetrisBlockTile = tetrisBlockMatrix[i][j];
             auto* const matrixBlockTile = Field[i][j];
@@ -126,18 +128,26 @@ void GameController::BKeyPressed()
 void GameController::DeleteRow(const int row)
 {
 
-    for (auto j = row; j > 0; j--)
+	for(size_t i=1; i<columnCount-1;i++)
+	{
+		delete Field[row][i];
+        Field[row][i] = nullptr;
+	}
+	
+    for (size_t j = row; j > 0; j--)
     {
         for (auto i = 1; i < columnCount - 1; i++)
         {        	
             if (j == 1)
-            {
-                delete Field[row][i];
+            {               
                 Field[1][i] = nullptr;              
             }
             else
             {
-                Field[j][i] = Field[j - 1][i];
+                if (Field[j - 1][i] == nullptr)
+                    Field[j][i] = nullptr;
+                else
+					Field[j][i] = Field[j - 1][i];
             }
         }
     }
@@ -252,8 +262,10 @@ bool GameController::IsGameRunning() const
     return GameRunning;
 }
 
+
 void GameController::Update()
-{
+{   
+	
     MainLock.lock();
     if (TryInsertCurrentBlockInField())
         Ui.Draw(Field, Score, Level);
