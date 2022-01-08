@@ -80,10 +80,9 @@ int main()
         switch (selection)
         {
         case 1:{
-            printf("Insert your Name: ");
+            AnimateString(std::string("Insert your Name: "), true, 100);
             std::string name;
             std::cin >> name;
-
             auto* controller = new GameController();
             auto* listener = new Keylistener();
 
