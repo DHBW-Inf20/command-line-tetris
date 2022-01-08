@@ -27,4 +27,4 @@ Der genutzte Keylistener wurde auf Stackoverflow gefunden ([Quelle](https://stac
 Damit Eingaben registriert und angezeigt werden können nutzen wir Multithreading.
 Ansonsten wurde auf in der Vorlesung erlernte Mittel zurückgegriffen (Klassen, Headerfiles, Vektoren, Pointer, etc). 
 Die Nutzung der verschiedenen Tetrisblöcke wurde durch Polymorphie umgesetzt. 
-Als Codierungsrichtlinien wurde der Microsoft C++ Standard verwendet. Die verwendeten Entwicklungsumgebungen sind Visual Studio Code und Visual Studio. Angepasst wurde alles an den GNU-Compiler mit dem Treiber G++. Unterstützt werden Unix und Windowsbetriebssysteme.
+Als Codierungsrichtlinien wurde der Microsoft C++ Standard verwendet. Die verwendeten Entwicklungsumgebungen sind Visual Studio Code und Visual Studio 2019. Angepasst wurde alles an den GNU-Compiler mit dem Treiber G++. Unterstützt werden Unix und Windowsbetriebssysteme.
