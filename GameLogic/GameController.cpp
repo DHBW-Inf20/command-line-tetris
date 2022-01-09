@@ -384,9 +384,7 @@ GameController::~GameController()
 	{
 		for (auto& j : i)
 		{
-            Log(j ==nullptr?"0":"1");
             delete j; //Da jedes Tile irgendwann im Field auftaucht, reicht es aus, am Ende lediglich das gesamte Field zu löschen
 		}
-        Log("\n");
 	}
 }
