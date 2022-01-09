@@ -41,3 +41,4 @@
 *.vcxproj.filters
 *.vcxproj.user
 *Debug
+*.tlog
