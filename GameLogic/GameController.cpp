@@ -382,11 +382,10 @@ GameController::~GameController()
     delete CurrentBlock;
 	for (auto& i : Field)
 	{
-		for(size_t j=0; j<Field[j].size();j++)
+		for (auto& j : i)
 		{
-            Log(i[j]==nullptr?"0":"1");
-			if(i[j]!=nullptr)
-                delete i[j]; //Da jedes Tile irgendwann im Field auftaucht, reicht es aus, am Ende lediglich das gesamte Field zu löschen
+            Log(j ==nullptr?"0":"1");
+            delete j; //Da jedes Tile irgendwann im Field auftaucht, reicht es aus, am Ende lediglich das gesamte Field zu löschen
 		}
         Log("\n");
 	}

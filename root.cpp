@@ -84,7 +84,7 @@ int main()
             std::string name;
             std::cin >> name;
             auto* controller = new GameController();
-            auto* listener = new Keylistener();
+            auto* listener = new Keylistener();        	
 
             listener->Stop();
 
@@ -101,26 +101,28 @@ int main()
             listener->StartMultithreaded(); 
 
             std::thread game([controller, listener, name]()
-            {
-                controller->Start();    
-                while (controller->IsGameRunning())
                 {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                    controller->Update();        
-                }
-                listener->Stop();
-                controller->Stop();
+                    controller->Start();
+                    while (controller->IsGameRunning())
+                    {
+                        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                        controller->Update();
+                    }
+                });
 
-                const auto score = controller->GetScore();
-                const auto level = controller->GetLevel();
-                AddHighscore(score, name);            	
-                ShowGameOver(score, name, level);
-
-                delete controller;
-                delete listener;
-                showCursor();
-            });
             game.join();
+
+            listener->Stop();
+            controller->Stop();
+            const auto score = controller->GetScore();
+            const auto level = controller->GetLevel();
+            AddHighscore(score, name);
+            ShowGameOver(score, name, level);
+
+            showCursor();
+            delete controller;
+            delete listener;
+
             break;
         }
         case 2:     
