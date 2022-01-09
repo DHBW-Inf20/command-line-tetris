@@ -1,14 +1,10 @@
 #include "UI.h"
-
 #include <string>
-
-
-
 #include "Config.h"
 #include "../Utilities/AnsiEscape.h"
 #include "../Utilities/MemoryLeakDetection.h"
 
-
+/* Zeichnet das Tetris-Feld mit Hilfe von ANSI-Escape-Codes */
 void UI::Draw(const std::vector<std::vector<Tile*>>& field, const int score, const int level) // [Reihe][Spalte])
 {
     clearLine();
@@ -72,10 +68,10 @@ void UI::Clear()
     moveTo(0,0);
 }
 
+/* Initialisierung, setzt z.B. den Rand */
 void UI::Init(std::vector<std::vector<Tile*>>& field)
 {
 	clearScreen();
-
 
 	// Clear Field
 	for (auto b = 0; b < rowCount; b++)
@@ -93,9 +89,6 @@ void UI::Init(std::vector<std::vector<Tile*>>& field)
 		field[rowCount - 1][k] = new Tile(Color::black);
 	}
 
-	// Die obersten zwei Zeilen fehlen, deshalb +1 put
-	// Die linkeste Zeile fehlt, deshalb +1 bei put
-
 	for (auto h = 1; h < rowCount - 1; h++)
 	{
 		// Links und Rechts Rand, [1;21] weil die bei der anderen schon gemacht wurden
@@ -108,6 +101,7 @@ UI::UI(): ActualColor()
 {
 }
 
+/* Zeigt neben dem Spielfeld den Score und das Level an */
 void UI::AddScoreAndLevel(const int score, const int level) const
 {
     setTextColor(WHITE_TXT);

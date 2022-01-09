@@ -1,11 +1,9 @@
 #include "Keylistener.h"
 #include "keylib.h"
 #include <thread>
-
-
 #include "../../Utilities/MemoryLeakDetection.h"
 
-
+/* Gibt Auskunft ob der Keylistener aktiv ist */
 bool Keylistener::IsRunning() const
 {
     RunningMutex.lock();
@@ -14,6 +12,7 @@ bool Keylistener::IsRunning() const
     return running;
 }
 
+/* Prüft auf Tastendruck und ruft ggf. passende Funktion auf */
 void Keylistener::PollingLoop()
 {    
     while (IsRunning())
@@ -28,9 +27,6 @@ void Keylistener::PollingLoop()
         }     
     }
 }
-
-
-
 
 Keylistener::Keylistener(): running(false)
 {
@@ -53,6 +49,7 @@ void Keylistener::Stop()
     RunningMutex.unlock();
 }
 
+/* Registiert eine Taste, welche nun überwacht wird */
 void Keylistener::RegisterHandler(const int key, const std::function<void()> handler)
 {
     EventHandlerMutex.lock();    

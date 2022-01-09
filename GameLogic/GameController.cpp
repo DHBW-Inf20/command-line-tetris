@@ -1,8 +1,5 @@
-#include "GameController.h"
-
-
 #include <thread>
-
+#include "GameController.h"
 #include "../UI/Config.h"
 #include "../UI/DataClasses/Blocks/BlueRicky.h"
 #include "../UI/DataClasses/Blocks/CleverlandZ.h"
@@ -14,6 +11,7 @@
 #include "../Utilities/Logger.h"
 #include "../Utilities/MemoryLeakDetection.h"
 
+/* Versucht die 4x4-Matrix des aktuellen Blockes in das richtige Feld einzusetzen */
 bool GameController::TryInsertCurrentBlockInField()
 {  
     auto tetrisBlockMatrixOld = CurrentBlockLastUpdate->BuildMatrix();
@@ -43,12 +41,12 @@ bool GameController::TryInsertCurrentBlockInField()
             }
         }
     }
-  
     delete CurrentBlockLastUpdate;
     CurrentBlockLastUpdate = CurrentBlock->Clone(); 
     return true;
 }
 
+/* Sorgt dafür, dass alle Blöcke ausgeglichen gespawnt werden, wird von createBlock aufgerufen */
 bool GameController::IsSpawningBalanced(const int number)
 {
 	const auto sum = BlocksSpawned[0] + BlocksSpawned[1] + BlocksSpawned[2] + BlocksSpawned[3] + BlocksSpawned[4] + BlocksSpawned[5] + BlocksSpawned[6];
@@ -60,6 +58,7 @@ bool GameController::IsSpawningBalanced(const int number)
     return true;
 }
 
+/* Spawnt einen der sieben Blöcke */
 void GameController::CreateBlock()
 {
 	auto num = GetRandomNumberBetween(0, 6);
@@ -67,7 +66,9 @@ void GameController::CreateBlock()
     {
         num = GetRandomNumberBetween(0, 6);
     }
-     delete CurrentBlock;
+    
+    delete CurrentBlock;
+
     switch (num)
     {
     case 0:
@@ -119,12 +120,14 @@ void GameController::CreateBlock()
     CurrentBlockLastUpdate = CurrentBlock->Clone();
 }
 
+/* Wird beim drücken der Taste B aufgerufen und pausiert das Spiel */
 void GameController::BKeyPressed()
 {
     GameRunning = false;
     printf("b pressed\n");
 }
 
+/* Löscht die übergebene Reihe und verschiebt die Reihen darüber jeweils nach unten */
 void GameController::DeleteRow(const int row)
 {
 
@@ -153,6 +156,7 @@ void GameController::DeleteRow(const int row)
     }
 }
 
+/* Prüft ob eine oder mehrere Reihen voll sind und löscht diese gegebenenfalls. Daraufhin werden Punkte gutgeschrieben und ggf. das Level erhöht.*/
 void GameController::CheckRows()
 {
     if (CanDelete)
@@ -202,6 +206,7 @@ void GameController::CheckRows()
     }
 }
 
+/* Pfeil nach Rechts oder D wurde gedrückt, versucht den Block nach Rechts zu schieben */
 void GameController::RightKeyPressed() const
 {
     MainLock.lock();
@@ -210,6 +215,7 @@ void GameController::RightKeyPressed() const
     MainLock.unlock();
 }
 
+/* Pfeil nach Links oder A wurde gedrückt, versucht den Block nach Links zu schieben */
 void GameController::LeftKeyPressed() const
 {
     MainLock.lock();
@@ -218,6 +224,7 @@ void GameController::LeftKeyPressed() const
     MainLock.unlock();
 }
 
+/* Pfeil nach Oben oder W wurde gedrückt, versucht den Block um 90° nach Rechts zu drehen */
 void GameController::UpKeyPressed() const
 {
     MainLock.lock();
@@ -226,6 +233,7 @@ void GameController::UpKeyPressed() const
     MainLock.unlock();
 }
 
+/* Pfeil nach Unten oder S wurde gedrückt, versucht den Block nach Unten zu verschieben */
 void GameController::DownKeyPressed() const
 {
     MainLock.lock();
@@ -234,7 +242,8 @@ void GameController::DownKeyPressed() const
     MainLock.unlock();
 }
 
-void GameController::EnterKeyPressed() const
+/* Leertaste wurde gedrückt, versucht den Block weitest möglich nach unten zu verschieben */
+void GameController::SpaceKeyPressed() const
 {
     MainLock.lock();
     auto* tileCopy = CurrentBlock->Clone();
@@ -262,7 +271,7 @@ bool GameController::IsGameRunning() const
     return GameRunning;
 }
 
-
+/* Wird in festen Intervallen aufgerufen und zeichnet das aktuelle Feld, prüft ob ein neuer Block erzeugt werden muss und ob eine Reihe voll ist */
 void GameController::Update()
 {   
 	
@@ -288,6 +297,7 @@ void GameController::Update()
     MainLock.unlock();
 }
 
+/* Simuliert mit einer Kopie, ob ein Zug ausgeführt werden kann */
 bool GameController::CheckCanMove(TetrisBlock *block, const char direction) const
 {
 	auto* tileCopy = block->Clone();
@@ -345,6 +355,7 @@ bool GameController::CheckCanMove(TetrisBlock *block, const char direction) cons
     return success;
 }
 
+/* Initalisierung und Start des Spieles */
 void GameController::Start()
 {
     GameRunning = true;

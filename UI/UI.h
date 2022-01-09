@@ -1,11 +1,8 @@
 #ifndef UI_H
 #define UI_H
 
-
 #include "DataClasses/Tile.h"
-
 #include "../Utilities/Utilities.h"
-
 
 class UI
 {

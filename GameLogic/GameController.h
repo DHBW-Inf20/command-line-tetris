@@ -1,14 +1,9 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
-
 #include <atomic>
-
 #include <shared_mutex>
-
 #include "../UI/DataClasses/TetrisBlock.h"
-
-
 #include "../UI/UI.h"
 
 class GameController
@@ -46,7 +41,7 @@ public:
     void LeftKeyPressed() const;
     void UpKeyPressed() const;
     void RightKeyPressed() const;
-    void EnterKeyPressed() const;
+    void SpaceKeyPressed() const;
     void Stop();
     int GetScore() const;
     int GetLevel() const;

@@ -6,7 +6,7 @@
 
 #include "../../Utilities/MemoryLeakDetection.h"
 
-
+/* Schreibt in die Highscore-Datei */
 void WriteToFile(std::vector<std::string> lines)
 {	
    std::ofstream stream;
@@ -20,6 +20,7 @@ void WriteToFile(std::vector<std::string> lines)
    }
 }
 
+/* Trennt einen String an einem Zeichen auf */
 void Split(const std::string &s, const char c, std::vector<std::string> &v)
 {
    std::string::size_type i = 0;
@@ -36,6 +37,7 @@ void Split(const std::string &s, const char c, std::vector<std::string> &v)
    }
 }
 
+/* Liefert die (bis zu) 10 besten Scores, die gespeichert sind */
 std::vector<std::string> GetHighScores()
 {
    std::vector<std::string> lineArr;
@@ -53,6 +55,7 @@ std::vector<std::string> GetHighScores()
    return lineArr;
 }
 
+/* Gibt die Highscores in der Konsole aus */
 void ShowHighscore()
 {   
    std::vector<std::string> v;
@@ -67,6 +70,7 @@ void ShowHighscore()
    }
 }
 
+/* Fügt einen neuen Highscore hinzu, wenn er es in die Top 10 schafft */
 void AddHighscore(const int score, const std::string name)
 {
 	auto lineArr = GetHighScores();
