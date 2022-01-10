@@ -4,6 +4,7 @@
 
 #include "MemoryLeakDetection.h"
 
+/* Gibt eine Zufallszahl in zwei Grenzen zurück */
 int GetRandomNumberBetween(const int lower, const int upper)
 {
     //Will be used to obtain a seed for the random number engine

@@ -10,3 +10,4 @@ tetris:
 	$(command) -c ../GameLogic/*.cpp
 	$(command) -c ../GameLogic/Input/*.cpp
 	$(command) -o tetris  *.o
+	rm *.o

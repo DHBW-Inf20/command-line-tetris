@@ -2,6 +2,7 @@
 
 #include "MemoryLeakDetection.h"
 
+/* Logger zum "Debuggen" */
 void Log(std::string str )
 {
     //  std::time_t result = std::time(nullptr);      

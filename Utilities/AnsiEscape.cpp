@@ -126,6 +126,12 @@ void showCursor()
     printf("\u001B[?25h");
 }
 
+void clearLine(void) 
+{
+ 	printf("\x1b[%dK", CLEAR_ALL);
+}
+
+// Ab hier bewegt es den Cursor
 void moveRight(int positions)
 {
     printf("\x1b[%dC", positions); 
@@ -134,11 +140,6 @@ void moveRight(int positions)
 void moveUp(int positions)
 {
     printf("\x1b[%dA", positions);
-}
-
-void clearLine(void) 
-{
- 	printf("\x1b[%dK", CLEAR_ALL);
 }
 
 void moveDown(int positions)

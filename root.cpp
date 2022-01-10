@@ -1,4 +1,3 @@
-
 #include <chrono>
 #include <thread>
 #include <atomic>
@@ -14,6 +13,7 @@
 #include <windows.h>
 #endif
 
+/* Zeigt das Hauptmenü mit verschiedenen Optionen */
 int ShowStartMenuSelect()
 {
     moveTo(0,0);
@@ -49,6 +49,7 @@ void AnimateString(std::string str, bool linebreak, int delay)
     }
 }
 
+/* GameOver-Screen mit Informationen über das Spiel */
 void ShowGameOver(const int score, const std::string name, const int level)
 {
 	const auto tempScore = "Score: " + std::to_string(score);
@@ -97,7 +98,7 @@ int main()
             listener->RegisterHandler(98, [controller]() {controller->BKeyPressed();}); // b
             listener->RegisterHandler(115, [controller]() {controller->DownKeyPressed();}); // s
       		listener->RegisterHandler(-40, [controller]() {controller->DownKeyPressed();}); // down
-            listener->RegisterHandler(32, [controller]() {controller->EnterKeyPressed();}); // enter
+            listener->RegisterHandler(32, [controller]() {controller->SpaceKeyPressed();}); // space
             listener->StartMultithreaded(); 
 
             std::thread game([controller, listener, name]()
