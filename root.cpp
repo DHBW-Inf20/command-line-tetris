@@ -8,6 +8,7 @@
 #include "Utilities/AnsiEscape.h"
 #include "GameLogic/Highscores/Highscore.h"
 #include "Utilities/MemoryLeakDetection.h"
+#include "Utilities/Utilities.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -84,6 +85,9 @@ int main()
             AnimateString(std::string("Insert your Name: "), true, 100);
             std::string name;
             std::cin >> name;
+            replaceAll(name,",","");
+            replaceAll(name," ","");
+
             auto* controller = new GameController();
             auto* listener = new Keylistener();        	
 

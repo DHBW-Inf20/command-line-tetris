@@ -1,6 +1,6 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
-
+#include "string"
 
 #include <vector>
 
@@ -19,7 +19,7 @@ std::vector<std::vector<T>> Create2DArray(unsigned height, unsigned width)
     return vector;
 }
 
-
+void replaceAll(std::string& str, const std::string& from, const std::string& to);
 int GetRandomNumberBetween(int lower, int upper);
 
 
