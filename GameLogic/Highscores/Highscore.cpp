@@ -18,6 +18,7 @@ void WriteToFile(std::vector<std::string> lines)
          stream << line << std::endl;
       }
    }
+   stream.close();
 }
 
 void Split(const std::string &s, const char c, std::vector<std::string> &v)
